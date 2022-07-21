@@ -1,6 +1,6 @@
 //
 //  MainQueueScheduler.swift
-//  ViewStoreLWL
+//  ViewStore
 //
 //  Created by Kenneth Ackerson on 7/13/22.
 //
