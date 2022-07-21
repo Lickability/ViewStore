@@ -8,7 +8,7 @@
 import SwiftUI
 
 // A view store allows us to separate view-specific logic and the rendering of that view in a way that is repeatable, prescriptive, flexible, and testable by default.
-protocol ViewStore: ObservableObject {
+public protocol ViewStore: ObservableObject {
 
     // A container type for state associated with the corresponding view.
     associatedtype ViewState

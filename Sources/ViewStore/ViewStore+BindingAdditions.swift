@@ -9,7 +9,7 @@ import SwiftUI
 import CasePaths
 
 /// An extension on `ViewStore` that provides conveniences for creating `Binding`s.
-extension ViewStore {
+public extension ViewStore {
 
     /// Provides a mechanism for creating `Binding`s associated with `Action` cases in a `ViewStore`, leveraging `KeyPath`s to reduce duplication and errors. Supports `enum` cases with associated values.
     /// - Parameters:
