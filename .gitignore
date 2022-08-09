@@ -15,7 +15,6 @@ DerivedData/
 .DS_Store
 /.build
 /Packages
-/*.xcodeproj
 *.moved-aside
 *.pbxuser
 !default.pbxuser
