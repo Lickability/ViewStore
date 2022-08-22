@@ -60,7 +60,11 @@ final class PhotoListViewStore: ViewStore {
     var searchText: Binding<String> {
         makeBinding(viewStateKeyPath: \.searchText, actionCasePath: /Action.search)
     }
-    
+
+    /// Creates a new `PhotoListViewStore`
+    /// - Parameters:
+    ///   - provider: The provider responsible for fetching photos.
+    ///   - scheduler: Determines how state updates are scheduled to be delivered in the view store. Defaults to `default`, which asynchronously schedules updates on the main queue.
     init(provider: Provider, scheduler: MainQueueScheduler = .init(type: .default)) {
         self.provider = provider
         let showsPhotosCountPublisher = self.showsPhotosCountPublisher.prepend(ViewState.initial.showsPhotoCount)
