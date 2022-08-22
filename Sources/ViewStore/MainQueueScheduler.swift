@@ -37,7 +37,7 @@ public final class MainQueueScheduler: Scheduler {
 
     /// Creates a new `MainQueueScheduler`.
     /// - Parameter type: The scheduler type that determines the timing of work execute.
-    init(type: SchedulerType = .default) {
+    public init(type: SchedulerType = .default) {
         self.type = type
     }
 
