@@ -46,12 +46,15 @@ final class PhotoListViewStore: ViewStore {
     private let searchTextPublisher = PassthroughSubject<String, Never>()
 
     var showsPhotoCount: Binding<Bool> {
-        makeBinding(viewStateKeyPath: \.showsPhotoCount, actionCasePath: /Action.toggleShowsPhotoCount)
+//
 //        return Binding<Bool> {
 //            self.viewState.showsPhotoCount
 //        } set: { newValue in
 //            self.send(.toggleShowsPhotoCount(newValue))
 //        }
+//
+//        Note: This 👇 is just a shorthand version of this 👆
+        makeBinding(viewStateKeyPath: \.showsPhotoCount, actionCasePath: /Action.toggleShowsPhotoCount)
     }
 
     var searchText: Binding<String> {
