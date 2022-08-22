@@ -1,12 +1,39 @@
 {
   "pins" : [
     {
+      "identity" : "networking",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Lickability/Networking",
+      "state" : {
+        "revision" : "54ba83b22a932e870a4e99f3176a34c810c7c2c2",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "persister",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Lickability/Persister",
+      "state" : {
+        "revision" : "556198feaa1b37cfb54328af43dcb2709002972a",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "provider",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Lickability/Provider.git",
+      "state" : {
+        "revision" : "3937745f83bb3b41f0f329fd0e45353e68be9540",
+        "version" : "1.0.0"
+      }
+    },
+    {
       "identity" : "swift-case-paths",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-case-paths",
       "state" : {
-        "revision" : "a09839348486db8866f85a727b8550be1d671c50",
-        "version" : "0.9.1"
+        "revision" : "ce9c0d897db8a840c39de64caaa9b60119cf4be8",
+        "version" : "0.8.1"
       }
     }
   ],
