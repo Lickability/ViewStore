@@ -1,5 +1,5 @@
 //
-//  TestApp.swift
+//  Example.swift
 //  ViewStore
 //
 //  Created by Twig on 2/24/22.
@@ -10,8 +10,9 @@ import Provider
 import Networking
 import Persister
 
+/// The entry point into the example app.
 @main
-struct TestApp: App {
+struct Example: App {
     
     @State private var photoProvider: ItemProvider = {
         let controller = NetworkController()
@@ -21,6 +22,8 @@ struct TestApp: App {
         
         return ItemProvider(networkRequestPerformer: controller, cache: persister)
     }()
+
+    // MARK: - App
     
     var body: some Scene {
         WindowGroup {
