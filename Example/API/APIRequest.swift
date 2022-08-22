@@ -8,8 +8,10 @@
 import Foundation
 import Provider
 
+/// Represents the requests we can make for content displayed in the app.
 enum APIRequest: ProviderRequest {
-    case posts
+
+    /// Fetches albums of placeholder photo models.
     case photos
     
     // MARK: - ProviderRequest
@@ -17,7 +19,6 @@ enum APIRequest: ProviderRequest {
     var persistenceKey: Key? {
         switch self {
         case .photos: return "Photos"
-        case .posts: return "Posts"
         }
     }
 
@@ -25,8 +26,6 @@ enum APIRequest: ProviderRequest {
     
     var path: String {
         switch self {
-        case .posts:
-            return "/posts"
         case .photos:
             return "/photos"
         }
