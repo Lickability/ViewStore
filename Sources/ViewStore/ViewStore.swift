@@ -23,3 +23,8 @@ public protocol ViewStore: ObservableObject {
     /// - Parameter action: The action to perform.
     func send(_ action: Action)
 }
+
+/// Default implementation that allows stores with no actions to send to ignore this function requirement in the protocol.
+public extension ViewStore {
+    func send(_ action: Never) {}
+}
