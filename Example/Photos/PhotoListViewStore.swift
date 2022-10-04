@@ -11,19 +11,29 @@ import Combine
 import SwiftUI
 import CasePaths
 
+fileprivate var subjectDictionary = [String: PassthroughSubject<String, Never>]()
+
 @propertyWrapper struct ViewStateProperty<Value> {
     var wrappedValue: Value
 
     var projectedValue: ViewStateProperty<Value> { return self }
 
-    let subject = PassthroughSubject<Value, Never>()
+    let subject: PassthroughSubject<Value, Never>
     
     var prependedPublisher: AnyPublisher<Value, Never> {
         return subject.prepend(wrappedValue).eraseToAnyPublisher()
     }
 
-    init(wrappedValue: Value) {
+    init(wrappedValue: Value, id: String) {
         self.wrappedValue = wrappedValue
+        
+        if let subject = subjectDictionary[id] as? PassthroughSubject<Value, Never> {
+            self.subject = subject
+        } else {
+            let subject = PassthroughSubject<Value, Never>()
+            subjectDictionary[id] = subject as? PassthroughSubject<String, Never>
+            self.subject = subject
+        }
     }
 }
 
@@ -40,13 +50,16 @@ final class PhotoListViewStore: ViewStore {
         }
 
         fileprivate static let defaultNavigationTitle = LocalizedStringKey("Photos")
-        fileprivate static let initial = ViewState(status: .loading, showsPhotoCount: false, navigationTitle: defaultNavigationTitle, searchText: "")
         
+        private(set) var status: Status = .loading
         
-        var status: Status
-        @ViewStateProperty var showsPhotoCount: Bool
-        let navigationTitle: LocalizedStringKey
-        @ViewStateProperty fileprivate var searchText: String
+        @ViewStateProperty(id: "showsPhotoCount")
+        private(set) var showsPhotoCount: Bool = false
+    
+        private(set) var navigationTitle: LocalizedStringKey = defaultNavigationTitle
+        
+        @ViewStateProperty(id: "searchText")
+        fileprivate(set) var searchText: String = ""
     }
 
     enum Action {
@@ -54,11 +67,12 @@ final class PhotoListViewStore: ViewStore {
         case search(String)
     }
     
-    @Published private(set) var viewState: ViewState = .initial
+    @Published private(set) var viewState = ViewState()
 
     // MARK: - PhotoListViewStore
     
     private let provider: Provider
+    private var cancellables = Set<AnyCancellable>()
 
     var showsPhotoCount: Binding<Bool> {
 //
@@ -84,7 +98,7 @@ final class PhotoListViewStore: ViewStore {
         self.provider = provider
         
         let photoPublisher = provider.providePhotos().prepend([])
-        let searchTextPublisher = viewState.$searchText.prependedPublisher.debounce(for: .seconds(1), scheduler: scheduler)
+        let searchTextPublisher = viewState.$searchText.prependedPublisher//.debounce(for: .seconds(1), scheduler: scheduler)
         
         photoPublisher
             .combineLatest(viewState.$showsPhotoCount.prependedPublisher, searchTextPublisher)
