@@ -11,6 +11,22 @@ import Combine
 import SwiftUI
 import CasePaths
 
+@propertyWrapper struct ViewStateProperty<Value> {
+    var wrappedValue: Value
+
+    var projectedValue: ViewStateProperty<Value> { return self }
+
+    let subject = PassthroughSubject<Value, Never>()
+    
+    var prependedPublisher: AnyPublisher<Value, Never> {
+        return subject.prepend(wrappedValue).eraseToAnyPublisher()
+    }
+
+    init(wrappedValue: Value) {
+        self.wrappedValue = wrappedValue
+    }
+}
+
 /// Coordinates state for use in `PhotoListView`
 final class PhotoListViewStore: ViewStore {
 
@@ -25,11 +41,12 @@ final class PhotoListViewStore: ViewStore {
 
         fileprivate static let defaultNavigationTitle = LocalizedStringKey("Photos")
         fileprivate static let initial = ViewState(status: .loading, showsPhotoCount: false, navigationTitle: defaultNavigationTitle, searchText: "")
-
-        let status: Status
-        let showsPhotoCount: Bool
+        
+        
+        var status: Status
+        @ViewStateProperty var showsPhotoCount: Bool
         let navigationTitle: LocalizedStringKey
-        fileprivate let searchText: String
+        @ViewStateProperty fileprivate var searchText: String
     }
 
     enum Action {
@@ -42,8 +59,6 @@ final class PhotoListViewStore: ViewStore {
     // MARK: - PhotoListViewStore
     
     private let provider: Provider
-    private let showsPhotosCountPublisher = PassthroughSubject<Bool, Never>()
-    private let searchTextPublisher = PassthroughSubject<String, Never>()
 
     var showsPhotoCount: Binding<Bool> {
 //
@@ -67,11 +82,12 @@ final class PhotoListViewStore: ViewStore {
     ///   - scheduler: Determines how state updates are scheduled to be delivered in the view store. Defaults to `default`, which asynchronously schedules updates on the main queue.
     init(provider: Provider, scheduler: MainQueueScheduler = .init(type: .default)) {
         self.provider = provider
-        let showsPhotosCountPublisher = self.showsPhotosCountPublisher.prepend(ViewState.initial.showsPhotoCount)
+        
         let photoPublisher = provider.providePhotos().prepend([])
-        let searchTextPublisher = self.searchTextPublisher.debounce(for: .seconds(1), scheduler: scheduler).prepend(ViewState.initial.searchText)
+        let searchTextPublisher = viewState.$searchText.prependedPublisher.debounce(for: .seconds(1), scheduler: scheduler)
+        
         photoPublisher
-            .combineLatest(showsPhotosCountPublisher, searchTextPublisher)
+            .combineLatest(viewState.$showsPhotoCount.prependedPublisher, searchTextPublisher)
             .map { (result: Result<[Photo], ProviderError>, showsPhotosCount: Bool, searchText: String) in
                 switch result {
                 case let .success(photos):
@@ -91,9 +107,9 @@ final class PhotoListViewStore: ViewStore {
     func send(_ action: Action) {
         switch action {
         case let .toggleShowsPhotoCount(showsPhotoCount):
-            showsPhotosCountPublisher.send(showsPhotoCount)
+            viewState.$showsPhotoCount.subject.send(showsPhotoCount)
         case let .search(searchText):
-            searchTextPublisher.send(searchText)
+            viewState.$searchText.subject.send(searchText)
         }
     }
 }
