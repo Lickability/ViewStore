@@ -11,7 +11,7 @@ import Combine
 import SwiftUI
 import CasePaths
 
-fileprivate var subjectDictionary = [String: PassthroughSubject<String, Never>]()
+fileprivate var subjectDictionary = [String: any Subject]()
 
 @propertyWrapper struct ViewStateProperty<Value> {
     var wrappedValue: Value
@@ -31,7 +31,7 @@ fileprivate var subjectDictionary = [String: PassthroughSubject<String, Never>](
             self.subject = subject
         } else {
             let subject = PassthroughSubject<Value, Never>()
-            subjectDictionary[id] = subject as? PassthroughSubject<String, Never>
+            subjectDictionary[id] = subject
             self.subject = subject
         }
     }
