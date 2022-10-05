@@ -11,6 +11,32 @@ import Combine
 import SwiftUI
 import CasePaths
 
+fileprivate var subjectDictionary = [String: any Subject]()
+
+@propertyWrapper struct ViewStateProperty<Value> {
+    var wrappedValue: Value
+
+    var projectedValue: ViewStateProperty<Value> { return self }
+
+    let subject: PassthroughSubject<Value, Never>
+    
+    var prependedPublisher: AnyPublisher<Value, Never> {
+        return subject.prepend(wrappedValue).eraseToAnyPublisher()
+    }
+
+    init(wrappedValue: Value, id: String) {
+        self.wrappedValue = wrappedValue
+        
+        if let subject = subjectDictionary[id] as? PassthroughSubject<Value, Never> {
+            self.subject = subject
+        } else {
+            let subject = PassthroughSubject<Value, Never>()
+            subjectDictionary[id] = subject
+            self.subject = subject
+        }
+    }
+}
+
 /// Coordinates state for use in `PhotoListView`
 final class PhotoListViewStore: ViewStore {
 
@@ -24,12 +50,16 @@ final class PhotoListViewStore: ViewStore {
         }
 
         fileprivate static let defaultNavigationTitle = LocalizedStringKey("Photos")
-        fileprivate static let initial = ViewState(status: .loading, showsPhotoCount: false, navigationTitle: defaultNavigationTitle, searchText: "")
-
-        let status: Status
-        let showsPhotoCount: Bool
-        let navigationTitle: LocalizedStringKey
-        fileprivate let searchText: String
+        
+        private(set) var status: Status = .loading
+        
+        @ViewStateProperty(id: "showsPhotoCount")
+        private(set) var showsPhotoCount: Bool = false
+    
+        private(set) var navigationTitle: LocalizedStringKey = defaultNavigationTitle
+        
+        @ViewStateProperty(id: "searchText")
+        fileprivate(set) var searchText: String = ""
     }
 
     enum Action {
@@ -37,13 +67,12 @@ final class PhotoListViewStore: ViewStore {
         case search(String)
     }
     
-    @Published private(set) var viewState: ViewState = .initial
+    @Published private(set) var viewState = ViewState()
 
     // MARK: - PhotoListViewStore
     
     private let provider: Provider
-    private let showsPhotosCountPublisher = PassthroughSubject<Bool, Never>()
-    private let searchTextPublisher = PassthroughSubject<String, Never>()
+    private var cancellables = Set<AnyCancellable>()
 
     var showsPhotoCount: Binding<Bool> {
 //
@@ -67,11 +96,12 @@ final class PhotoListViewStore: ViewStore {
     ///   - scheduler: Determines how state updates are scheduled to be delivered in the view store. Defaults to `default`, which asynchronously schedules updates on the main queue.
     init(provider: Provider, scheduler: MainQueueScheduler = .init(type: .default)) {
         self.provider = provider
-        let showsPhotosCountPublisher = self.showsPhotosCountPublisher.prepend(ViewState.initial.showsPhotoCount)
+        
         let photoPublisher = provider.providePhotos().prepend([])
-        let searchTextPublisher = self.searchTextPublisher.debounce(for: .seconds(1), scheduler: scheduler).prepend(ViewState.initial.searchText)
+        let searchTextPublisher = viewState.$searchText.prependedPublisher//.debounce(for: .seconds(1), scheduler: scheduler)
+        
         photoPublisher
-            .combineLatest(showsPhotosCountPublisher, searchTextPublisher)
+            .combineLatest(viewState.$showsPhotoCount.prependedPublisher, searchTextPublisher)
             .map { (result: Result<[Photo], ProviderError>, showsPhotosCount: Bool, searchText: String) in
                 switch result {
                 case let .success(photos):
@@ -91,9 +121,9 @@ final class PhotoListViewStore: ViewStore {
     func send(_ action: Action) {
         switch action {
         case let .toggleShowsPhotoCount(showsPhotoCount):
-            showsPhotosCountPublisher.send(showsPhotoCount)
+            viewState.$showsPhotoCount.subject.send(showsPhotoCount)
         case let .search(searchText):
-            searchTextPublisher.send(searchText)
+            viewState.$searchText.subject.send(searchText)
         }
     }
 }
