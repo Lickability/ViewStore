@@ -48,6 +48,22 @@ public extension ViewStore {
         }
     }
     
+    /// Provides a mechanism for creating `Binding<Bool>`s based on the existence of a property on the `ViewState`, leveraging `KeyPath`s to reduce duplication and errors.
+    /// - Parameters:
+    ///   - viewStateKeyPath: The `KeyPath` to the optional `ViewState` property whose existence determines the wrapped value.
+    ///   - actionCasePath: The `CasePath` to the `Action` case associated with the `ViewState` property.
+    func makeBinding<Value>(viewStateKeyPath: KeyPath<ViewState, Value?>, actionCasePath: CasePath<Action, Value?>) -> Binding<Bool> {
+        return .init {
+            self.viewState[keyPath: viewStateKeyPath] != nil
+        } set: { value in
+            guard !value else {
+                return assertionFailure("Unexpectedly received `true` from `makeBinding` Bool convenience setter.")
+            }
+            
+            self.send(actionCasePath.embed(nil))
+        }
+    }
+    
     /// Provides a mechanism for creating `Binding`s that send their value to a `PassthroughSubject`, leveraging `KeyPath`s to reduce duplication and errors.
     /// - Parameters:
     ///   - viewStateKeyPath: The `KeyPath` to the `ViewState` property that this binding wraps.
