@@ -57,7 +57,7 @@ public extension ViewStore {
             self.viewState[keyPath: viewStateKeyPath] != nil
         } set: { value in
             guard !value else {
-                return assertionFailure("Unexpectedly received 'true' from `makeBinding` Bool convenience setter.")
+                return assertionFailure("Unexpectedly received `true` from `makeBinding` Bool convenience setter.")
             }
             
             self.send(actionCasePath.embed(nil))
