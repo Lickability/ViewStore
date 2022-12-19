@@ -69,6 +69,7 @@ struct PhotoList: View {
 
 struct PhotoList_Previews: PreviewProvider {
     static var previews: some View {
+        /// use immediate clock here for previews
         PhotoList(provider: MockItemProvider(photosCount: 3), scheduler: .init(type: .synchronous))
     }
 }

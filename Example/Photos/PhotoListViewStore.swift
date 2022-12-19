@@ -117,14 +117,13 @@ final class PhotoListViewStore: ViewStore {
 }
 
 private extension Provider {
-    func providePhotos(queue: DispatchQueue = .main) -> AsyncChannel<Result<[Photo], ProviderError>> {
-        let channel = AsyncChannel<Result<[Photo], ProviderError>>()
-        
-        provideItems(request: APIRequest.photos, decoder: JSONDecoder(), providerBehaviors: [], requestBehaviors: [], handlerQueue: queue, allowExpiredItems: true) { (result: Result<[Photo], ProviderError>) in
-            channel.send(element: result)
+    func providePhotos(queue: DispatchQueue = .main) -> AsyncStream<Result<[Photo], ProviderError>> {
+        return AsyncStream { continuation in
+            provideItems(request: APIRequest.photos, decoder: JSONDecoder(), providerBehaviors: [], requestBehaviors: [], handlerQueue: queue, allowExpiredItems: true) { (result: Result<[Photo], ProviderError>) in
+                continuation.yield(result)
+                continuation.finish()
+            }
         }
-        
-        return channel
     }
 }
 

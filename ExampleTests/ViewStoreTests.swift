@@ -18,7 +18,7 @@ final class ViewStoreTests: XCTestCase {
         let mock = MockItemProvider(photosCount: 3)
         let testClock = TestClock()
         
-        let vs = PhotoListViewStore(provider: mock,  clock: testClock)
+        let vs = await PhotoListViewStore(provider: mock,  clock: testClock).forTest(clock: testClock)
         vs.send(.toggleShowsPhotoCount(true))
         await testClock.advance()
         
@@ -29,18 +29,79 @@ final class ViewStoreTests: XCTestCase {
         let mock = MockItemProvider(photosCount: 3)
         let testClock = TestClock()
 
-        let vs = PhotoListViewStore(provider: mock, clock: testClock)
+        let vs = await PhotoListViewStore(provider: mock, clock: testClock).forTest(clock: testClock)
+        
+        if let photos = vs.viewState.status.photos {
+            XCTAssertEqual(photos.count, 3)
+        } else {
+            XCTFail()
+        }
+        
         vs.send(.search("2"))
 
         await testClock.advance(by: .seconds(1))
-        await testClock.advance()
 
-        switch vs.viewState.status {
-        case .error(_), .loading:
-            XCTFail()
-        case let .content(photos):
+        if let photos = vs.viewState.status.photos {
             XCTAssertEqual(photos.count, 1)
             XCTAssertTrue(photos[0].title.contains("2"))
+        } else {
+            XCTFail()
         }
+    }
+    
+    
+    func testSearchProperlyFiltersByTitleTwice() async throws {
+        let mock = MockItemProvider(photosCount: 3)
+        let testClock = TestClock()
+
+        let vs = await PhotoListViewStore(provider: mock, clock: testClock).forTest(clock: testClock)
+                
+        if let photos = vs.viewState.status.photos {
+            XCTAssertEqual(photos.count, 3)
+        } else {
+            XCTFail()
+        }
+        
+        vs.send(.search("2"))
+
+        await testClock.advance(by: .seconds(1))
+
+        if let photos = vs.viewState.status.photos {
+            XCTAssertEqual(photos.count, 1)
+            XCTAssertTrue(photos[0].title.contains("2"))
+        } else {
+            XCTFail()
+        }
+        
+        vs.send(.search("1"))
+
+        await testClock.advance(by: .seconds(1))
+
+        if let photos = vs.viewState.status.photos {
+            XCTAssertEqual(photos.count, 1)
+            XCTAssertTrue(photos[0].title.contains("1"))
+        } else {
+            XCTFail()
+        }
+        
+    }
+    
+}
+
+extension PhotoListViewStore.ViewState.Status {
+    var photos: [Photo]? {
+        switch self {
+        case .error(_), .loading:
+            return nil
+        case let .content(photos):
+            return photos
+        }
+    }
+}
+
+extension ViewStore {
+    func forTest(clock: TestClock<Duration>) async -> Self {
+        await clock.advance()
+        return self
     }
 }
