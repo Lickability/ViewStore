@@ -9,30 +9,32 @@ import XCTest
 @testable import ViewStore
 @testable import Provider
 import Combine
+import Clocks
 
+@MainActor
 final class ViewStoreTests: XCTestCase {
 
-    func testToggleShowsPhotoCount() throws {
+    func testToggleShowsPhotoCount() async throws {
         let mock = MockItemProvider(photosCount: 3)
-        let scheduler = MainQueueScheduler(type: .test)
+        let testClock = TestClock()
         
-        let vs = PhotoListViewStore(provider: mock, scheduler: scheduler)
+        let vs = PhotoListViewStore(provider: mock,  clock: testClock)
         vs.send(.toggleShowsPhotoCount(true))
-        
-        scheduler.advance()
+        await testClock.advance()
+
         
         XCTAssertEqual(vs.viewState.showsPhotoCount, true)
     }
     
-    func testSearchProperlyFiltersByTitle() throws {
+    func testSearchProperlyFiltersByTitle() async throws {
         let mock = MockItemProvider(photosCount: 3)
-        let scheduler = MainQueueScheduler(type: .test)
-        
-        let vs = PhotoListViewStore(provider: mock, scheduler: scheduler)
+        let testClock = TestClock()
+
+        let vs = PhotoListViewStore(provider: mock, clock: testClock)
         vs.send(.search("2"))
-        
-        scheduler.advance(by: 1)
-        
+
+        await testClock.advance(by: .seconds(1))
+
         switch vs.viewState.status {
         case .error(_), .loading:
             XCTFail()
