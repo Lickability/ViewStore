@@ -21,7 +21,6 @@ final class ViewStoreTests: XCTestCase {
         let vs = PhotoListViewStore(provider: mock,  clock: testClock)
         vs.send(.toggleShowsPhotoCount(true))
         await testClock.advance()
-
         
         XCTAssertEqual(vs.viewState.showsPhotoCount, true)
     }
@@ -34,6 +33,7 @@ final class ViewStoreTests: XCTestCase {
         vs.send(.search("2"))
 
         await testClock.advance(by: .seconds(1))
+        await testClock.advance()
 
         switch vs.viewState.status {
         case .error(_), .loading:

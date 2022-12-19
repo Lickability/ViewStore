@@ -66,33 +66,25 @@ final class PhotoListViewStore: ViewStore {
     var searchText: Binding<String> {
         makeBinding(viewStateKeyPath: \.searchText, actionCasePath: /Action.search)
     }
-    
+        
     /// Creates a new `PhotoListViewStore`
     /// - Parameters:
     ///   - provider: The provider responsible for fetching photos.
     ///   - scheduler: Determines how state updates are scheduled to be delivered in the view store. Defaults to `default`, which asynchronously schedules updates on the main queue.
     init(provider: Provider, scheduler: MainQueueScheduler = .init(type: .default), clock: some Clock<Duration> = ContinuousClock()) {
         self.provider = provider
-        
-        let photoPublisher = provider.providePhotos().prepend([])
-        
-        
-        let photoSequence = photoPublisher.values
- 
-
+                
+        let photoChannel = provider.providePhotos().prepend(.success([]))
         
         searchTextChannelDebounced.send(element: "")
         searchTextChannel.send(element: "")
-
 
         showsPhotosCountChannel.send(element: ViewState.initial.showsPhotoCount)
         
         
         let debounced = searchTextChannelDebounced.debounce(for: .seconds(1), clock: clock).prepend("")
         
-        
-        
-        let sequence = (combineLatest(showsPhotosCountChannel, photoSequence, debounced, searchTextChannel)
+        let sequence = (combineLatest(showsPhotosCountChannel, photoChannel, debounced, searchTextChannel)
             .map { (showsPhotosCount: Bool, result: Result<[Photo], ProviderError>, searchText: String, searchTextForUI: String) in
                 switch result {
                 case let .success(photos):
@@ -111,7 +103,6 @@ final class PhotoListViewStore: ViewStore {
         }
     }
     
-
     // MARK: - ViewStore
 
     func send(_ action: Action) {
@@ -126,15 +117,14 @@ final class PhotoListViewStore: ViewStore {
 }
 
 private extension Provider {
-    func providePhotos() -> AnyPublisher<Result<[Photo], ProviderError>, Never> {
-        provideItems(request: APIRequest.photos, decoder: JSONDecoder(), providerBehaviors: [], requestBehaviors: [], allowExpiredItems: true)
-            .map { (photos: [Photo]) in
-                .success(photos)
-            }
-            .catch { error in
-                Just(.failure(error))
-            }
-            .eraseToAnyPublisher()
+    func providePhotos(queue: DispatchQueue = .main) -> AsyncChannel<Result<[Photo], ProviderError>> {
+        let channel = AsyncChannel<Result<[Photo], ProviderError>>()
+        
+        provideItems(request: APIRequest.photos, decoder: JSONDecoder(), providerBehaviors: [], requestBehaviors: [], handlerQueue: queue, allowExpiredItems: true) { (result: Result<[Photo], ProviderError>) in
+            channel.send(element: result)
+        }
+        
+        return channel
     }
 }
 
