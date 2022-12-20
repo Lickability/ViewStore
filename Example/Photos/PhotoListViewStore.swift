@@ -124,7 +124,9 @@ private extension Provider {
 }
 
 
-
+// We _should_ be able to return something more like `some AsyncSequence<(Base1.Element, Base2.Element, Base3.Element, Base4.Element)>` or the `any` variation here for ease of reading.
+// However, `AsyncSequence` does not define a primary associated type yet, so this isn't possible.
+// It appears that this is coming in the future, though. https://forums.swift.org/t/missing-type-erasure/61377/4
 public func combineLatest<Base1: AsyncSequence,
                             Base2: AsyncSequence,
                             Base3: AsyncSequence,
