@@ -18,9 +18,9 @@
 		0B3201FA28B3BF6B00AF8884 /* ViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3201F628B3BF6B00AF8884 /* ViewStore.swift */; };
 		0B77E916287F23C400BC3595 /* Array+Filtering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B77E915287F23C400BC3595 /* Array+Filtering.swift */; };
 		0B92D48328577B7700FF1BDF /* PhotoListOriginal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B92D48228577B7700FF1BDF /* PhotoListOriginal.swift */; };
+		129B775C29520E26009EF295 /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 129B775B29520E26009EF295 /* AsyncAlgorithms */; };
 		3A31E613287F47D800955C37 /* ViewStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A31E612287F47D800955C37 /* ViewStoreTests.swift */; };
 		3AF7CE642950B3C80045B466 /* Clocks in Frameworks */ = {isa = PBXBuildFile; productRef = 3AF7CE632950B3C80045B466 /* Clocks */; };
-		3AF7CE6A2950CB570045B466 /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 3AF7CE692950CB570045B466 /* AsyncAlgorithms */; };
 		F2B5F5B827C7EC0C00FD7831 /* Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B5F5B727C7EC0C00FD7831 /* Example.swift */; };
 		F2B5F5BC27C7EC0E00FD7831 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2B5F5BB27C7EC0E00FD7831 /* Assets.xcassets */; };
 		F2B5F5BF27C7EC0E00FD7831 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2B5F5BE27C7EC0E00FD7831 /* Preview Assets.xcassets */; };
@@ -79,7 +79,7 @@
 				F2B5F5C727C7EC5000FD7831 /* Provider in Frameworks */,
 				0B1979CE283291A700552A4E /* CasePaths in Frameworks */,
 				3AF7CE642950B3C80045B466 /* Clocks in Frameworks */,
-				3AF7CE6A2950CB570045B466 /* AsyncAlgorithms in Frameworks */,
+				129B775C29520E26009EF295 /* AsyncAlgorithms in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,7 +222,7 @@
 				F2B5F5C627C7EC5000FD7831 /* Provider */,
 				0B1979CD283291A700552A4E /* CasePaths */,
 				3AF7CE632950B3C80045B466 /* Clocks */,
-				3AF7CE692950CB570045B466 /* AsyncAlgorithms */,
+				129B775B29520E26009EF295 /* AsyncAlgorithms */,
 			);
 			productName = Test;
 			productReference = F2B5F5B427C7EC0C00FD7831 /* ViewStore.app */;
@@ -260,7 +260,7 @@
 				F2B5F5C527C7EC5000FD7831 /* XCRemoteSwiftPackageReference "Provider" */,
 				0B1979CC283291A700552A4E /* XCRemoteSwiftPackageReference "swift-case-paths" */,
 				3AF7CE622950B3C80045B466 /* XCRemoteSwiftPackageReference "swift-clocks" */,
-				3AF7CE682950CB570045B466 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
+				129B775A29520E26009EF295 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
 			);
 			productRefGroup = F2B5F5B527C7EC0C00FD7831 /* Products */;
 			projectDirPath = "";
@@ -586,20 +586,20 @@
 				minimumVersion = 0.8.1;
 			};
 		};
+		129B775A29520E26009EF295 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tcldr/swift-async-algorithms";
+			requirement = {
+				branch = pr/share;
+				kind = branch;
+			};
+		};
 		3AF7CE622950B3C80045B466 /* XCRemoteSwiftPackageReference "swift-clocks" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-clocks";
 			requirement = {
 				kind = exactVersion;
 				version = 0.2.0;
-			};
-		};
-		3AF7CE682950CB570045B466 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-async-algorithms";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.3;
 			};
 		};
 		F2B5F5C527C7EC5000FD7831 /* XCRemoteSwiftPackageReference "Provider" */ = {
@@ -618,15 +618,15 @@
 			package = 0B1979CC283291A700552A4E /* XCRemoteSwiftPackageReference "swift-case-paths" */;
 			productName = CasePaths;
 		};
+		129B775B29520E26009EF295 /* AsyncAlgorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 129B775A29520E26009EF295 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */;
+			productName = AsyncAlgorithms;
+		};
 		3AF7CE632950B3C80045B466 /* Clocks */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3AF7CE622950B3C80045B466 /* XCRemoteSwiftPackageReference "swift-clocks" */;
 			productName = Clocks;
-		};
-		3AF7CE692950CB570045B466 /* AsyncAlgorithms */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3AF7CE682950CB570045B466 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */;
-			productName = AsyncAlgorithms;
 		};
 		F2B5F5C627C7EC5000FD7831 /* Provider */ = {
 			isa = XCSwiftPackageProductDependency;

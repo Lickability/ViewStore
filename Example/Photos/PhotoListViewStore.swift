@@ -49,7 +49,6 @@ final class PhotoListViewStore: ViewStore {
     let showsPhotosCountChannel = AsyncChannel<Bool>()
     
     let searchTextChannel = AsyncChannel<String>()
-    let searchTextChannelDebounced = AsyncChannel<String>()
     
     var showsPhotoCount: Binding<Bool> {
 //
@@ -75,12 +74,12 @@ final class PhotoListViewStore: ViewStore {
         self.provider = provider
                 
         let photoChannel = provider.providePhotos().prepend(.success([]))
-        
-        searchTextChannelDebounced.send(element: "")
+
         searchTextChannel.send(element: "")
         showsPhotosCountChannel.send(element: ViewState.initial.showsPhotoCount)
         
-        let debounced = searchTextChannelDebounced.debounce(for: .seconds(1), clock: clock).prepend("")
+        let searchTextChannel = searchTextChannel.broadcast()
+        let debounced = searchTextChannel.debounce(for: .seconds(1), clock: clock).prepend("")
         
         let sequence = (combineLatest(showsPhotosCountChannel, photoChannel, debounced, searchTextChannel)
             .map { (showsPhotosCount: Bool, result: Result<[Photo], ProviderError>, searchText: String, searchTextForUI: String) in
@@ -109,7 +108,6 @@ final class PhotoListViewStore: ViewStore {
             showsPhotosCountChannel.send(element: showsPhotoCount)
         case let .search(searchText):
             searchTextChannel.send(element: searchText)
-            searchTextChannelDebounced.send(element: searchText)
         }
     }
 }
