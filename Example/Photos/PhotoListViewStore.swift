@@ -71,16 +71,14 @@ final class PhotoListViewStore: ViewStore {
     /// - Parameters:
     ///   - provider: The provider responsible for fetching photos.
     ///   - scheduler: Determines how state updates are scheduled to be delivered in the view store. Defaults to `default`, which asynchronously schedules updates on the main queue.
-    init(provider: Provider, scheduler: MainQueueScheduler = .init(type: .default), clock: some Clock<Duration> = ContinuousClock()) {
+    init(provider: Provider, clock: some Clock<Duration> = ContinuousClock()) {
         self.provider = provider
                 
         let photoChannel = provider.providePhotos().prepend(.success([]))
         
         searchTextChannelDebounced.send(element: "")
         searchTextChannel.send(element: "")
-
         showsPhotosCountChannel.send(element: ViewState.initial.showsPhotoCount)
-        
         
         let debounced = searchTextChannelDebounced.debounce(for: .seconds(1), clock: clock).prepend("")
         

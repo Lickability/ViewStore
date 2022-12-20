@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Provider
+import Clocks
 
 /// Displays a list of photos retrieved from an API. Uses a `ViewStore` for coordination with the data source.
 struct PhotoList: View {
@@ -17,8 +18,8 @@ struct PhotoList: View {
     /// - Parameters:
     ///   - provider: The provider responsible for fetching photos.
     ///   - scheduler: Determines how state updates are scheduled to be delivered in the view store. Defaults to `default`, which asynchronously schedules updates on the main queue.
-    init(provider: Provider, scheduler: MainQueueScheduler = .init(type: .default)) {
-        self._store = StateObject(wrappedValue: PhotoListViewStore(provider: provider, scheduler: scheduler))
+    init(provider: Provider, clock: some Clock<Duration> = ContinuousClock()) {
+        self._store = StateObject(wrappedValue: PhotoListViewStore(provider: provider, clock: clock))
     }
 
     // MARK: - View
@@ -70,6 +71,6 @@ struct PhotoList: View {
 struct PhotoList_Previews: PreviewProvider {
     static var previews: some View {
         /// use immediate clock here for previews
-        PhotoList(provider: MockItemProvider(photosCount: 3), scheduler: .init(type: .synchronous))
+        PhotoList(provider: MockItemProvider(photosCount: 3), clock: ImmediateClock())
     }
 }
