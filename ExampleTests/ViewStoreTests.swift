@@ -31,22 +31,13 @@ final class ViewStoreTests: XCTestCase {
 
         let vs = await PhotoListViewStore(provider: mock, clock: testClock).forTest(clock: testClock)
         
-        if let photos = vs.viewState.status.photos {
-            XCTAssertEqual(photos.count, 3)
-        } else {
-            XCTFail()
-        }
-        
+        vs.viewState.status.verify(photosCount: 3, firstPhotoTitleIfApplicable: nil)
+
         vs.send(.search("2"))
 
         await testClock.advance(by: .seconds(1))
 
-        if let photos = vs.viewState.status.photos {
-            XCTAssertEqual(photos.count, 1)
-            XCTAssertTrue(photos[0].title.contains("2"))
-        } else {
-            XCTFail()
-        }
+        vs.viewState.status.verify(photosCount: 1, firstPhotoTitleIfApplicable: "2")
     }
     
     
@@ -56,39 +47,35 @@ final class ViewStoreTests: XCTestCase {
 
         let vs = await PhotoListViewStore(provider: mock, clock: testClock).forTest(clock: testClock)
                 
-        if let photos = vs.viewState.status.photos {
-            XCTAssertEqual(photos.count, 3)
-        } else {
-            XCTFail()
-        }
+        vs.viewState.status.verify(photosCount: 3, firstPhotoTitleIfApplicable: nil)
         
         vs.send(.search("2"))
 
         await testClock.advance(by: .seconds(1))
 
-        if let photos = vs.viewState.status.photos {
-            XCTAssertEqual(photos.count, 1)
-            XCTAssertTrue(photos[0].title.contains("2"))
-        } else {
-            XCTFail()
-        }
+        vs.viewState.status.verify(photosCount: 1, firstPhotoTitleIfApplicable: "2")
         
         vs.send(.search("1"))
 
         await testClock.advance(by: .seconds(1))
 
-        if let photos = vs.viewState.status.photos {
-            XCTAssertEqual(photos.count, 1)
-            XCTAssertTrue(photos[0].title.contains("1"))
-        } else {
-            XCTFail()
-        }
-        
+        vs.viewState.status.verify(photosCount: 1, firstPhotoTitleIfApplicable: "1")
     }
     
 }
 
 extension PhotoListViewStore.ViewState.Status {
+    func verify(photosCount: Int, firstPhotoTitleIfApplicable: String?) {
+        if let photos = self.photos {
+            XCTAssertEqual(photos.count, photosCount)
+            if let firstPhotoTitleIfApplicable {
+                XCTAssertTrue(photos[0].title.contains(firstPhotoTitleIfApplicable))
+            }
+        } else {
+            XCTFail()
+        }
+    }
+    
     var photos: [Photo]? {
         switch self {
         case .error(_), .loading:
