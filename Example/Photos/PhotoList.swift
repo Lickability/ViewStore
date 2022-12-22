@@ -9,16 +9,15 @@ import SwiftUI
 import Provider
 
 /// Displays a list of photos retrieved from an API. Uses a `ViewStore` for coordination with the data source.
-struct PhotoList: View {
+struct PhotoList<Store: PhotoListViewStoreType>: View {
     
-    @StateObject private var store: PhotoListViewStore
+    @StateObject private var store: Store
 
     /// Creates a new `PhotoList`.
     /// - Parameters:
-    ///   - provider: The provider responsible for fetching photos.
-    ///   - scheduler: Determines how state updates are scheduled to be delivered in the view store. Defaults to `default`, which asynchronously schedules updates on the main queue.
-    init(provider: Provider, scheduler: MainQueueScheduler = .init(type: .default)) {
-        self._store = StateObject(wrappedValue: PhotoListViewStore(provider: provider, scheduler: scheduler))
+    ///   - store: The `ViewStore` that drives 
+    init(store: Store) {
+        self._store = StateObject(wrappedValue: store)
     }
 
     // MARK: - View
@@ -69,6 +68,8 @@ struct PhotoList: View {
 
 struct PhotoList_Previews: PreviewProvider {
     static var previews: some View {
-        PhotoList(provider: MockItemProvider(photosCount: 3), scheduler: .init(type: .synchronous))
+        let viewState = PhotoListViewStore.ViewState(status: .content(MockItemProvider(photosCount: 3).photos))
+        
+        PhotoList(store: MockViewStore(viewState: viewState))
     }
 }
