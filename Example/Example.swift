@@ -34,7 +34,7 @@ struct Example: App {
                         Text("Photos (Original)")
                     }
                 
-                PhotoList(provider: photoProvider)
+                PhotoList(store: PhotoListViewStore(provider: photoProvider))
                     .tabItem {
                         Image(systemName: "photo")
                         Text("Photos")

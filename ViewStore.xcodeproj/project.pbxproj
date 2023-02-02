@@ -19,6 +19,7 @@
 		0B77E916287F23C400BC3595 /* Array+Filtering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B77E915287F23C400BC3595 /* Array+Filtering.swift */; };
 		0B92D48328577B7700FF1BDF /* PhotoListOriginal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B92D48228577B7700FF1BDF /* PhotoListOriginal.swift */; };
 		3A31E613287F47D800955C37 /* ViewStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A31E612287F47D800955C37 /* ViewStoreTests.swift */; };
+		3AF7CE6E2954BC500045B466 /* MockViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF7CE6D2954BC500045B466 /* MockViewStore.swift */; };
 		F2B5F5B827C7EC0C00FD7831 /* Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B5F5B727C7EC0C00FD7831 /* Example.swift */; };
 		F2B5F5BC27C7EC0E00FD7831 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2B5F5BB27C7EC0E00FD7831 /* Assets.xcassets */; };
 		F2B5F5BF27C7EC0E00FD7831 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2B5F5BE27C7EC0E00FD7831 /* Preview Assets.xcassets */; };
@@ -52,6 +53,7 @@
 		0B92D48228577B7700FF1BDF /* PhotoListOriginal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListOriginal.swift; sourceTree = "<group>"; };
 		3A31E610287F47D700955C37 /* ViewStoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ViewStoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A31E612287F47D800955C37 /* ViewStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewStoreTests.swift; sourceTree = "<group>"; };
+		3AF7CE6D2954BC500045B466 /* MockViewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockViewStore.swift; sourceTree = "<group>"; };
 		F2B5F5B427C7EC0C00FD7831 /* ViewStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ViewStore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2B5F5B727C7EC0C00FD7831 /* Example.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Example.swift; sourceTree = "<group>"; };
 		F2B5F5BB27C7EC0E00FD7831 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				0B3201F428B3BF6B00AF8884 /* ViewStore+BindingAdditions.swift */,
 				0B3201F528B3BF6B00AF8884 /* MainQueueScheduler.swift */,
 				0B3201F628B3BF6B00AF8884 /* ViewStore.swift */,
+				3AF7CE6D2954BC500045B466 /* MockViewStore.swift */,
 			);
 			path = ViewStore;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 				F2B5F5D527C7FB0600FD7831 /* Photo.swift in Sources */,
 				0B3201FA28B3BF6B00AF8884 /* ViewStore.swift in Sources */,
 				0B3201F728B3BF6B00AF8884 /* Publisher+CombineLatest.swift in Sources */,
+				3AF7CE6E2954BC500045B466 /* MockViewStore.swift in Sources */,
 				F2B5F5D627C7FB0600FD7831 /* PhotoListViewStore.swift in Sources */,
 				0B3201F828B3BF6B00AF8884 /* ViewStore+BindingAdditions.swift in Sources */,
 				F2B5F5D427C7FB0600FD7831 /* PhotoList.swift in Sources */,

@@ -13,7 +13,7 @@ import Networking
 
 /// A provider meant to be usable by SwiftUI previews and unit tests to provide mocked, successful `Photo`s synchronously.
 final class MockItemProvider: Provider {
-    private let photos: [Photo]
+    let photos: [Photo]
 
     /// Creates a new `MockItemProvider` with the specified `Photo`s.
     /// - Parameter photos: the `Photo`s that the provider will "retrieve" synchronously.
