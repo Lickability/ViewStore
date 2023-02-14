@@ -62,15 +62,17 @@ final class PhotoListViewStore: ViewStore {
         self.provider = provider
         let showsPhotosCountPublisher = self.showsPhotosCountPublisher.prepend(ViewState.initial.showsPhotoCount)
         let photoPublisher = provider.providePhotos().prepend([])
-        let searchTextPublisher = self.searchTextPublisher.debounce(for: .seconds(1), scheduler: scheduler).prepend(ViewState.initial.searchText)
+        let searchTextUIPublisher =  self.searchTextPublisher.prepend(ViewState.initial.searchText)
+        let searchTextPublisher = searchTextUIPublisher.debounce(for: .seconds(1), scheduler: scheduler)
+
         photoPublisher
-            .combineLatest(showsPhotosCountPublisher, searchTextPublisher)
-            .map { (result: Result<[Photo], ProviderError>, showsPhotosCount: Bool, searchText: String) in
+            .combineLatest(showsPhotosCountPublisher, searchTextPublisher, searchTextUIPublisher)
+            .map { (result: Result<[Photo], ProviderError>, showsPhotosCount: Bool, searchText: String, searchTextUI: String) in
                 switch result {
                 case let .success(photos):
                     let filteredPhotos = photos.filter(searchText: searchText)
                     let navigationTitle = showsPhotosCount ? LocalizedStringKey("Photos \(filteredPhotos.count)") : ViewState.defaultNavigationTitle
-                    return ViewState(status: .content(filteredPhotos), showsPhotoCount: showsPhotosCount, navigationTitle: navigationTitle, searchText: searchText)
+                    return ViewState(status: .content(filteredPhotos), showsPhotoCount: showsPhotosCount, navigationTitle: navigationTitle, searchText: searchTextUI)
                 case let .failure(error):
                     return ViewState(status: .error(error), showsPhotoCount: false, navigationTitle: ViewState.defaultNavigationTitle, searchText: searchText)
                 }
