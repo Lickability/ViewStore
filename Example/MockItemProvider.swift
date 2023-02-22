@@ -32,15 +32,15 @@ final class MockItemProvider: Provider {
 
     // MARK: - Provider
 
-    func provide<Item>(request: ProviderRequest, decoder: ItemDecoder, providerBehaviors: [ProviderBehavior], requestBehaviors: [RequestBehavior], handlerQueue: DispatchQueue, allowExpiredItem: Bool, itemHandler: @escaping (Result<Item, ProviderError>) -> Void) where Item : Identifiable, Item : Decodable, Item : Encodable {
+    func provide<Item>(request: any ProviderRequest, decoder: ItemDecoder, providerBehaviors: [ProviderBehavior], requestBehaviors: [RequestBehavior], handlerQueue: DispatchQueue, allowExpiredItem: Bool, itemHandler: @escaping (Result<Item, ProviderError>) -> Void) where Item : Identifiable, Item : Decodable, Item : Encodable {
         itemHandler((photos.first as? Item).flatMap { .success($0) } ?? .failure(.networkError(.noData)))
     }
 
-    func provideItems<Item>(request: ProviderRequest, decoder: ItemDecoder, providerBehaviors: [ProviderBehavior], requestBehaviors: [RequestBehavior], handlerQueue: DispatchQueue, allowExpiredItems: Bool, itemsHandler: @escaping (Result<[Item], ProviderError>) -> Void) where Item : Identifiable, Item : Decodable, Item : Encodable {
+    func provideItems<Item>(request: any ProviderRequest, decoder: ItemDecoder, providerBehaviors: [ProviderBehavior], requestBehaviors: [RequestBehavior], handlerQueue: DispatchQueue, allowExpiredItems: Bool, itemsHandler: @escaping (Result<[Item], ProviderError>) -> Void) where Item : Identifiable, Item : Decodable, Item : Encodable {
         itemsHandler((photos as? [Item]).flatMap { .success($0) } ?? .failure(.networkError(.noData)))
     }
 
-    func provide<Item>(request: ProviderRequest, decoder: ItemDecoder, providerBehaviors: [ProviderBehavior], requestBehaviors: [RequestBehavior], allowExpiredItem: Bool) -> AnyPublisher<Item, ProviderError> where Item : Identifiable, Item : Decodable, Item : Encodable {
+    func provide<Item>(request: any ProviderRequest, decoder: ItemDecoder, providerBehaviors: [ProviderBehavior], requestBehaviors: [RequestBehavior], allowExpiredItem: Bool) -> AnyPublisher<Item, ProviderError> where Item : Identifiable, Item : Decodable, Item : Encodable {
         if let item = photos.first as? Item {
             return Just(item)
                 .setFailureType(to: ProviderError.self)
@@ -51,7 +51,7 @@ final class MockItemProvider: Provider {
         }
     }
 
-    func provideItems<Item>(request: ProviderRequest, decoder: ItemDecoder, providerBehaviors: [ProviderBehavior], requestBehaviors: [RequestBehavior], allowExpiredItems: Bool) -> AnyPublisher<[Item], ProviderError> where Item : Identifiable, Item : Decodable, Item : Encodable {
+    func provideItems<Item>(request: any ProviderRequest, decoder: ItemDecoder, providerBehaviors: [ProviderBehavior], requestBehaviors: [RequestBehavior], allowExpiredItems: Bool) -> AnyPublisher<[Item], ProviderError> where Item : Identifiable, Item : Decodable, Item : Encodable {
         if let items = photos as? [Item] {
             return Just(items)
                 .setFailureType(to: ProviderError.self)
