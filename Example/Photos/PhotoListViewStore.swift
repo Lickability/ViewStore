@@ -11,6 +11,30 @@ import Combine
 import SwiftUI
 import CasePaths
 
+final class PhotoCountViewStore: ViewStore {
+    @Published private(set) var viewState: Bool = false
+
+    private let showsPhotosCountPublisher = PassthroughSubject<Bool, Never>()
+
+    init() {
+        showsPhotosCountPublisher
+            .prepend(viewState)
+            .assign(to: &$viewState)
+    }
+    
+    enum Action {
+        case showPhotoCount(Bool)
+    }
+    
+    func send(_ action: Action) {
+        switch action {
+        case let .showPhotoCount(showPhotoCount):
+            showsPhotosCountPublisher.send(showPhotoCount)
+        }
+    }
+    
+}
+
 typealias PhotoListViewStoreType = ViewStore<PhotoListViewStore.ViewState, PhotoListViewStore.Action>
 
 /// Coordinates state for use in `PhotoListView`
@@ -51,8 +75,8 @@ final class PhotoListViewStore: ViewStore {
     // MARK: - PhotoListViewStore
     
     private let provider: Provider
-    private let showsPhotosCountPublisher = PassthroughSubject<Bool, Never>()
     private let searchTextPublisher = PassthroughSubject<String, Never>()
+    private let photosCountViewStore = PhotoCountViewStore()
 
     /// Creates a new `PhotoListViewStore`
     /// - Parameters:
@@ -60,13 +84,12 @@ final class PhotoListViewStore: ViewStore {
     ///   - scheduler: Determines how state updates are scheduled to be delivered in the view store. Defaults to `default`, which asynchronously schedules updates on the main queue.
     init(provider: Provider, scheduler: MainQueueScheduler = .init(type: .default)) {
         self.provider = provider
-        let showsPhotosCountPublisher = self.showsPhotosCountPublisher.prepend(ViewState.initial.showsPhotoCount)
         let photoPublisher = provider.providePhotos().prepend([])
         let searchTextUIPublisher =  self.searchTextPublisher.prepend(ViewState.initial.searchText)
         let searchTextPublisher = searchTextUIPublisher.throttle(for: 1, scheduler: scheduler, latest: true)
 
         photoPublisher
-            .combineLatest(showsPhotosCountPublisher, searchTextPublisher, searchTextUIPublisher)
+            .combineLatest(photosCountViewStore.$viewState, searchTextPublisher, searchTextUIPublisher)
             .map { (result: Result<[Photo], ProviderError>, showsPhotosCount: Bool, searchText: String, searchTextUI: String) in
                 switch result {
                 case let .success(photos):
@@ -86,7 +109,7 @@ final class PhotoListViewStore: ViewStore {
     func send(_ action: Action) {
         switch action {
         case let .toggleShowsPhotoCount(showsPhotoCount):
-            showsPhotosCountPublisher.send(showsPhotoCount)
+            photosCountViewStore.send(.showPhotoCount(showsPhotoCount))
         case let .search(searchText):
             searchTextPublisher.send(searchText)
         }
