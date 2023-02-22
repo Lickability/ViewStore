@@ -63,7 +63,7 @@ final class PhotoListViewStore: ViewStore {
         let showsPhotosCountPublisher = self.showsPhotosCountPublisher.prepend(ViewState.initial.showsPhotoCount)
         let photoPublisher = provider.providePhotos().prepend([])
         let searchTextUIPublisher =  self.searchTextPublisher.prepend(ViewState.initial.searchText)
-        let searchTextPublisher = searchTextUIPublisher.debounce(for: .seconds(1), scheduler: scheduler)
+        let searchTextPublisher = searchTextUIPublisher.throttle(for: 1, scheduler: scheduler, latest: true)
 
         photoPublisher
             .combineLatest(showsPhotosCountPublisher, searchTextPublisher, searchTextUIPublisher)
@@ -74,7 +74,7 @@ final class PhotoListViewStore: ViewStore {
                     let navigationTitle = showsPhotosCount ? LocalizedStringKey("Photos \(filteredPhotos.count)") : ViewState.defaultNavigationTitle
                     return ViewState(status: .content(filteredPhotos), showsPhotoCount: showsPhotosCount, navigationTitle: navigationTitle, searchText: searchTextUI)
                 case let .failure(error):
-                    return ViewState(status: .error(error), showsPhotoCount: false, navigationTitle: ViewState.defaultNavigationTitle, searchText: searchText)
+                    return ViewState(status: .error(error), showsPhotoCount: false, navigationTitle: ViewState.defaultNavigationTitle, searchText: searchTextUI)
                 }
             }
             .receive(on: scheduler)
