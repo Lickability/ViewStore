@@ -31,7 +31,7 @@ final class PhotoListViewStore: ViewStore {
         let status: Status
         let showsPhotoCount: Bool
         let navigationTitle: LocalizedStringKey
-        fileprivate let searchText: String
+        let searchText: String
         
         init(status: PhotoListViewStore.ViewState.Status = .loading, showsPhotoCount: Bool = false, navigationTitle: LocalizedStringKey = ViewState.defaultNavigationTitle, searchText: String = "") {
             self.status = status
