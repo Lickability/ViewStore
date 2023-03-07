@@ -41,4 +41,13 @@ final class ViewStoreTests: XCTestCase {
             XCTAssertTrue(photos[0].title.contains("2"))
         }
     }
+    
+    func testSearchProperlyFiltersAndSearchTextIsCorrect() {
+        let mock = MockItemProvider(photosCount: 3)
+        
+        let vs = PhotoListViewStore(provider: mock, scheduler: MainQueueScheduler(type: .synchronous))
+        vs.send(.search("2"))
+        
+        XCTAssertEqual(vs.viewState.searchText, "2")
+    }
 }
