@@ -11,29 +11,6 @@ import Combine
 import SwiftUI
 import CasePaths
 
-
-final class Wrapper<ViewState, Action>: ViewStore {
-    @Published var viewState: ViewState
-    
-    var publishedViewState: AnyPublisher<ViewState, Never> {
-        return $viewState.eraseToAnyPublisher()
-    }
-
-    private let action: (Action) -> Void
-    
-    init(initial: ViewState, viewStatePub: AnyPublisher<ViewState, Never>, action: @escaping (Action) -> Void) {
-        viewState = initial
-        self.action = action
-        viewStatePub.assign(to: &$viewState)
-    }
-
-    func send(_ action: Action) {
-        self.action(action)
-    }
-
-}
-
-
 typealias PhotoListViewStoreType = ViewStore<PhotoListViewStore.ViewState, PhotoListViewStore.Action>
 
 /// Coordinates state for use in `PhotoListView`
@@ -143,7 +120,7 @@ final class PhotoListViewStore: ViewStore {
 extension PhotoListViewStoreType {
     
     var psaViewStore: any PSAViewStoreType {
-        return Wrapper(initial: .initial, viewStatePub: self.publishedViewState.map { $0.psaState }.eraseToAnyPublisher()) { action in
+        return ScopedViewStore(initial: viewState.psaState, viewStatePub: self.publishedViewState.map { $0.psaState }.eraseToAnyPublisher()) { action in
             // TODO: figure out ownership here
             self.send(.psaAction(action))
         }
