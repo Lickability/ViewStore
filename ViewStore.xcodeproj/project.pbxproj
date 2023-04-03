@@ -120,6 +120,8 @@
 		3A214A3829DB23D5001C9832 /* Photo list */ = {
 			isa = PBXGroup;
 			children = (
+				F2B5F5D327C7FB0600FD7831 /* PhotoListViewStore.swift */,
+				3A214A3D29DB38DE001C9832 /* PSAViewStore.swift */,
 				F2B5F5D127C7FB0600FD7831 /* PhotoList.swift */,
 				3A214A3B29DB298D001C9832 /* PSAUpdateView.swift */,
 				3A214A4129DB4630001C9832 /* PSAUpdateViewStore.swift */,
@@ -194,8 +196,6 @@
 				F2B5F5D227C7FB0600FD7831 /* Photo.swift */,
 				3A214A3829DB23D5001C9832 /* Photo list */,
 				0B92D48228577B7700FF1BDF /* PhotoListOriginal.swift */,
-				F2B5F5D327C7FB0600FD7831 /* PhotoListViewStore.swift */,
-				3A214A3D29DB38DE001C9832 /* PSAViewStore.swift */,
 				3A214A4329DB52E7001C9832 /* Network.swift */,
 			);
 			path = Photos;
