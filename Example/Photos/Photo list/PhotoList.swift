@@ -59,7 +59,7 @@ struct PhotoList<Store: PhotoListViewStoreType>: View {
                         }
                     }
                     .sheet(isPresented: store.makeBinding(viewStateKeyPath: \.showUpdateView, actionCasePath: /PhotoListViewStore.Action.showUpdateView)) {
-                        PSAUpdateView()
+                        PSAUpdateView(store: PSAUpdateViewStore(psaViewStore: store.psaViewStore))
                     }
                 case let .error(error):
                     VStack {
