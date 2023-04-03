@@ -45,18 +45,25 @@ final class PSAUpdateViewStore: ViewStore {
     enum Action {
         
         case updateTitle(String)
+        
+        case submit
     }
     
     func send(_ action: Action) {
         switch action {
         case .updateTitle(let title):
             newTitlePublisher.send(title)
+        case .submit:
+            psaViewStore.send(.updatePSA(viewState.workingCopy))
         }
     }
     
 }
 
 struct PSAUpdateView<Store: PSAUpdateViewStoreType>: View {
+    
+    @Environment(\.dismiss) private var dismiss
+    
     @StateObject private var store: Store
 
     init(store: @autoclosure @escaping () -> Store) {
@@ -70,11 +77,11 @@ struct PSAUpdateView<Store: PSAUpdateViewStoreType>: View {
             TextField("", text: Binding(get: { store.viewState.workingCopy.title }, set: { string in
                 store.send(.updateTitle(string))
             }))
-            
-            
-            
-            
-            
+            .onSubmit {
+                store.send(.submit)
+                
+                dismiss()
+            }
         }
     }
 }
