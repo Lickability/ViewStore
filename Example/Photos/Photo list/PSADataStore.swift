@@ -16,6 +16,21 @@ typealias PSADataStoreType = ViewStore<PSADataStore.ViewState, PSADataStore.Acti
 
 final class PSADataStore: ViewStore {
     
+    struct ViewState {
+        static let initial = ViewState(psa: .init(title: "Initial"), networkState: .notStarted)
+        
+        let psa: PSA
+        
+        let networkState: Network.NetworkState
+    }
+    
+    enum Action {
+        case updatePSA(PSA)
+        
+        case uploadPSA(PSA)
+        case clearNetworkingState
+    }
+    
     @Published var viewState: ViewState = PSADataStore.ViewState.initial
     
     var publishedViewState: AnyPublisher<ViewState, Never> {
@@ -44,21 +59,6 @@ final class PSADataStore: ViewStore {
                 self?.send($0)
             }
             .store(in: &cancellables)
-    }
-    
-    struct ViewState {
-        static let initial = ViewState(psa: .init(title: "Intial"), networkState: .notStarted)
-        
-        let psa: PSA
-        
-        let networkState: Network.NetworkState
-    }
-    
-    enum Action {
-        case updatePSA(PSA)
-        
-        case uploadPSA(PSA)
-        case clearNetworkingState
     }
     
     func send(_ action: Action) {
