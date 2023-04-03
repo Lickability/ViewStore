@@ -53,23 +53,16 @@ final class PSAViewStore: ViewStore {
     }
     
     private let psaSubject = PassthroughSubject<PSA, Never>()
-
     private let network: Network = .init()
-    
     private var cancellables = Set<AnyCancellable>()
-    deinit {
-        print("HELPPPP")
-    }
+
     init() {
-        print("init")
         
         let networkPublisher = network.publisher.prepend(.notStarted)
         let additionalActions = networkPublisher.compactMap { $0.psa }.map { Action.updatePSA($0) }
-
-        
-        let psaSubject = self.psaSubject.prepend(viewState.psa)
-       
-        psaSubject.combineLatest(network.publisher.prepend(.notStarted))
+        psaSubject
+            .prepend(viewState.psa)
+            .combineLatest(network.publisher.prepend(.notStarted))
             .map { psa, networkState in
                 return ViewState(psa: psa, networkState: networkState)
             }
