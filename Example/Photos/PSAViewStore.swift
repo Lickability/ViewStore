@@ -13,7 +13,7 @@ final class Network {
     enum NetworkState {
         case notStarted
         case inProgress
-        case finished(Result<PSA, Error>)
+        case finished(Result<PSA, NSError>)
         
         var psa: PSA? {
             switch self {
@@ -21,6 +21,21 @@ final class Network {
                 return nil
             case .finished(let result):
                 return try? result.get()
+            }
+        }
+        
+        var error: Error? {
+            switch self {
+            case .notStarted, .inProgress:
+                return nil
+            case .finished(let result):
+                do {
+                    _ = try result.get()
+                    return nil
+                }
+                catch {
+                    return error
+                }
             }
         }
     }
@@ -31,9 +46,16 @@ final class Network {
         self.publisher.send(.inProgress)
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.publisher.send(.finished(.success(psa)))
+            //self.publisher.send(.finished(.success(psa)))
+            
+            self.publisher.send(.finished(.failure(.init())))
+
         }
     
+    }
+    
+    func reset() {
+        self.publisher.send(.notStarted)
     }
     
 }
@@ -88,6 +110,7 @@ final class PSAViewStore: ViewStore {
         case updatePSA(PSA)
         
         case submitPSA(PSA)
+        case clearNetworkingState
     }
     
     func send(_ action: Action) {
@@ -96,6 +119,8 @@ final class PSAViewStore: ViewStore {
             psaSubject.send(psa)
         case .submitPSA(let psa):
             network.request(psa: psa)
+        case .clearNetworkingState:
+            network.reset()
         }
     }
     

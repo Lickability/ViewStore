@@ -58,7 +58,7 @@ final class PSAUpdateViewStore: ViewStore {
             }
         }
         
-        var error: Error? {
+        var error: NSError? {
             switch psaViewState.networkState {
             case .notStarted, .inProgress:
                 return nil
@@ -68,7 +68,7 @@ final class PSAUpdateViewStore: ViewStore {
                     return nil
                 }
                 catch {
-                    return error
+                    return NSError(domain: "3243432", code: 33243)
                 }
             }
         }
@@ -76,6 +76,8 @@ final class PSAUpdateViewStore: ViewStore {
     
     enum Action {
         case updateTitle(String)
+        
+        case dismissError
         
         case submit
     }
@@ -86,6 +88,8 @@ final class PSAUpdateViewStore: ViewStore {
             newTitlePublisher.send(title)
         case .submit:
             psaViewStore.send(.submitPSA(viewState.workingCopy))
+        case .dismissError:
+            psaViewStore.send(.clearNetworkingState)
         }
     }
     

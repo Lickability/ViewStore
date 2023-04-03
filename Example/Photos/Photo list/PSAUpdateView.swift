@@ -33,7 +33,6 @@ struct PSAUpdateView<Store: PSAUpdateViewStoreType>: View {
                 Group {
                     if store.viewState.dismissable {
                         Text("Submit")
-                        
                     } else {
                         ProgressView()
                     }
@@ -47,11 +46,22 @@ struct PSAUpdateView<Store: PSAUpdateViewStoreType>: View {
                 }
             }
             .disabled(!store.viewState.dismissable)
-            
 
         }
         .onChange(of: store.viewState.success) { success in
             if success { dismiss() }
         }
+        .alert(isPresented: .init(get: { return store.viewState.error != nil }, set: { _ in store.send(.dismissError) }), error: store.viewState.error) { _ in
+            
+        } message: { error in
+            Text("Error")
+        }
+
+    }
+}
+
+extension NSError: LocalizedError {
+    public var errorDescription: String? {
+        return description
     }
 }
