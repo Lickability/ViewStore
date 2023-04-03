@@ -15,11 +15,15 @@ struct PSA {
     let title: String
 }
 
+typealias PSAViewStoreType = ViewStore<PSAViewStore.ViewState, PSAViewStore.Action>
+
 final class PSAViewStore: ViewStore {
     
-    static let initial = ViewState(psa: .init(title: "Intial"))
+    @Published var viewState: ViewState = PSAViewStore.ViewState.initial
     
-    @Published var viewState: ViewState = PSAViewStore.initial
+    var publishedViewState: AnyPublisher<ViewState, Never> {
+        $viewState.eraseToAnyPublisher()
+    }
     
     private let psaSubject = PassthroughSubject<PSA, Never>()
 
@@ -31,6 +35,8 @@ final class PSAViewStore: ViewStore {
     }
     
     struct ViewState {
+        static let initial = ViewState(psa: .init(title: "Intial"))
+        
         let psa: PSA
     }
     
@@ -45,6 +51,27 @@ final class PSAViewStore: ViewStore {
         }
     }
     
+}
+
+final class Wrapper<ViewState, Action>: ViewStore {
+    @Published var viewState: ViewState
+    
+    var publishedViewState: AnyPublisher<ViewState, Never> {
+        return $viewState.eraseToAnyPublisher()
+    }
+
+    private let action: (Action) -> Void
+    
+    init(initial: ViewState, viewStatePub: AnyPublisher<ViewState, Never>, action: @escaping (Action) -> Void) {
+        viewState = initial
+        self.action = action
+        viewStatePub.assign(to: &$viewState)
+    }
+
+    func send(_ action: Action) {
+        self.action(action)
+    }
+
 }
 
 
@@ -96,6 +123,10 @@ final class PhotoListViewStore: ViewStore {
     }
     
     @Published private(set) var viewState: ViewState = .initial
+    
+    var publishedViewState: AnyPublisher<ViewState, Never> {
+        $viewState.eraseToAnyPublisher()
+    }
 
     // MARK: - PhotoListViewStore
     
@@ -151,6 +182,14 @@ final class PhotoListViewStore: ViewStore {
 }
 
 extension PhotoListViewStoreType {
+    
+    var psaViewStore: any PSAViewStoreType {
+        return Wrapper(initial: .initial, viewStatePub: self.publishedViewState.map { $0.psaState }.eraseToAnyPublisher()) { action in
+            // TODO: figure out ownership here
+            self.send(.psaAction(action))
+        }
+    }
+    
     var showsPhotoCount: Binding<Bool> {
 //
 //        return Binding<Bool> {

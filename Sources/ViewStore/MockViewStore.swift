@@ -6,9 +6,14 @@
 //
 
 import Foundation
+import Combine
 
 /// A generic object conforming to `ViewStore` that simply returns the passed-in view state. Useful in SwiftUI previews.
- public final class MockViewStore<ViewState, Action>: ViewStore {
+public final class MockViewStore<ViewState, Action>: ViewStore {
+    public var publishedViewState: AnyPublisher<ViewState, Never> {
+        return Just(viewState).eraseToAnyPublisher()
+    }
+    
      public var viewState: ViewState
 
      public init(viewState: ViewState) {
