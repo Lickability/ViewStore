@@ -17,16 +17,16 @@ final class PSAUpdateViewStore: ViewStore {
         return $viewState.eraseToAnyPublisher()
     }
     
-    private let psaViewStore: any PSADataStoreType
+    private let psaDataStore: any PSADataStoreType
     
     private let newTitlePublisher = PassthroughSubject<String, Never>()
         
-    init(psaViewStore: any PSADataStoreType) {
-        self.psaViewStore = psaViewStore
+    init(psaDataStore: any PSADataStoreType) {
+        self.psaDataStore = psaDataStore
         
-        viewState = ViewState(psaViewState: psaViewStore.viewState, workingCopy: psaViewStore.viewState.psa)
+        viewState = ViewState(psaViewState: psaDataStore.viewState, workingCopy: psaDataStore.viewState.psa)
         
-        psaViewStore
+        psaDataStore
             .publishedViewState
             .combineLatest(newTitlePublisher.map(PSA.init).prepend(viewState.workingCopy))
             .map { psaState, workingCopy in
@@ -87,9 +87,9 @@ final class PSAUpdateViewStore: ViewStore {
         case .updateTitle(let title):
             newTitlePublisher.send(title)
         case .submit:
-            psaViewStore.send(.uploadPSA(viewState.workingCopy))
+            psaDataStore.send(.uploadPSA(viewState.workingCopy))
         case .dismissError:
-            psaViewStore.send(.clearNetworkingState)
+            psaDataStore.send(.clearNetworkingState)
         }
     }
     
