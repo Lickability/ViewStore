@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Provider
+import CasePaths
 
 /// Displays a list of photos retrieved from an API. Uses a `ViewStore` for coordination with the data source.
 struct PhotoList<Store: PhotoListViewStoreType>: View {
@@ -35,7 +36,7 @@ struct PhotoList<Store: PhotoListViewStoreType>: View {
                         
                         PSAView(psa: store.viewState.psaState.psa)
                             .onTapGesture {
-                                store.send(.psaAction(.updatePSA(.init(title: "hello2"))))
+                                store.send(.showUpdateView(true))
                             }
                         
                         Section {
@@ -56,6 +57,9 @@ struct PhotoList<Store: PhotoListViewStoreType>: View {
                             Toggle("Show Count", isOn: store.showsPhotoCount)
                                 .animation(.easeInOut, value: store.viewState.showsPhotoCount)
                         }
+                    }
+                    .sheet(isPresented: store.makeBinding(viewStateKeyPath: \.showUpdateView, actionCasePath: /PhotoListViewStore.Action.showUpdateView)) {
+                        PSAUpdateView()
                     }
                 case let .error(error):
                     VStack {

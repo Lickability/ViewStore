@@ -70,23 +70,27 @@ final class PhotoListViewStore: ViewStore {
         let navigationTitle: LocalizedStringKey
         let searchText: String
         let psaState: PSAViewStore.ViewState
+        let showUpdateView: Bool
         
         init(status: PhotoListViewStore.ViewState.Status = .loading,
              showsPhotoCount: Bool = false,
              navigationTitle: LocalizedStringKey = ViewState.defaultNavigationTitle,
              searchText: String = "",
-             psaState: PSAViewStore.ViewState = .init(psa: .init(title: "Initial"))) {
+             psaState: PSAViewStore.ViewState = .init(psa: .init(title: "Initial")),
+             showUpdateView: Bool = false) {
             self.status = status
             self.showsPhotoCount = showsPhotoCount
             self.navigationTitle = navigationTitle
             self.searchText = searchText
             self.psaState = psaState
+            self.showUpdateView = showUpdateView
         }
     }
 
     enum Action {
         case toggleShowsPhotoCount(Bool)
         case search(String)
+        case showUpdateView(Bool)
         
         case psaAction(PSAViewStore.Action)
     }
@@ -97,6 +101,7 @@ final class PhotoListViewStore: ViewStore {
     
     private let provider: Provider
     private let showsPhotosCountPublisher = PassthroughSubject<Bool, Never>()
+    private let showUpdateViewPublisher = PassthroughSubject<Bool, Never>()
     private let searchTextPublisher = PassthroughSubject<String, Never>()
     
     private let psaViewStore = PSAViewStore()
@@ -111,17 +116,18 @@ final class PhotoListViewStore: ViewStore {
         let photoPublisher = provider.providePhotos().prepend([])
         let searchTextUIPublisher =  self.searchTextPublisher.prepend(ViewState.initial.searchText)
         let searchTextPublisher = searchTextUIPublisher.throttle(for: 1, scheduler: scheduler, latest: true)
+        
 
         photoPublisher
-            .combineLatest(showsPhotosCountPublisher, searchTextPublisher, searchTextUIPublisher, psaViewStore.$viewState)
-            .map { (result: Result<[Photo], ProviderError>, showsPhotosCount: Bool, searchText: String, searchTextUI: String, psaViewState) in
+            .combineLatest(showsPhotosCountPublisher, searchTextPublisher, searchTextUIPublisher, psaViewStore.$viewState, showUpdateViewPublisher.prepend(false))
+            .map { (result: Result<[Photo], ProviderError>, showsPhotosCount: Bool, searchText: String, searchTextUI: String, psaViewState, showUpdateView) in
                 switch result {
                 case let .success(photos):
                     let filteredPhotos = photos.filter(searchText: searchText)
                     let navigationTitle = showsPhotosCount ? LocalizedStringKey("Photos \(filteredPhotos.count)") : ViewState.defaultNavigationTitle
-                    return ViewState(status: .content(filteredPhotos), showsPhotoCount: showsPhotosCount, navigationTitle: navigationTitle, searchText: searchTextUI, psaState: psaViewState)
+                    return ViewState(status: .content(filteredPhotos), showsPhotoCount: showsPhotosCount, navigationTitle: navigationTitle, searchText: searchTextUI, psaState: psaViewState, showUpdateView: showUpdateView)
                 case let .failure(error):
-                    return ViewState(status: .error(error), showsPhotoCount: false, navigationTitle: ViewState.defaultNavigationTitle, searchText: searchTextUI, psaState: psaViewState)
+                    return ViewState(status: .error(error), showsPhotoCount: false, navigationTitle: ViewState.defaultNavigationTitle, searchText: searchTextUI, psaState: psaViewState, showUpdateView: showUpdateView)
                 }
             }
             .receive(on: scheduler)
@@ -138,6 +144,8 @@ final class PhotoListViewStore: ViewStore {
             searchTextPublisher.send(searchText)
         case let .psaAction(action):
             psaViewStore.send(action)
+        case let .showUpdateView(showUpdateView):
+            showUpdateViewPublisher.send(showUpdateView)
         }
     }
 }
