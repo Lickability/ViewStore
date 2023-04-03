@@ -31,8 +31,8 @@ final class ScopedViewStore<ViewState, Action>: ViewStore {
 }
 
 extension ViewStore {
-    func scoped<Substate, Subaction>(initial: Substate, viewStateKeyPath: KeyPath<ViewState, Substate>, actionCasePath: CasePath<Action, Subaction>) -> any ViewStore<Substate, Subaction> {
-        return ScopedViewStore(initial: initial, viewStatePub: publishedViewState.map(viewStateKeyPath), action: { self.send(actionCasePath.embed($0)) })
+    func scoped<Substate, Subaction>(viewStateKeyPath: KeyPath<ViewState, Substate>, actionCasePath: CasePath<Action, Subaction>) -> any ViewStore<Substate, Subaction> {
+        return ScopedViewStore(initial: viewState[keyPath: viewStateKeyPath], viewStatePub: publishedViewState.map(viewStateKeyPath), action: { self.send(actionCasePath.embed($0)) })
     }
 }
 

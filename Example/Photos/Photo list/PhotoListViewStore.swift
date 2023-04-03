@@ -120,7 +120,7 @@ final class PhotoListViewStore: ViewStore {
 extension PhotoListViewStoreType {
     
     var psaViewStore: any PSADataStoreType {
-        return scoped(initial: viewState.psaState, viewStateKeyPath: \.psaState, actionCasePath: /Action.psaAction)
+        return scoped(viewStateKeyPath: \.psaState, actionCasePath: /Action.psaAction)
     }
     
     var showsPhotoCount: Binding<Bool> {
