@@ -18,6 +18,7 @@
 		0B3201FA28B3BF6B00AF8884 /* ViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3201F628B3BF6B00AF8884 /* ViewStore.swift */; };
 		0B77E916287F23C400BC3595 /* Array+Filtering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B77E915287F23C400BC3595 /* Array+Filtering.swift */; };
 		0B92D48328577B7700FF1BDF /* PhotoListOriginal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B92D48228577B7700FF1BDF /* PhotoListOriginal.swift */; };
+		3A214A3A29DB23F2001C9832 /* PSAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A214A3929DB23F2001C9832 /* PSAView.swift */; };
 		3A31E613287F47D800955C37 /* ViewStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A31E612287F47D800955C37 /* ViewStoreTests.swift */; };
 		3AF7CE6E2954BC500045B466 /* MockViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF7CE6D2954BC500045B466 /* MockViewStore.swift */; };
 		F2B5F5B827C7EC0C00FD7831 /* Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B5F5B727C7EC0C00FD7831 /* Example.swift */; };
@@ -51,6 +52,7 @@
 		0B3201F628B3BF6B00AF8884 /* ViewStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewStore.swift; sourceTree = "<group>"; };
 		0B77E915287F23C400BC3595 /* Array+Filtering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Filtering.swift"; sourceTree = "<group>"; };
 		0B92D48228577B7700FF1BDF /* PhotoListOriginal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListOriginal.swift; sourceTree = "<group>"; };
+		3A214A3929DB23F2001C9832 /* PSAView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSAView.swift; sourceTree = "<group>"; };
 		3A31E610287F47D700955C37 /* ViewStoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ViewStoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A31E612287F47D800955C37 /* ViewStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewStoreTests.swift; sourceTree = "<group>"; };
 		3AF7CE6D2954BC500045B466 /* MockViewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockViewStore.swift; sourceTree = "<group>"; };
@@ -102,6 +104,15 @@
 				3AF7CE6D2954BC500045B466 /* MockViewStore.swift */,
 			);
 			path = ViewStore;
+			sourceTree = "<group>";
+		};
+		3A214A3829DB23D5001C9832 /* Photo list */ = {
+			isa = PBXGroup;
+			children = (
+				F2B5F5D127C7FB0600FD7831 /* PhotoList.swift */,
+				3A214A3929DB23F2001C9832 /* PSAView.swift */,
+			);
+			path = "Photo list";
 			sourceTree = "<group>";
 		};
 		3A31E611287F47D800955C37 /* ExampleTests */ = {
@@ -168,7 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				F2B5F5D227C7FB0600FD7831 /* Photo.swift */,
-				F2B5F5D127C7FB0600FD7831 /* PhotoList.swift */,
+				3A214A3829DB23D5001C9832 /* Photo list */,
 				0B92D48228577B7700FF1BDF /* PhotoListOriginal.swift */,
 				F2B5F5D327C7FB0600FD7831 /* PhotoListViewStore.swift */,
 			);
@@ -309,6 +320,7 @@
 				3AF7CE6E2954BC500045B466 /* MockViewStore.swift in Sources */,
 				F2B5F5D627C7FB0600FD7831 /* PhotoListViewStore.swift in Sources */,
 				0B3201F828B3BF6B00AF8884 /* ViewStore+BindingAdditions.swift in Sources */,
+				3A214A3A29DB23F2001C9832 /* PSAView.swift in Sources */,
 				F2B5F5D427C7FB0600FD7831 /* PhotoList.swift in Sources */,
 				F2B5F5CE27C7FA0F00FD7831 /* APIRequest.swift in Sources */,
 				0B92D48328577B7700FF1BDF /* PhotoListOriginal.swift in Sources */,

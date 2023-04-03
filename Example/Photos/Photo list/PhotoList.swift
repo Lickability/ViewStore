@@ -32,6 +32,12 @@ struct PhotoList<Store: PhotoListViewStoreType>: View {
                         .scaleEffect(x: 2, y: 2)
                 case let .content(photos):
                     List {
+                        
+                        PSAView(psa: store.viewState.psaState.psa)
+                            .onTapGesture {
+                                store.send(.psaAction(.updatePSA(.init(title: "hello2"))))
+                            }
+                        
                         Section {
                             ForEach(photos) { photo in
                                 HStack {
