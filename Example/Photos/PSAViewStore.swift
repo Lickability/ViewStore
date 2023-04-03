@@ -60,6 +60,7 @@ final class PSAViewStore: ViewStore {
         
         let networkPublisher = network.publisher.prepend(.notStarted)
         let additionalActions = networkPublisher.compactMap { $0.psa }.map { Action.updatePSA($0) }
+        
         psaSubject
             .prepend(viewState.psa)
             .combineLatest(network.publisher.prepend(.notStarted))
