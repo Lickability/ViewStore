@@ -22,6 +22,7 @@
 		3A214A3C29DB298D001C9832 /* PSAUpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A214A3B29DB298D001C9832 /* PSAUpdateView.swift */; };
 		3A214A3E29DB38DE001C9832 /* PSAViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A214A3D29DB38DE001C9832 /* PSAViewStore.swift */; };
 		3A214A4029DB44C4001C9832 /* ScopedViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A214A3F29DB44C4001C9832 /* ScopedViewStore.swift */; };
+		3A214A4229DB4630001C9832 /* PSAUpdateViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A214A4129DB4630001C9832 /* PSAUpdateViewStore.swift */; };
 		3A31E613287F47D800955C37 /* ViewStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A31E612287F47D800955C37 /* ViewStoreTests.swift */; };
 		3AF7CE6E2954BC500045B466 /* MockViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF7CE6D2954BC500045B466 /* MockViewStore.swift */; };
 		F2B5F5B827C7EC0C00FD7831 /* Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B5F5B727C7EC0C00FD7831 /* Example.swift */; };
@@ -59,6 +60,7 @@
 		3A214A3B29DB298D001C9832 /* PSAUpdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSAUpdateView.swift; sourceTree = "<group>"; };
 		3A214A3D29DB38DE001C9832 /* PSAViewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSAViewStore.swift; sourceTree = "<group>"; };
 		3A214A3F29DB44C4001C9832 /* ScopedViewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScopedViewStore.swift; sourceTree = "<group>"; };
+		3A214A4129DB4630001C9832 /* PSAUpdateViewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSAUpdateViewStore.swift; sourceTree = "<group>"; };
 		3A31E610287F47D700955C37 /* ViewStoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ViewStoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A31E612287F47D800955C37 /* ViewStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewStoreTests.swift; sourceTree = "<group>"; };
 		3AF7CE6D2954BC500045B466 /* MockViewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockViewStore.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 			children = (
 				F2B5F5D127C7FB0600FD7831 /* PhotoList.swift */,
 				3A214A3B29DB298D001C9832 /* PSAUpdateView.swift */,
+				3A214A4129DB4630001C9832 /* PSAUpdateViewStore.swift */,
 				3A214A3929DB23F2001C9832 /* PSAView.swift */,
 			);
 			path = "Photo list";
@@ -328,6 +331,7 @@
 				0B3201F728B3BF6B00AF8884 /* Publisher+CombineLatest.swift in Sources */,
 				3A214A4029DB44C4001C9832 /* ScopedViewStore.swift in Sources */,
 				3AF7CE6E2954BC500045B466 /* MockViewStore.swift in Sources */,
+				3A214A4229DB4630001C9832 /* PSAUpdateViewStore.swift in Sources */,
 				F2B5F5D627C7FB0600FD7831 /* PhotoListViewStore.swift in Sources */,
 				0B3201F828B3BF6B00AF8884 /* ViewStore+BindingAdditions.swift in Sources */,
 				3A214A3A29DB23F2001C9832 /* PSAView.swift in Sources */,
