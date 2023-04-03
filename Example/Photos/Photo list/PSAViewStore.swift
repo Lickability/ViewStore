@@ -57,7 +57,7 @@ final class PSAViewStore: ViewStore {
     enum Action {
         case updatePSA(PSA)
         
-        case submitPSA(PSA)
+        case uploadPSA(PSA)
         case clearNetworkingState
     }
     
@@ -65,7 +65,7 @@ final class PSAViewStore: ViewStore {
         switch action {
         case .updatePSA(let psa):
             psaSubject.send(psa)
-        case .submitPSA(let psa):
+        case .uploadPSA(let psa):
             network.request(psa: psa)
         case .clearNetworkingState:
             network.reset()

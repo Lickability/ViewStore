@@ -87,7 +87,7 @@ final class PSAUpdateViewStore: ViewStore {
         case .updateTitle(let title):
             newTitlePublisher.send(title)
         case .submit:
-            psaViewStore.send(.submitPSA(viewState.workingCopy))
+            psaViewStore.send(.uploadPSA(viewState.workingCopy))
         case .dismissError:
             psaViewStore.send(.clearNetworkingState)
         }
