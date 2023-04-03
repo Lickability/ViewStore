@@ -18,7 +18,7 @@ final class ScopedViewStore<ViewState, Action>: ViewStore {
 
     private let action: (Action) -> Void
     
-    init(initial: ViewState, viewStatePub: AnyPublisher<ViewState, Never>, action: @escaping (Action) -> Void) {
+    init(initial: ViewState, viewStatePub: some Publisher<ViewState, Never>, action: @escaping (Action) -> Void) {
         viewState = initial
         self.action = action
         viewStatePub.assign(to: &$viewState)
@@ -32,7 +32,7 @@ final class ScopedViewStore<ViewState, Action>: ViewStore {
 
 extension ViewStore {
     func scoped<Substate, Subaction>(initial: Substate, viewStateKeyPath: KeyPath<ViewState, Substate>, actionCasePath: CasePath<Action, Subaction>) -> any ViewStore<Substate, Subaction> {
-        return ScopedViewStore(initial: initial, viewStatePub: publishedViewState.map(viewStateKeyPath).eraseToAnyPublisher(), action: { self.send(actionCasePath.embed($0)) })
+        return ScopedViewStore(initial: initial, viewStatePub: publishedViewState.map(viewStateKeyPath), action: { self.send(actionCasePath.embed($0)) })
     }
 }
 
