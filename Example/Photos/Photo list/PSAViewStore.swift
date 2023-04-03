@@ -40,8 +40,8 @@ final class PSAViewStore: ViewStore {
             .assign(to: &$viewState)
 
         additionalActions
-            .sink {
-                self.send($0)
+            .sink { [weak self] in
+                self?.send($0)
             }
             .store(in: &cancellables)
     }
