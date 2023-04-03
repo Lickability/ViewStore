@@ -11,47 +11,6 @@ import Combine
 import SwiftUI
 import CasePaths
 
-struct PSA {
-    let title: String
-}
-
-typealias PSAViewStoreType = ViewStore<PSAViewStore.ViewState, PSAViewStore.Action>
-
-final class PSAViewStore: ViewStore {
-    
-    @Published var viewState: ViewState = PSAViewStore.ViewState.initial
-    
-    var publishedViewState: AnyPublisher<ViewState, Never> {
-        $viewState.eraseToAnyPublisher()
-    }
-    
-    private let psaSubject = PassthroughSubject<PSA, Never>()
-
-    
-    init() {
-        psaSubject
-            .map(ViewState.init)
-            .assign(to: &$viewState)
-    }
-    
-    struct ViewState {
-        static let initial = ViewState(psa: .init(title: "Intial"))
-        
-        let psa: PSA
-    }
-    
-    enum Action {
-        case updatePSA(PSA)
-    }
-    
-    func send(_ action: Action) {
-        switch action {
-        case .updatePSA(let psa):
-            psaSubject.send(psa)
-        }
-    }
-    
-}
 
 final class Wrapper<ViewState, Action>: ViewStore {
     @Published var viewState: ViewState
@@ -103,7 +62,7 @@ final class PhotoListViewStore: ViewStore {
              showsPhotoCount: Bool = false,
              navigationTitle: LocalizedStringKey = ViewState.defaultNavigationTitle,
              searchText: String = "",
-             psaState: PSAViewStore.ViewState = .init(psa: .init(title: "Initial")),
+             psaState: PSAViewStore.ViewState = .initial,
              showUpdateView: Bool = false) {
             self.status = status
             self.showsPhotoCount = showsPhotoCount
