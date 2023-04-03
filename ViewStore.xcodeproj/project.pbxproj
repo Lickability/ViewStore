@@ -20,7 +20,7 @@
 		0B92D48328577B7700FF1BDF /* PhotoListOriginal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B92D48228577B7700FF1BDF /* PhotoListOriginal.swift */; };
 		3A214A3A29DB23F2001C9832 /* PSAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A214A3929DB23F2001C9832 /* PSAView.swift */; };
 		3A214A3C29DB298D001C9832 /* PSAUpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A214A3B29DB298D001C9832 /* PSAUpdateView.swift */; };
-		3A214A3E29DB38DE001C9832 /* PSAViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A214A3D29DB38DE001C9832 /* PSAViewStore.swift */; };
+		3A214A3E29DB38DE001C9832 /* PSADataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A214A3D29DB38DE001C9832 /* PSADataStore.swift */; };
 		3A214A4029DB44C4001C9832 /* ScopedViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A214A3F29DB44C4001C9832 /* ScopedViewStore.swift */; };
 		3A214A4229DB4630001C9832 /* PSAUpdateViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A214A4129DB4630001C9832 /* PSAUpdateViewStore.swift */; };
 		3A214A4429DB52E7001C9832 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A214A4329DB52E7001C9832 /* Network.swift */; };
@@ -59,7 +59,7 @@
 		0B92D48228577B7700FF1BDF /* PhotoListOriginal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListOriginal.swift; sourceTree = "<group>"; };
 		3A214A3929DB23F2001C9832 /* PSAView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSAView.swift; sourceTree = "<group>"; };
 		3A214A3B29DB298D001C9832 /* PSAUpdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSAUpdateView.swift; sourceTree = "<group>"; };
-		3A214A3D29DB38DE001C9832 /* PSAViewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSAViewStore.swift; sourceTree = "<group>"; };
+		3A214A3D29DB38DE001C9832 /* PSADataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSADataStore.swift; sourceTree = "<group>"; };
 		3A214A3F29DB44C4001C9832 /* ScopedViewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScopedViewStore.swift; sourceTree = "<group>"; };
 		3A214A4129DB4630001C9832 /* PSAUpdateViewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSAUpdateViewStore.swift; sourceTree = "<group>"; };
 		3A214A4329DB52E7001C9832 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
@@ -121,7 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				F2B5F5D327C7FB0600FD7831 /* PhotoListViewStore.swift */,
-				3A214A3D29DB38DE001C9832 /* PSAViewStore.swift */,
+				3A214A3D29DB38DE001C9832 /* PSADataStore.swift */,
 				F2B5F5D127C7FB0600FD7831 /* PhotoList.swift */,
 				3A214A3B29DB298D001C9832 /* PSAUpdateView.swift */,
 				3A214A4129DB4630001C9832 /* PSAUpdateViewStore.swift */,
@@ -339,7 +339,7 @@
 				0B3201F828B3BF6B00AF8884 /* ViewStore+BindingAdditions.swift in Sources */,
 				3A214A3A29DB23F2001C9832 /* PSAView.swift in Sources */,
 				F2B5F5D427C7FB0600FD7831 /* PhotoList.swift in Sources */,
-				3A214A3E29DB38DE001C9832 /* PSAViewStore.swift in Sources */,
+				3A214A3E29DB38DE001C9832 /* PSADataStore.swift in Sources */,
 				3A214A4429DB52E7001C9832 /* Network.swift in Sources */,
 				F2B5F5CE27C7FA0F00FD7831 /* APIRequest.swift in Sources */,
 				0B92D48328577B7700FF1BDF /* PhotoListOriginal.swift in Sources */,

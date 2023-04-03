@@ -1,5 +1,5 @@
 //
-//  PSAViewStore.swift
+//  PSADataStore.swift
 //  ViewStore
 //
 //  Created by Kenneth Ackerson on 4/3/23.
@@ -12,11 +12,11 @@ struct PSA {
     let title: String
 }
 
-typealias PSAViewStoreType = ViewStore<PSAViewStore.ViewState, PSAViewStore.Action>
+typealias PSADataStoreType = ViewStore<PSADataStore.ViewState, PSADataStore.Action>
 
-final class PSAViewStore: ViewStore {
+final class PSADataStore: ViewStore {
     
-    @Published var viewState: ViewState = PSAViewStore.ViewState.initial
+    @Published var viewState: ViewState = PSADataStore.ViewState.initial
     
     var publishedViewState: AnyPublisher<ViewState, Never> {
         $viewState.eraseToAnyPublisher()

@@ -36,7 +36,7 @@ final class PSAUpdateViewStore: ViewStore {
     }
     
     struct ViewState {
-        let psaViewState: PSAViewStore.ViewState
+        let psaViewState: PSADataStore.ViewState
         
         let workingCopy: PSA
         

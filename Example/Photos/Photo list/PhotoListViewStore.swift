@@ -32,14 +32,14 @@ final class PhotoListViewStore: ViewStore {
         let showsPhotoCount: Bool
         let navigationTitle: LocalizedStringKey
         let searchText: String
-        let psaState: PSAViewStore.ViewState
+        let psaState: PSADataStore.ViewState
         let showUpdateView: Bool
         
         init(status: PhotoListViewStore.ViewState.Status = .loading,
              showsPhotoCount: Bool = false,
              navigationTitle: LocalizedStringKey = ViewState.defaultNavigationTitle,
              searchText: String = "",
-             psaState: PSAViewStore.ViewState = .initial,
+             psaState: PSADataStore.ViewState = .initial,
              showUpdateView: Bool = false) {
             self.status = status
             self.showsPhotoCount = showsPhotoCount
@@ -55,7 +55,7 @@ final class PhotoListViewStore: ViewStore {
         case search(String)
         case showUpdateView(Bool)
         
-        case psaAction(PSAViewStore.Action)
+        case psaAction(PSADataStore.Action)
     }
     
     @Published private(set) var viewState: ViewState = .initial
@@ -71,7 +71,7 @@ final class PhotoListViewStore: ViewStore {
     private let showUpdateViewPublisher = PassthroughSubject<Bool, Never>()
     private let searchTextPublisher = PassthroughSubject<String, Never>()
     
-    private let psaViewStore = PSAViewStore()
+    private let psaViewStore = PSADataStore()
 
     /// Creates a new `PhotoListViewStore`
     /// - Parameters:
