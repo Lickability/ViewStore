@@ -49,6 +49,30 @@ final class PSAUpdateViewStore: ViewStore {
                 return false
             }
         }
+        
+        var success: Bool {
+            switch psaViewState.networkState {
+            case .notStarted, .inProgress:
+                return false
+            case .finished(let result):
+                return (try? result.get()) != nil
+            }
+        }
+        
+        var error: Error? {
+            switch psaViewState.networkState {
+            case .notStarted, .inProgress:
+                return nil
+            case .finished(let result):
+                do {
+                    _ = try result.get()
+                    return nil
+                }
+                catch {
+                    return error
+                }
+            }
+        }
     }
     
     enum Action {
@@ -94,6 +118,9 @@ struct PSAUpdateView<Store: PSAUpdateViewStoreType>: View {
             .disabled(!store.viewState.dismissable)
             
 
+        }
+        .onChange(of: store.viewState.success) { success in
+            if success { dismiss() }
         }
     }
 }
