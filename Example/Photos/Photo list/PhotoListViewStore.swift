@@ -119,7 +119,7 @@ final class PhotoListViewStore: ViewStore {
 
 extension PhotoListViewStoreType {
     
-    var psaViewStore: any PSAViewStoreType {
+    var psaViewStore: any PSADataStoreType {
         return scoped(initial: viewState.psaState, viewStateKeyPath: \.psaState, actionCasePath: /Action.psaAction)
     }
     

@@ -17,11 +17,11 @@ final class PSAUpdateViewStore: ViewStore {
         return $viewState.eraseToAnyPublisher()
     }
     
-    private let psaViewStore: any PSAViewStoreType
+    private let psaViewStore: any PSADataStoreType
     
     private let newTitlePublisher = PassthroughSubject<String, Never>()
         
-    init(psaViewStore: any PSAViewStoreType) {
+    init(psaViewStore: any PSADataStoreType) {
         self.psaViewStore = psaViewStore
         
         viewState = ViewState(psaViewState: psaViewStore.viewState, workingCopy: psaViewStore.viewState.psa)
