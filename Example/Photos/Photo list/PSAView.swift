@@ -15,9 +15,7 @@ struct PSAView: View {
         HStack {
             Spacer()
             Text(psa.title)
-            
             Spacer()
-
         }
     }
 }
