@@ -120,10 +120,7 @@ final class PhotoListViewStore: ViewStore {
 extension PhotoListViewStoreType {
     
     var psaViewStore: any PSAViewStoreType {
-        return ScopedViewStore(initial: viewState.psaState, viewStatePub: self.publishedViewState.map { $0.psaState }.eraseToAnyPublisher()) { action in
-            // TODO: figure out ownership here
-            self.send(.psaAction(action))
-        }
+        return scoped(initial: viewState.psaState, viewStateKeyPath: \.psaState, actionCasePath: /Action.psaAction)
     }
     
     var showsPhotoCount: Binding<Bool> {
