@@ -35,6 +35,10 @@ final class PhotoListViewStore: ViewStore {
         let psaState: PSADataStore.ViewState
         let showUpdateView: Bool
         
+        var psa: PSA {
+            return psaState.psa
+        }
+        
         init(status: PhotoListViewStore.ViewState.Status = .loading,
              showsPhotoCount: Bool = false,
              navigationTitle: LocalizedStringKey = ViewState.defaultNavigationTitle,

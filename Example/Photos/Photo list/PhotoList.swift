@@ -34,7 +34,7 @@ struct PhotoList<Store: PhotoListViewStoreType>: View {
                 case let .content(photos):
                     List {
                         
-                        PSAView(psa: store.viewState.psaState.psa)
+                        PSAView(psa: store.viewState.psa)
                             .onTapGesture {
                                 store.send(.showUpdateView(true))
                             }
