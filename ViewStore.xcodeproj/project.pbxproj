@@ -24,7 +24,7 @@
 		3A214A4029DB44C4001C9832 /* ScopedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A214A3F29DB44C4001C9832 /* ScopedStore.swift */; };
 		3A214A4229DB4630001C9832 /* PSAUpdateViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A214A4129DB4630001C9832 /* PSAUpdateViewStore.swift */; };
 		3A214A4429DB52E7001C9832 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A214A4329DB52E7001C9832 /* Network.swift */; };
-		3A31E613287F47D800955C37 /* ViewStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A31E612287F47D800955C37 /* ViewStoreTests.swift */; };
+		3A31E613287F47D800955C37 /* StoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A31E612287F47D800955C37 /* StoreTests.swift */; };
 		3A601C4729DDD3E5008D0BB3 /* Store+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A601C4629DDD3E5008D0BB3 /* Store+Helpers.swift */; };
 		3AF7CE6E2954BC500045B466 /* MockStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF7CE6D2954BC500045B466 /* MockStore.swift */; };
 		F2B5F5B827C7EC0C00FD7831 /* Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B5F5B727C7EC0C00FD7831 /* Example.swift */; };
@@ -65,7 +65,7 @@
 		3A214A4129DB4630001C9832 /* PSAUpdateViewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSAUpdateViewStore.swift; sourceTree = "<group>"; };
 		3A214A4329DB52E7001C9832 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		3A31E610287F47D700955C37 /* ViewStoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ViewStoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3A31E612287F47D800955C37 /* ViewStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewStoreTests.swift; sourceTree = "<group>"; };
+		3A31E612287F47D800955C37 /* StoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreTests.swift; sourceTree = "<group>"; };
 		3A601C4629DDD3E5008D0BB3 /* Store+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Store+Helpers.swift"; sourceTree = "<group>"; };
 		3AF7CE6D2954BC500045B466 /* MockStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockStore.swift; sourceTree = "<group>"; };
 		F2B5F5B427C7EC0C00FD7831 /* ViewStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ViewStore.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -136,7 +136,7 @@
 		3A31E611287F47D800955C37 /* ExampleTests */ = {
 			isa = PBXGroup;
 			children = (
-				3A31E612287F47D800955C37 /* ViewStoreTests.swift */,
+				3A31E612287F47D800955C37 /* StoreTests.swift */,
 			);
 			path = ExampleTests;
 			sourceTree = "<group>";
@@ -323,7 +323,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A31E613287F47D800955C37 /* ViewStoreTests.swift in Sources */,
+				3A31E613287F47D800955C37 /* StoreTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
