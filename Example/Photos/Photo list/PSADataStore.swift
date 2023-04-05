@@ -54,11 +54,7 @@ final class PSADataStore: ViewStore {
             }
             .assign(to: &$viewState)
 
-        additionalActions
-            .sink { [weak self] in
-                self?.send($0)
-            }
-            .store(in: &cancellables)
+        pipeActions(publisher: additionalActions, storingIn: &cancellables)
     }
     
     func send(_ action: Action) {
