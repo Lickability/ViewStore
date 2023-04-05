@@ -9,10 +9,10 @@ import SwiftUI
 import CasePaths
 import Combine
 
-/// An extension on `ViewStore` that provides conveniences for creating `Binding`s.
+/// An extension on `Store` that provides conveniences for creating `Binding`s.
 public extension Store {
 
-    /// Provides a mechanism for creating `Binding`s associated with `Action` cases in a `ViewStore`, leveraging `KeyPath`s to reduce duplication and errors. Supports `enum` cases with associated values.
+    /// Provides a mechanism for creating `Binding`s associated with `Action` cases in a `Store`, leveraging `KeyPath`s to reduce duplication and errors. Supports `enum` cases with associated values.
     /// - Parameters:
     ///   - stateKeyPath: The `KeyPath` to the `State` property that this binding wraps.
     ///   - actionCasePath: The `CasePath` to the `Action` case associated with the `State` property.
@@ -24,7 +24,7 @@ public extension Store {
         }
     }
 
-    /// Provides a mechanism for creating `Binding`s associated with `Action` cases in a `ViewStore`, leveraging `KeyPath`s to reduce duplication and errors. Supports `enum` cases without associated values.
+    /// Provides a mechanism for creating `Binding`s associated with `Action` cases in a `Store`, leveraging `KeyPath`s to reduce duplication and errors. Supports `enum` cases without associated values.
     /// - Parameters:
     ///   - stateKeyPath: The `KeyPath` to the `State` property that this binding wraps.
     ///   - actionCasePath: The `CasePath` to the `Action` case associated with the `State` property.

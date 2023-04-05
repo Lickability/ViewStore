@@ -23,7 +23,7 @@ public protocol Store<State, Action>: ObservableObject {
     /// A publisher that publishes each state as it changes
     var publishedState: AnyPublisher<State, Never> { get }
 
-    /// Single API for the corresponding view to cause the store perform some functionality, usually resulting in updated `state`.
+    /// Single API to perform behaviors or trigger events, usually resulting in updated `state`.
     /// - Parameter action: The action to perform.
     func send(_ action: Action)
 }
