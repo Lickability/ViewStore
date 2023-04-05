@@ -20,6 +20,7 @@ public protocol ViewStore<ViewState, Action>: ObservableObject {
     /// Single source of truth for state that is used to populate a corresponding view.
     var viewState: ViewState { get }
     
+    /// A publisher that publishes each view state as it changes
     var publishedViewState: AnyPublisher<ViewState, Never> { get }
 
     /// Single API for the corresponding view to cause the view store perform some functionality, usually resulting in updated `viewState`.
