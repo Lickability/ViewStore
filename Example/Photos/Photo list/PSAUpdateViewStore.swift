@@ -8,35 +8,12 @@
 import Foundation
 import Combine
 
-typealias PSAUpdateViewStoreType = ViewStore<PSAUpdateViewStore.ViewState, PSAUpdateViewStore.Action>
+typealias PSAUpdateViewStoreType = Store<PSAUpdateViewStore.State, PSAUpdateViewStore.Action>
 
-final class PSAUpdateViewStore: ViewStore {
+final class PSAUpdateViewStore: Store {
     
-    @Published var viewState: ViewState
-    var publishedViewState: AnyPublisher<ViewState, Never> {
-        return $viewState.eraseToAnyPublisher()
-    }
-    
-    private let psaDataStore: any PSADataStoreType
-    
-    private let newTitlePublisher = PassthroughSubject<String, Never>()
-        
-    init(psaDataStore: any PSADataStoreType) {
-        self.psaDataStore = psaDataStore
-        
-        viewState = ViewState(psaViewState: psaDataStore.viewState, workingCopy: psaDataStore.viewState.psa)
-        
-        psaDataStore
-            .publishedViewState
-            .combineLatest(newTitlePublisher.map(PSA.init).prepend(viewState.workingCopy))
-            .map { psaState, workingCopy in
-                ViewState(psaViewState: psaState, workingCopy: workingCopy)
-            }
-            .assign(to: &$viewState)
-    }
-    
-    struct ViewState {
-        let psaViewState: PSADataStore.ViewState
+    struct State {
+        let psaViewState: PSADataStore.State
         
         let workingCopy: PSA
         
@@ -82,12 +59,37 @@ final class PSAUpdateViewStore: ViewStore {
         case submit
     }
     
+    @Published var state: State
+    var publishedState: AnyPublisher<State, Never> {
+        return $state.eraseToAnyPublisher()
+    }
+    
+    private let psaDataStore: any PSADataStoreType
+    
+    private let newTitlePublisher = PassthroughSubject<String, Never>()
+        
+    init(psaDataStore: any PSADataStoreType) {
+        self.psaDataStore = psaDataStore
+        
+        state = State(psaViewState: psaDataStore.state, workingCopy: psaDataStore.state.psa)
+        
+        psaDataStore
+            .publishedState
+            .combineLatest(newTitlePublisher.map(PSA.init).prepend(state.workingCopy))
+            .map { psaState, workingCopy in
+                State(psaViewState: psaState, workingCopy: workingCopy)
+            }
+            .assign(to: &$state)
+    }
+    
+    // MARK: - Store
+    
     func send(_ action: Action) {
         switch action {
         case .updateTitle(let title):
             newTitlePublisher.send(title)
         case .submit:
-            psaDataStore.send(.uploadPSA(viewState.workingCopy))
+            psaDataStore.send(.uploadPSA(state.workingCopy))
         case .dismissError:
             psaDataStore.send(.clearNetworkingState)
         }

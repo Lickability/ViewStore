@@ -21,7 +21,7 @@ struct PSAUpdateView<Store: PSAUpdateViewStoreType>: View {
 
     var body: some View {
         VStack {
-            TextField("", text: Binding(get: { store.viewState.workingCopy.title }, set: { string in
+            TextField("", text: Binding(get: { store.state.workingCopy.title }, set: { string in
                 store.send(.updateTitle(string))
             }))
             
@@ -31,7 +31,7 @@ struct PSAUpdateView<Store: PSAUpdateViewStoreType>: View {
                 store.send(.submit)
             } label: {
                 Group {
-                    if store.viewState.dismissable {
+                    if store.state.dismissable {
                         Text("Submit")
                     } else {
                         ProgressView()
@@ -45,13 +45,13 @@ struct PSAUpdateView<Store: PSAUpdateViewStoreType>: View {
                         .foregroundColor(.blue)
                 }
             }
-            .disabled(!store.viewState.dismissable)
+            .disabled(!store.state.dismissable)
 
         }
-        .onChange(of: store.viewState.success) { success in
+        .onChange(of: store.state.success) { success in
             if success { dismiss() }
         }
-        .alert(isPresented: .init(get: { return store.viewState.error != nil }, set: { _ in store.send(.dismissError) }), error: store.viewState.error) { _ in
+        .alert(isPresented: .init(get: { return store.state.error != nil }, set: { _ in store.send(.dismissError) }), error: store.state.error) { _ in
             
         } message: { error in
             Text("Error")

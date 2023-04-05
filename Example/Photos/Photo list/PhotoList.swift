@@ -26,7 +26,7 @@ struct PhotoList<Store: PhotoListViewStoreType>: View {
     var body: some View {
         NavigationView {
             ZStack {
-                switch store.viewState.status {
+                switch store.state.status {
                 case .loading:
                     ProgressView()
                         .progressViewStyle(.circular)
@@ -34,7 +34,7 @@ struct PhotoList<Store: PhotoListViewStoreType>: View {
                 case let .content(photos):
                     List {
                         
-                        PSAView(psa: store.viewState.psa)
+                        PSAView(psa: store.state.psa)
                             .onTapGesture {
                                 store.send(.showUpdateView(true))
                             }
@@ -55,11 +55,11 @@ struct PhotoList<Store: PhotoListViewStoreType>: View {
                             }
                         } header: {
                             Toggle("Show Count", isOn: store.showsPhotoCount)
-                                .animation(.easeInOut, value: store.viewState.showsPhotoCount)
+                                .animation(.easeInOut, value: store.state.showsPhotoCount)
                         }
                     }
-                    .sheet(isPresented: store.makeBinding(viewStateKeyPath: \.showUpdateView, actionCasePath: /PhotoListViewStore.Action.showUpdateView)) {
-                        PSAUpdateView(store: PSAUpdateViewStore(psaDataStore: store.psaViewStore))
+                    .sheet(isPresented: store.makeBinding(stateKeyPath: \.showUpdateView, actionCasePath: /PhotoListViewStore.Action.showUpdateView)) {
+                        PSAUpdateView(store: PSAUpdateViewStore(psaDataStore: store.psaDataStore))
                     }
                 case let .error(error):
                     VStack {
@@ -70,7 +70,7 @@ struct PhotoList<Store: PhotoListViewStoreType>: View {
 
             }
             .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle(store.viewState.navigationTitle)
+            .navigationTitle(store.state.navigationTitle)
             .searchable(text: store.searchText, placement: .navigationBarDrawer(displayMode: .always))
         }
     }
@@ -78,8 +78,8 @@ struct PhotoList<Store: PhotoListViewStoreType>: View {
 
 struct PhotoList_Previews: PreviewProvider {
     static var previews: some View {
-        let viewState = PhotoListViewStore.ViewState(status: .content(MockItemProvider(photosCount: 3).photos))
+        let viewState = PhotoListViewStore.State(status: .content(MockItemProvider(photosCount: 3).photos))
         
-        PhotoList(store: MockViewStore(viewState: viewState))
+        PhotoList(store: MockStore(state: viewState))
     }
 }

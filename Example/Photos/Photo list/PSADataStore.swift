@@ -12,12 +12,12 @@ struct PSA {
     let title: String
 }
 
-typealias PSADataStoreType = ViewStore<PSADataStore.ViewState, PSADataStore.Action>
+typealias PSADataStoreType = Store<PSADataStore.State, PSADataStore.Action>
 
-final class PSADataStore: ViewStore {
+final class PSADataStore: Store {
     
-    struct ViewState {
-        static let initial = ViewState(psa: .init(title: "Initial"), networkState: .notStarted)
+    struct State {
+        static let initial = State(psa: .init(title: "Initial"), networkState: .notStarted)
         
         let psa: PSA
         
@@ -31,10 +31,10 @@ final class PSADataStore: ViewStore {
         case clearNetworkingState
     }
     
-    @Published var viewState: ViewState = PSADataStore.ViewState.initial
+    @Published var state: State = PSADataStore.State.initial
     
-    var publishedViewState: AnyPublisher<ViewState, Never> {
-        $viewState.eraseToAnyPublisher()
+    var publishedState: AnyPublisher<State, Never> {
+        $state.eraseToAnyPublisher()
     }
     
     private let psaSubject = PassthroughSubject<PSA, Never>()
@@ -47,15 +47,17 @@ final class PSADataStore: ViewStore {
         let additionalActions = networkPublisher.compactMap { $0.psa }.map { Action.updatePSA($0) }
         
         psaSubject
-            .prepend(viewState.psa)
+            .prepend(state.psa)
             .combineLatest(network.publisher.prepend(.notStarted))
             .map { psa, networkState in
-                return ViewState(psa: psa, networkState: networkState)
+                return State(psa: psa, networkState: networkState)
             }
-            .assign(to: &$viewState)
+            .assign(to: &$state)
 
         pipeActions(publisher: additionalActions, storingIn: &cancellables)
     }
+    
+    // MARK: - Store
     
     func send(_ action: Action) {
         switch action {
