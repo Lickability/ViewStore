@@ -18,6 +18,6 @@ let package = Package(
     targets: [
         .target(name: packageName, dependencies: [
             .product(name: "CasePaths", package: "swift-case-paths")
-        ])
+        ], path: "Sources/Store")
     ]
 )
