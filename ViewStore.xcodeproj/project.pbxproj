@@ -91,12 +91,12 @@
 		0B3201F128B3BF6B00AF8884 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				0B3201F228B3BF6B00AF8884 /* ViewStore */,
+				0B3201F228B3BF6B00AF8884 /* Store */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
 		};
-		0B3201F228B3BF6B00AF8884 /* ViewStore */ = {
+		0B3201F228B3BF6B00AF8884 /* Store */ = {
 			isa = PBXGroup;
 			children = (
 				0B3201F328B3BF6B00AF8884 /* Publisher+CombineLatest.swift */,
@@ -107,7 +107,7 @@
 				3A601C5029E5CD0B008D0BB3 /* ScopedStore.swift */,
 				3A601C5229E5CD11008D0BB3 /* Store+Helpers.swift */,
 			);
-			path = ViewStore;
+			path = Store;
 			sourceTree = "<group>";
 		};
 		3A31E611287F47D800955C37 /* ExampleTests */ = {
