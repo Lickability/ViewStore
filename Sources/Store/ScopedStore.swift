@@ -27,12 +27,12 @@ public final class ScopedStore<State, Action>: Store {
     /// Initializes a new `ScopedStore`.
     /// - Parameters:
     ///   - initial: The initial state for this `Store`, likely a copy of whatever the current sub-store's state is now (see the `scoped` function on the `Store` extension for an example).
-    ///   - statePub: The publisher that allows this `ScopedStore` to get the lastest copy of the sub-store's state.
+    ///   - statePublisher: The publisher that allows this `ScopedStore` to get the lastest copy of the sub-store's state.
     ///   - action: A closure to let you pass actions back to a parent `Store`. (see the `scoped` function on the `Store` extension for an example of embedding these into a "sub-action" of a parent Store to forward to a sub-store).
-    public init(initial: State, statePub: some Publisher<State, Never>, action: @escaping (Action) -> Void) {
+    public init(initial: State, statePublisher: some Publisher<State, Never>, action: @escaping (Action) -> Void) {
         state = initial
         self.action = action
-        statePub.assign(to: &$state)
+        statePublisher.assign(to: &$state)
     }
     
     // MARK: - Store
@@ -84,7 +84,7 @@ public extension Store {
     ///   - actionCasePath: The case path to an action on the Parent's `Store` that has the substore's action as the associated value that forwards to the substore.
     /// - Returns: A `Store` that is scoped to the specified state and action.
     func scoped<Substate, Subaction>(stateKeyPath: KeyPath<State, Substate>, actionCasePath: CasePath<Action, Subaction>) -> any Store<Substate, Subaction> {
-        return ScopedStore(initial: state[keyPath: stateKeyPath], statePub: publishedState.map(stateKeyPath), action: { self.send(actionCasePath.embed($0)) })
+        return ScopedStore(initial: state[keyPath: stateKeyPath], statePublisher: publishedState.map(stateKeyPath), action: { self.send(actionCasePath.embed($0)) })
     }
 }
 
