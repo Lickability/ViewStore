@@ -24,10 +24,19 @@ struct BannerUpdateView<Store: BannerUpdateViewStoreType>: View {
 
     var body: some View {
         VStack {
-            TextField("", text: store.workingTitle)
             
-            Spacer()
-            
+            VStack {
+                Spacer()
+
+                TextField("", text: store.workingTitle)
+                    .multilineTextAlignment(.center)
+                    .padding(10)
+                    .font(.system(size: 36))
+                
+                Spacer()
+            }
+            .padding(.horizontal, 30)
+
             Button {
                 store.send(.submit)
             } label: {
@@ -47,7 +56,7 @@ struct BannerUpdateView<Store: BannerUpdateViewStoreType>: View {
                 }
             }
             .disabled(!store.state.dismissable)
-
+            .padding(.bottom, 10)
         }
         .onChange(of: store.state.success) { success in
             if success { dismiss() }

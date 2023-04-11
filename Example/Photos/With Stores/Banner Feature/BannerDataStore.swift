@@ -16,7 +16,7 @@ final class BannerDataStore: Store {
     // MARK: - Store
     
     struct State {
-        static let initial = State(banner: .init(title: "Initial"), networkState: .notStarted)
+        static let initial = State(banner: .init(title: "Banner"), networkState: .notStarted)
         
         let banner: Banner
         
