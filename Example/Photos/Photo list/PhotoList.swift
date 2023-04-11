@@ -9,14 +9,14 @@ import SwiftUI
 import Provider
 import CasePaths
 
-/// Displays a list of photos retrieved from an API. Uses a `ViewStore` for coordination with the data source.
+/// Displays a list of photos retrieved from an API. Uses a `Store` for coordination with the data source.
 struct PhotoList<Store: PhotoListViewStoreType>: View {
     
     @StateObject private var store: Store
 
     /// Creates a new `PhotoList`.
     /// - Parameters:
-    ///   - store: The `ViewStore` that drives 
+    ///   - store: The `Store` that drives this view.
     init(store: @autoclosure @escaping () -> Store) {
         self._store = StateObject(wrappedValue: store())
     }
@@ -78,8 +78,8 @@ struct PhotoList<Store: PhotoListViewStoreType>: View {
 
 struct PhotoList_Previews: PreviewProvider {
     static var previews: some View {
-        let viewState = PhotoListViewStore.State(status: .content(MockItemProvider(photosCount: 3).photos))
+        let state = PhotoListViewStore.State(status: .content(MockItemProvider(photosCount: 3).photos))
         
-        PhotoList(store: MockStore(state: viewState))
+        PhotoList(store: MockStore(state: state))
     }
 }

@@ -80,7 +80,7 @@ final class PhotoListViewStore: Store {
     /// Creates a new `PhotoListViewStore`
     /// - Parameters:
     ///   - provider: The provider responsible for fetching photos.
-    ///   - scheduler: Determines how state updates are scheduled to be delivered in the view store. Defaults to `default`, which asynchronously schedules updates on the main queue.
+    ///   - scheduler: Determines how state updates are scheduled to be delivered in the store. Defaults to `default`, which asynchronously schedules updates on the main queue.
     init(provider: Provider, scheduler: MainQueueScheduler = .init(type: .default)) {
         self.provider = provider
         let showsPhotosCountPublisher = self.showsPhotosCountPublisher.prepend(State.initial.showsPhotoCount)
@@ -105,6 +105,8 @@ final class PhotoListViewStore: Store {
             .assign(to: &$state)
     }
 
+    // MARK: - Store
+
     func send(_ action: Action) {
         switch action {
         case let .toggleShowsPhotoCount(showsPhotoCount):
@@ -128,7 +130,7 @@ extension PhotoListViewStoreType {
     var showsPhotoCount: Binding<Bool> {
 //
 //        return Binding<Bool> {
-//            self.viewState.showsPhotoCount
+//            self.state.showsPhotoCount
 //        } set: { newValue in
 //            self.send(.toggleShowsPhotoCount(newValue))
 //        }
