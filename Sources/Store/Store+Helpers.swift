@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-extension Store {
+public extension Store {
 
     /// Takes a publisher of actions and executes them as they come in.
     /// - Parameters:
