@@ -19,7 +19,6 @@ public final class ScopedStore<State, Action>: Store {
 
     private let action: (Action) -> Void
     
-    
     /// Initializes a new `ScopedStore`
     /// - Parameters:
     ///   - initial: The initial state for this `Store`, likely a copy of whatever the current sub-store's state is now (see the `scoped` function on the `Store` extension for an example)
@@ -37,8 +36,46 @@ public final class ScopedStore<State, Action>: Store {
 }
 
 public extension Store {
+    /// Creates a `ScopedStore` that uses a keypath to a property on the current `Store`s state and a parent `Store`s action that has a subaction as its associated value.
+    ///```
+    ///typealias ParentStoreType = Store<ParentStore.State, ParentStore.Action>
+    ///
+    ///final class ParentStore: Store {
+    ///     struct State {
+    ///         let substate: Substore.State
+    ///     }
+    ///
+    ///     enum Action {
+    ///         case subaction(Substore.Action)
+    ///     }
+    ///
+    ///     private let substore = Substore()
+    ///
+    ///     init() {
+    ///         substore.$state
+    ///            .map(State.init)
+    ///            .assign(&$state)
+    ///     }
+    ///
+    /// }
+    ///
+    ///extension ParentStoreType {
+    ///     var substore: SubstoreType {
+    ///         return scoped(stateKeyPath: /.substate, actionCasePath: \Action.subaction)
+    ///     }
+    /// }
+    ///
+    ///typealias SubstoreType = Store<Substore.State, Substore.Action>
+    ///final class Substore: Store {
+    ///     // Store logic and properties to manage some state
+    ///}
+    ///```
+    ///
+    /// - Parameters:
+    ///   - stateKeyPath: The keypath to the property on the Parent's `State` that is managed by the substore.
+    ///   - actionCasePath: The case path to an action on the Parent's `Store` that has the substore's action as the associated value that forwards to the substore.
+    /// - Returns: A `Store` that is scoped to the specified state and action.
     func scoped<Substate, Subaction>(stateKeyPath: KeyPath<State, Substate>, actionCasePath: CasePath<Action, Subaction>) -> any Store<Substate, Subaction> {
         return ScopedStore(initial: state[keyPath: stateKeyPath], statePub: publishedState.map(stateKeyPath), action: { self.send(actionCasePath.embed($0)) })
     }
 }
-
