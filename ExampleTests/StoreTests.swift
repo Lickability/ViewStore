@@ -1,5 +1,5 @@
 //
-//  ViewStoreTests.swift
+//  StoreTests.swift
 //  ViewStoreTests
 //
 //  Created by Kenneth Ackerson on 7/13/22.
@@ -10,7 +10,7 @@ import XCTest
 @testable import Provider
 import Combine
 
-final class ViewStoreTests: XCTestCase {
+final class StoreTests: XCTestCase {
 
     func testToggleShowsPhotoCount() throws {
         let mock = MockItemProvider(photosCount: 3)
@@ -21,7 +21,7 @@ final class ViewStoreTests: XCTestCase {
         
         scheduler.advance()
         
-        XCTAssertEqual(vs.viewState.showsPhotoCount, true)
+        XCTAssertEqual(vs.state.showsPhotoCount, true)
     }
     
     func testSearchProperlyFiltersByTitle() throws {
@@ -33,7 +33,7 @@ final class ViewStoreTests: XCTestCase {
         
         scheduler.advance(by: 1)
         
-        switch vs.viewState.status {
+        switch vs.state.status {
         case .error(_), .loading:
             XCTFail()
         case let .content(photos):
@@ -48,6 +48,6 @@ final class ViewStoreTests: XCTestCase {
         let vs = PhotoListViewStore(provider: mock, scheduler: MainQueueScheduler(type: .synchronous))
         vs.send(.search("2"))
         
-        XCTAssertEqual(vs.viewState.searchText, "2")
+        XCTAssertEqual(vs.state.searchText, "2")
     }
 }
