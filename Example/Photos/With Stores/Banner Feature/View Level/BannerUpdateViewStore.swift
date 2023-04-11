@@ -12,6 +12,8 @@ typealias BannerUpdateViewStoreType = Store<BannerUpdateViewStore.State, BannerU
 
 final class BannerUpdateViewStore: Store {
     
+    // MARK: - Store
+    
     struct State {
         let bannerViewState: BannerDataStore.State
         
@@ -63,6 +65,8 @@ final class BannerUpdateViewStore: Store {
     var publishedState: AnyPublisher<State, Never> {
         return $state.eraseToAnyPublisher()
     }
+    
+    // MARK: - BannerUpdateViewStore
     
     private let bannerDataStore: any BannerDataStoreType
     

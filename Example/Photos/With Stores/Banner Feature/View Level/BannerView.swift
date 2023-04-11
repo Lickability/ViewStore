@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+/// Simple view to show a banner
 struct BannerView: View {
     let banner: Banner
     
