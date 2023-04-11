@@ -7,6 +7,8 @@
 
 import Foundation
 import Combine
+import SwiftUI
+import CasePaths
 
 typealias BannerUpdateViewStoreType = Store<BannerUpdateViewStore.State, BannerUpdateViewStore.Action>
 
@@ -102,4 +104,18 @@ final class BannerUpdateViewStore: Store {
         }
     }
     
+}
+
+extension BannerUpdateViewStoreType {
+    var workingTitle: Binding<String> {
+        makeBinding(stateKeyPath: \.workingCopy.title, actionCasePath: /Action.updateTitle)
+    }
+    
+    var isErrorPresented: Binding<Bool> {
+        .init(get: {
+            return self.state.error != nil
+        }, set: { _ in
+            self.send(.dismissError)
+        })
+    }
 }

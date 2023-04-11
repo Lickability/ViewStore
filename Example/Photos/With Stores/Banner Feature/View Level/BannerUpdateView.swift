@@ -24,9 +24,7 @@ struct BannerUpdateView<Store: BannerUpdateViewStoreType>: View {
 
     var body: some View {
         VStack {
-            TextField("", text: Binding(get: { store.state.workingCopy.title }, set: { string in
-                store.send(.updateTitle(string))
-            }))
+            TextField("", text: store.workingTitle)
             
             Spacer()
             
@@ -54,7 +52,7 @@ struct BannerUpdateView<Store: BannerUpdateViewStoreType>: View {
         .onChange(of: store.state.success) { success in
             if success { dismiss() }
         }
-        .alert(isPresented: .init(get: { return store.state.error != nil }, set: { _ in store.send(.dismissError) }), error: store.state.error) { _ in
+        .alert(isPresented: store.isErrorPresented, error: store.state.error) { _ in
             
         } message: { error in
             Text("Error")
