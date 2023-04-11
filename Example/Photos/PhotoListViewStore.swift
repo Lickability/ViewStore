@@ -85,7 +85,7 @@ final class PhotoListViewStore: Store {
             .assign(to: &$state)
     }
 
-    // MARK: - ViewStore
+    // MARK: - Store
 
     func send(_ action: Action) {
         switch action {
