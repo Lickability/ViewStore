@@ -10,6 +10,7 @@ import Combine
 
 typealias BannerDataStoreType = Store<BannerDataStore.State, BannerDataStore.Action>
 
+/// A `Store` that is responsible for being the source of truth for a `Banner`. This includes updating locally and remotely. Not meant to be used to drive a `View`, but rather meant to be composed into other `Store`s.
 final class BannerDataStore: Store {
     
     // MARK: - Store
@@ -45,6 +46,7 @@ final class BannerDataStore: Store {
     private let network: Network = .init()
     private var cancellables = Set<AnyCancellable>()
 
+    /// Creates a new `BannerDataStore`
     init() {
         
         let networkPublisher = network.publisher.prepend(.notStarted)
