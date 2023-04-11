@@ -1,5 +1,5 @@
 //
-//  PSAUpdateView.swift
+//  BannerUpdateView.swift
 //  ViewStore
 //
 //  Created by Kenneth Ackerson on 4/3/23.
@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 
-struct PSAUpdateView<Store: PSAUpdateViewStoreType>: View {
+struct BannerUpdateView<Store: BannerUpdateViewStoreType>: View {
     
     @Environment(\.dismiss) private var dismiss
     

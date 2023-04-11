@@ -13,9 +13,9 @@ final class Network {
     enum NetworkState {
         case notStarted
         case inProgress
-        case finished(Result<PSA, NSError>)
+        case finished(Result<Banner, NSError>)
         
-        var psa: PSA? {
+        var banner: Banner? {
             switch self {
             case .inProgress, .notStarted:
                 return nil
@@ -42,11 +42,11 @@ final class Network {
     
     var publisher: PassthroughSubject<NetworkState, Never> = .init()
     
-    func request(psa: PSA) {
+    func request(banner: Banner) {
         self.publisher.send(.inProgress)
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            //self.publisher.send(.finished(.success(psa)))
+            //self.publisher.send(.finished(.success(banner)))
             
             self.publisher.send(.finished(.failure(.init(domain: "com.viewstore.error", code: 400))))
 

@@ -32,24 +32,24 @@ final class PhotoListViewStore: Store {
         let showsPhotoCount: Bool
         let navigationTitle: LocalizedStringKey
         let searchText: String
-        let psaState: PSADataStore.State
+        let bannerState: BannerDataStore.State
         let showUpdateView: Bool
         
-        var psa: PSA {
-            return psaState.psa
+        var banner: Banner {
+            return bannerState.banner
         }
         
         init(status: PhotoListViewStore.State.Status = .loading,
              showsPhotoCount: Bool = false,
              navigationTitle: LocalizedStringKey = State.defaultNavigationTitle,
              searchText: String = "",
-             psaState: PSADataStore.State = .initial,
+             bannerState: BannerDataStore.State = .initial,
              showUpdateView: Bool = false) {
             self.status = status
             self.showsPhotoCount = showsPhotoCount
             self.navigationTitle = navigationTitle
             self.searchText = searchText
-            self.psaState = psaState
+            self.bannerState = bannerState
             self.showUpdateView = showUpdateView
         }
     }
@@ -59,7 +59,7 @@ final class PhotoListViewStore: Store {
         case search(String)
         case showUpdateView(Bool)
         
-        case psaAction(PSADataStore.Action)
+        case bannerAction(BannerDataStore.Action)
     }
     
     @Published private(set) var state: State = .initial
@@ -75,7 +75,7 @@ final class PhotoListViewStore: Store {
     private let showUpdateViewPublisher = PassthroughSubject<Bool, Never>()
     private let searchTextPublisher = PassthroughSubject<String, Never>()
     
-    private let psaDataStore = PSADataStore()
+    private let bannerDataStore = BannerDataStore()
 
     /// Creates a new `PhotoListViewStore`
     /// - Parameters:
@@ -90,15 +90,15 @@ final class PhotoListViewStore: Store {
         
 
         photoPublisher
-            .combineLatest(showsPhotosCountPublisher, searchTextPublisher, searchTextUIPublisher, psaDataStore.$state, showUpdateViewPublisher.prepend(false))
-            .map { (result: Result<[Photo], ProviderError>, showsPhotosCount: Bool, searchText: String, searchTextUI: String, psaViewState, showUpdateView) in
+            .combineLatest(showsPhotosCountPublisher, searchTextPublisher, searchTextUIPublisher, bannerDataStore.$state, showUpdateViewPublisher.prepend(false))
+            .map { (result: Result<[Photo], ProviderError>, showsPhotosCount: Bool, searchText: String, searchTextUI: String, bannerViewState, showUpdateView) in
                 switch result {
                 case let .success(photos):
                     let filteredPhotos = photos.filter(searchText: searchText)
                     let navigationTitle = showsPhotosCount ? LocalizedStringKey("Photos \(filteredPhotos.count)") : State.defaultNavigationTitle
-                    return State(status: .content(filteredPhotos), showsPhotoCount: showsPhotosCount, navigationTitle: navigationTitle, searchText: searchTextUI, psaState: psaViewState, showUpdateView: showUpdateView)
+                    return State(status: .content(filteredPhotos), showsPhotoCount: showsPhotosCount, navigationTitle: navigationTitle, searchText: searchTextUI, bannerState: bannerViewState, showUpdateView: showUpdateView)
                 case let .failure(error):
-                    return State(status: .error(error), showsPhotoCount: false, navigationTitle: State.defaultNavigationTitle, searchText: searchTextUI, psaState: psaViewState, showUpdateView: showUpdateView)
+                    return State(status: .error(error), showsPhotoCount: false, navigationTitle: State.defaultNavigationTitle, searchText: searchTextUI, bannerState: bannerViewState, showUpdateView: showUpdateView)
                 }
             }
             .receive(on: scheduler)
@@ -113,8 +113,8 @@ final class PhotoListViewStore: Store {
             showsPhotosCountPublisher.send(showsPhotoCount)
         case let .search(searchText):
             searchTextPublisher.send(searchText)
-        case let .psaAction(action):
-            psaDataStore.send(action)
+        case let .bannerAction(action):
+            bannerDataStore.send(action)
         case let .showUpdateView(showUpdateView):
             showUpdateViewPublisher.send(showUpdateView)
         }
@@ -123,8 +123,8 @@ final class PhotoListViewStore: Store {
 
 extension PhotoListViewStoreType {
     
-    var psaDataStore: any PSADataStoreType {
-        return scoped(stateKeyPath: \.psaState, actionCasePath: /Action.psaAction)
+    var bannerDataStore: any BannerDataStoreType {
+        return scoped(stateKeyPath: \.bannerState, actionCasePath: /Action.bannerAction)
     }
     
     var showsPhotoCount: Binding<Bool> {

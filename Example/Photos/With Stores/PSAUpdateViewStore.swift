@@ -1,5 +1,5 @@
 //
-//  PSAUpdateViewStore.swift
+//  BannerUpdateViewStore.swift
 //  ViewStore
 //
 //  Created by Kenneth Ackerson on 4/3/23.
@@ -8,17 +8,17 @@
 import Foundation
 import Combine
 
-typealias PSAUpdateViewStoreType = Store<PSAUpdateViewStore.State, PSAUpdateViewStore.Action>
+typealias BannerUpdateViewStoreType = Store<BannerUpdateViewStore.State, BannerUpdateViewStore.Action>
 
-final class PSAUpdateViewStore: Store {
+final class BannerUpdateViewStore: Store {
     
     struct State {
-        let psaViewState: PSADataStore.State
+        let bannerViewState: BannerDataStore.State
         
-        let workingCopy: PSA
+        let workingCopy: Banner
         
         var dismissable: Bool {
-            switch psaViewState.networkState {
+            switch bannerViewState.networkState {
             case .notStarted, .finished:
                 return true
             case .inProgress:
@@ -27,7 +27,7 @@ final class PSAUpdateViewStore: Store {
         }
         
         var success: Bool {
-            switch psaViewState.networkState {
+            switch bannerViewState.networkState {
             case .notStarted, .inProgress:
                 return false
             case .finished(let result):
@@ -36,7 +36,7 @@ final class PSAUpdateViewStore: Store {
         }
         
         var error: NSError? {
-            switch psaViewState.networkState {
+            switch bannerViewState.networkState {
             case .notStarted, .inProgress:
                 return nil
             case .finished(let result):
@@ -64,20 +64,20 @@ final class PSAUpdateViewStore: Store {
         return $state.eraseToAnyPublisher()
     }
     
-    private let psaDataStore: any PSADataStoreType
+    private let bannerDataStore: any BannerDataStoreType
     
     private let newTitlePublisher = PassthroughSubject<String, Never>()
         
-    init(psaDataStore: any PSADataStoreType) {
-        self.psaDataStore = psaDataStore
+    init(bannerDataStore: any BannerDataStoreType) {
+        self.bannerDataStore = bannerDataStore
         
-        state = State(psaViewState: psaDataStore.state, workingCopy: psaDataStore.state.psa)
+        state = State(bannerViewState: bannerDataStore.state, workingCopy: bannerDataStore.state.banner)
         
-        psaDataStore
+        bannerDataStore
             .publishedState
-            .combineLatest(newTitlePublisher.map(PSA.init).prepend(state.workingCopy))
-            .map { psaState, workingCopy in
-                State(psaViewState: psaState, workingCopy: workingCopy)
+            .combineLatest(newTitlePublisher.map(Banner.init).prepend(state.workingCopy))
+            .map { bannerState, workingCopy in
+                State(bannerViewState: bannerState, workingCopy: workingCopy)
             }
             .assign(to: &$state)
     }
@@ -89,9 +89,9 @@ final class PSAUpdateViewStore: Store {
         case .updateTitle(let title):
             newTitlePublisher.send(title)
         case .submit:
-            psaDataStore.send(.uploadPSA(state.workingCopy))
+            bannerDataStore.send(.uploadBanner(state.workingCopy))
         case .dismissError:
-            psaDataStore.send(.clearNetworkingState)
+            bannerDataStore.send(.clearNetworkingState)
         }
     }
     

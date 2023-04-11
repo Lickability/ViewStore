@@ -34,7 +34,7 @@ struct PhotoList<Store: PhotoListViewStoreType>: View {
                 case let .content(photos):
                     List {
                         
-                        PSAView(psa: store.state.psa)
+                        BannerView(banner: store.state.banner)
                             .onTapGesture {
                                 store.send(.showUpdateView(true))
                             }
@@ -59,7 +59,7 @@ struct PhotoList<Store: PhotoListViewStoreType>: View {
                         }
                     }
                     .sheet(isPresented: store.makeBinding(stateKeyPath: \.showUpdateView, actionCasePath: /PhotoListViewStore.Action.showUpdateView)) {
-                        PSAUpdateView(store: PSAUpdateViewStore(psaDataStore: store.psaDataStore))
+                        BannerUpdateView(store: BannerUpdateViewStore(bannerDataStore: store.bannerDataStore))
                     }
                 case let .error(error):
                     VStack {
