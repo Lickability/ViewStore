@@ -48,7 +48,7 @@ final class Network {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             //self.publisher.send(.finished(.success(psa)))
             
-            self.publisher.send(.finished(.failure(.init())))
+            self.publisher.send(.finished(.failure(.init(domain: "com.viewstore.error", code: 400))))
 
         }
     

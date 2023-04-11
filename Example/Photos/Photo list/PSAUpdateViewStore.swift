@@ -45,7 +45,7 @@ final class PSAUpdateViewStore: Store {
                     return nil
                 }
                 catch {
-                    return NSError(domain: "3243432", code: 33243)
+                    return error as NSError
                 }
             }
         }

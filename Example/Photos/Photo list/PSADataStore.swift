@@ -54,7 +54,7 @@ final class PSADataStore: Store {
             }
             .assign(to: &$state)
 
-        pipeActions(publisher: additionalActions, storingIn: &cancellables)
+        pipeActions(publisher: additionalActions, storeIn: &cancellables)
     }
     
     // MARK: - Store

@@ -62,6 +62,6 @@ struct PSAUpdateView<Store: PSAUpdateViewStoreType>: View {
 
 extension NSError: LocalizedError {
     public var errorDescription: String? {
-        return description
+        return "Hello I am an error"
     }
 }
