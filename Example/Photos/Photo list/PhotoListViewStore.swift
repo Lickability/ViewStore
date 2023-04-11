@@ -75,7 +75,7 @@ final class PhotoListViewStore: Store {
     private let showUpdateViewPublisher = PassthroughSubject<Bool, Never>()
     private let searchTextPublisher = PassthroughSubject<String, Never>()
     
-    private let psaViewStore = PSADataStore()
+    private let psaDataStore = PSADataStore()
 
     /// Creates a new `PhotoListViewStore`
     /// - Parameters:
@@ -90,7 +90,7 @@ final class PhotoListViewStore: Store {
         
 
         photoPublisher
-            .combineLatest(showsPhotosCountPublisher, searchTextPublisher, searchTextUIPublisher, psaViewStore.$state, showUpdateViewPublisher.prepend(false))
+            .combineLatest(showsPhotosCountPublisher, searchTextPublisher, searchTextUIPublisher, psaDataStore.$state, showUpdateViewPublisher.prepend(false))
             .map { (result: Result<[Photo], ProviderError>, showsPhotosCount: Bool, searchText: String, searchTextUI: String, psaViewState, showUpdateView) in
                 switch result {
                 case let .success(photos):
@@ -112,7 +112,7 @@ final class PhotoListViewStore: Store {
         case let .search(searchText):
             searchTextPublisher.send(searchText)
         case let .psaAction(action):
-            psaViewStore.send(action)
+            psaDataStore.send(action)
         case let .showUpdateView(showUpdateView):
             showUpdateViewPublisher.send(showUpdateView)
         }
