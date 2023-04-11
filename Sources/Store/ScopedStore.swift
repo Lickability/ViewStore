@@ -45,7 +45,7 @@ public final class ScopedStore<State, Action>: Store {
 public extension Store {
     /// Creates a `ScopedStore` that uses a keypath to a property on the current `Store`s state and a parent `Store`s action that has a subaction as its associated value.
     /// 
-    ///```
+    /// ```
     /// typealias ParentStoreType = Store<ParentStore.State, ParentStore.Action>
     ///
     /// final class ParentStore: Store {
@@ -77,7 +77,7 @@ public extension Store {
     /// final class Substore: Store {
     ///     // Store logic and properties to manage some state
     /// }
-    ///```
+    /// ```
     ///
     /// - Parameters:
     ///   - stateKeyPath: The keypath to the property on the Parent's `State` that is managed by the substore.
