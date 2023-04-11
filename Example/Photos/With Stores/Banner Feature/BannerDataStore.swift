@@ -8,10 +8,6 @@
 import Foundation
 import Combine
 
-struct Banner {
-    let title: String
-}
-
 typealias BannerDataStoreType = Store<BannerDataStore.State, BannerDataStore.Action>
 
 final class BannerDataStore: Store {
