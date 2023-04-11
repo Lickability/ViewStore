@@ -1,5 +1,5 @@
 //
-//  Network.swift
+//  MockBannerNetworkStateController.swift
 //  ViewStore
 //
 //  Created by Kenneth Ackerson on 4/3/23.
@@ -8,7 +8,8 @@
 import Foundation
 import Combine
 
-final class Network {
+/// A really contrived fake interface similar to networking state controller for updating `Banner` models on a non-existant server.
+final class MockBannerNetworkStateController {
     
     enum NetworkState {
         case notStarted

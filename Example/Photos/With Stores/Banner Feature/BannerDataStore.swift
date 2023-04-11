@@ -20,7 +20,7 @@ final class BannerDataStore: Store {
         
         let banner: Banner
         
-        let networkState: Network.NetworkState
+        let networkState: MockBannerNetworkStateController.NetworkState
     }
     
     enum Action {
@@ -43,7 +43,7 @@ final class BannerDataStore: Store {
     // MARK: - BannerDataStore
     
     private let bannerSubject = PassthroughSubject<Banner, Never>()
-    private let network: Network = .init()
+    private let network: MockBannerNetworkStateController = .init()
     private var cancellables = Set<AnyCancellable>()
 
     /// Creates a new `BannerDataStore`

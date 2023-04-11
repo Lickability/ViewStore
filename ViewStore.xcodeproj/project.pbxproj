@@ -28,7 +28,7 @@
 		3A601C6029E5DA86008D0BB3 /* PhotoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A601C5A29E5DA86008D0BB3 /* PhotoList.swift */; };
 		3A601C6129E5DA86008D0BB3 /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A601C5B29E5DA86008D0BB3 /* BannerView.swift */; };
 		3A601C6229E5DA86008D0BB3 /* PhotoListViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A601C5C29E5DA86008D0BB3 /* PhotoListViewStore.swift */; };
-		3A601C6329E5DB55008D0BB3 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A214A4329DB52E7001C9832 /* Network.swift */; };
+		3A601C6329E5DB55008D0BB3 /* MockBannerNetworkStateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A214A4329DB52E7001C9832 /* MockBannerNetworkStateController.swift */; };
 		3A601C6629E5DE22008D0BB3 /* Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A601C6529E5DE22008D0BB3 /* Banner.swift */; };
 		F2B5F5B827C7EC0C00FD7831 /* Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B5F5B727C7EC0C00FD7831 /* Example.swift */; };
 		F2B5F5BC27C7EC0E00FD7831 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2B5F5BB27C7EC0E00FD7831 /* Assets.xcassets */; };
@@ -57,7 +57,7 @@
 		0B3201F528B3BF6B00AF8884 /* MainQueueScheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainQueueScheduler.swift; sourceTree = "<group>"; };
 		0B77E915287F23C400BC3595 /* Array+Filtering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Filtering.swift"; sourceTree = "<group>"; };
 		0B92D48228577B7700FF1BDF /* PhotoListOriginal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListOriginal.swift; sourceTree = "<group>"; };
-		3A214A4329DB52E7001C9832 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		3A214A4329DB52E7001C9832 /* MockBannerNetworkStateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBannerNetworkStateController.swift; sourceTree = "<group>"; };
 		3A31E610287F47D700955C37 /* ViewStoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ViewStoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A31E612287F47D800955C37 /* StoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreTests.swift; sourceTree = "<group>"; };
 		3A601C4A29E5CCE5008D0BB3 /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
@@ -234,7 +234,7 @@
 				F2B5F5D227C7FB0600FD7831 /* Photo.swift */,
 				3A601C6429E5DCBC008D0BB3 /* Original */,
 				3A601C5629E5DA86008D0BB3 /* With Stores */,
-				3A214A4329DB52E7001C9832 /* Network.swift */,
+				3A214A4329DB52E7001C9832 /* MockBannerNetworkStateController.swift */,
 			);
 			path = Photos;
 			sourceTree = "<group>";
@@ -381,7 +381,7 @@
 				3A601C5329E5CD11008D0BB3 /* Store+Helpers.swift in Sources */,
 				F2B5F5CE27C7FA0F00FD7831 /* APIRequest.swift in Sources */,
 				0B92D48328577B7700FF1BDF /* PhotoListOriginal.swift in Sources */,
-				3A601C6329E5DB55008D0BB3 /* Network.swift in Sources */,
+				3A601C6329E5DB55008D0BB3 /* MockBannerNetworkStateController.swift in Sources */,
 				0B3201F928B3BF6B00AF8884 /* MainQueueScheduler.swift in Sources */,
 				0B0FC066287C6E3D00207496 /* MockItemProvider.swift in Sources */,
 				F2B5F5B827C7EC0C00FD7831 /* Example.swift in Sources */,
