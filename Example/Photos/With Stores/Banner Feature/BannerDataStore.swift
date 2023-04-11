@@ -21,9 +21,13 @@ final class BannerDataStore: Store {
     }
     
     enum Action {
-        case updateBanner(Banner)
+        /// Changes the local copy of the banner model syncronously.
+        case updateBannerLocally(Banner)
         
+        /// Sends the banner to the server and then updates the model locally if it was successful.
         case uploadBanner(Banner)
+        
+        /// Clears the underlying networking state back to `notInProgress`.
         case clearNetworkingState
     }
     
@@ -40,7 +44,7 @@ final class BannerDataStore: Store {
     init() {
         
         let networkPublisher = network.publisher.prepend(.notStarted)
-        let additionalActions = networkPublisher.compactMap { $0.banner }.map { Action.updateBanner($0) }
+        let additionalActions = networkPublisher.compactMap { $0.banner }.map { Action.updateBannerLocally($0) }
         
         bannerSubject
             .prepend(state.banner)
@@ -57,7 +61,7 @@ final class BannerDataStore: Store {
     
     func send(_ action: Action) {
         switch action {
-        case .updateBanner(let banner):
+        case .updateBannerLocally(let banner):
             bannerSubject.send(banner)
         case .uploadBanner(let banner):
             network.request(banner: banner)
