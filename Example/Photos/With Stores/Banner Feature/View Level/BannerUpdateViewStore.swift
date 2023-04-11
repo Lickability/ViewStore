@@ -10,6 +10,7 @@ import Combine
 
 typealias BannerUpdateViewStoreType = Store<BannerUpdateViewStore.State, BannerUpdateViewStore.Action>
 
+/// A `Store` that drives a view that can update a `Banner` through any `BannerDataStoreType`, and exposes view-specific state such as a working copy of the banner, the possible networking error, etc.
 final class BannerUpdateViewStore: Store {
     
     // MARK: - Store
@@ -72,6 +73,8 @@ final class BannerUpdateViewStore: Store {
     
     private let newTitlePublisher = PassthroughSubject<String, Never>()
         
+    /// Creates a new `BannerUpdateViewStore`
+    /// - Parameter bannerDataStore: The data `Store` responsible for updating the banner on the network and its source of truth in the application.
     init(bannerDataStore: any BannerDataStoreType) {
         self.bannerDataStore = bannerDataStore
         
