@@ -168,6 +168,7 @@
 				3A601C6829E5DE62008D0BB3 /* View Level */,
 				3A601C6529E5DE22008D0BB3 /* Banner.swift */,
 				3A601C5729E5DA86008D0BB3 /* BannerDataStore.swift */,
+				3A214A4329DB52E7001C9832 /* MockBannerNetworkStateController.swift */,
 			);
 			path = "Banner Feature";
 			sourceTree = "<group>";
@@ -234,7 +235,6 @@
 				F2B5F5D227C7FB0600FD7831 /* Photo.swift */,
 				3A601C6429E5DCBC008D0BB3 /* Original */,
 				3A601C5629E5DA86008D0BB3 /* With Stores */,
-				3A214A4329DB52E7001C9832 /* MockBannerNetworkStateController.swift */,
 			);
 			path = Photos;
 			sourceTree = "<group>";
