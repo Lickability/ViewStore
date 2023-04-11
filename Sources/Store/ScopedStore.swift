@@ -38,9 +38,9 @@ public final class ScopedStore<State, Action>: Store {
 public extension Store {
     /// Creates a `ScopedStore` that uses a keypath to a property on the current `Store`s state and a parent `Store`s action that has a subaction as its associated value.
     ///```
-    ///typealias ParentStoreType = Store<ParentStore.State, ParentStore.Action>
+    /// typealias ParentStoreType = Store<ParentStore.State, ParentStore.Action>
     ///
-    ///final class ParentStore: Store {
+    /// final class ParentStore: Store {
     ///     struct State {
     ///         let substate: Substore.State
     ///     }
@@ -53,22 +53,22 @@ public extension Store {
     ///
     ///     init() {
     ///         substore.$state
-    ///            .map(State.init)
-    ///            .assign(&$state)
+    ///             .map(State.init)
+    ///             .assign(&$state)
     ///     }
     ///
     /// }
     ///
-    ///extension ParentStoreType {
+    /// extension ParentStoreType {
     ///     var substore: SubstoreType {
     ///         return scoped(stateKeyPath: /.substate, actionCasePath: \Action.subaction)
     ///     }
     /// }
     ///
-    ///typealias SubstoreType = Store<Substore.State, Substore.Action>
-    ///final class Substore: Store {
+    /// typealias SubstoreType = Store<Substore.State, Substore.Action>
+    /// final class Substore: Store {
     ///     // Store logic and properties to manage some state
-    ///}
+    /// }
     ///```
     ///
     /// - Parameters:
@@ -79,3 +79,4 @@ public extension Store {
         return ScopedStore(initial: state[keyPath: stateKeyPath], statePub: publishedState.map(stateKeyPath), action: { self.send(actionCasePath.embed($0)) })
     }
 }
+
