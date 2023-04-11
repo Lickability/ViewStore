@@ -14,7 +14,7 @@ extension Store {
     /// - Parameters:
     ///   - publisher: The publisher of actions to execute as they come in.
     ///   - cancellables: The set of cancellables to store into.
-    func pipeActions(publisher: some Publisher<Action, Never>, storingIn cancellables: inout Set<AnyCancellable>) {
+    func pipeActions(publisher: some Publisher<Action, Never>, storeIn cancellables: inout Set<AnyCancellable>) {
         publisher
             .sink { [weak self] in
                 self?.send($0)
