@@ -20,7 +20,7 @@ public protocol Store<State, Action>: ObservableObject {
     /// Single source of truth that is used to respresent the current state of the domain.
     var state: State { get }
     
-    /// A publisher that publishes each state as it changes
+    /// A publisher that publishes each state as it changes.
     var publishedState: AnyPublisher<State, Never> { get }
 
     /// Single API to perform behaviors or trigger events, usually resulting in updated `state`.
