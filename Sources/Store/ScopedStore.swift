@@ -11,11 +11,16 @@ import CasePaths
 
 /// A `Store` that's purpose is to allow clients of it to modify a parent's Store and one of it's sub-stores without having direct access to either store.
 public final class ScopedStore<State, Action>: Store {
+    
+    // MARK: - Store
+    
     @Published public var state: State
     
     public var publishedState: AnyPublisher<State, Never> {
         return $state.eraseToAnyPublisher()
     }
+
+    // MARK: - ScopedStore
 
     private let action: (Action) -> Void
     
@@ -29,6 +34,8 @@ public final class ScopedStore<State, Action>: Store {
         self.action = action
         statePub.assign(to: &$state)
     }
+    
+    // MARK: - Store
 
     public func send(_ action: Action) {
         self.action(action)
