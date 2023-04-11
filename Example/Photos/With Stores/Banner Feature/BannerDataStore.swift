@@ -30,7 +30,7 @@ final class BannerDataStore: Store {
         /// Sends the banner to the server and then updates the model locally if it was successful.
         case uploadBanner(Banner)
         
-        /// Clears the underlying networking state back to `notInProgress`.
+        /// Clears the underlying networking state back to `notStarted`.
         case clearNetworkingState
     }
     
@@ -70,7 +70,7 @@ final class BannerDataStore: Store {
         case .updateBannerLocally(let banner):
             bannerSubject.send(banner)
         case .uploadBanner(let banner):
-            network.request(banner: banner)
+            network.upload(banner: banner)
         case .clearNetworkingState:
             network.reset()
         }

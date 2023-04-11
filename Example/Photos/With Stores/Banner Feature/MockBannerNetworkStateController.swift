@@ -11,11 +11,20 @@ import Combine
 /// A really contrived fake interface similar to networking state controller for updating `Banner` models on a non-existant server.
 final class MockBannerNetworkStateController {
     
+    /// Represents the state of a network request for a banner.
     enum NetworkState {
+        
+        /// The network request has not started yet.
         case notStarted
+        
+        /// The network request is currently in progress.
         case inProgress
+        
+        /// The network request has finished and resulted in either success or failure.
+        /// - Parameter Result: A result type containing a `Banner` on success or an `NSError` on failure.
         case finished(Result<Banner, NSError>)
         
+        /// The `Banner` object obtained from a successful network request, if available.
         var banner: Banner? {
             switch self {
             case .inProgress, .notStarted:
@@ -25,6 +34,7 @@ final class MockBannerNetworkStateController {
             }
         }
         
+        /// The error obtained from a failed network request, if available.
         var error: Error? {
             switch self {
             case .notStarted, .inProgress:
@@ -40,13 +50,19 @@ final class MockBannerNetworkStateController {
             }
         }
     }
+
+    /// A publisher that sends updates of the `NetworkState`.
+    public var publisher: PassthroughSubject<NetworkState, Never> = .init()
     
-    var publisher: PassthroughSubject<NetworkState, Never> = .init()
-    
-    func request(banner: Banner) {
+    /// Uploads a `Banner` to a fake server.
+    /// - Parameter banner: The `Banner` to upload.
+    func upload(banner: Banner) {
         self.publisher.send(.inProgress)
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            
+            // Pick whether you would like to get a successful (`.finished(.success...`) state or any error for this "network request".
+            
             //self.publisher.send(.finished(.success(banner)))
             
             self.publisher.send(.finished(.failure(.init(domain: "com.viewstore.error", code: 400))))
@@ -55,6 +71,7 @@ final class MockBannerNetworkStateController {
     
     }
     
+    /// Resets the current networking state to `notStarted`.
     func reset() {
         self.publisher.send(.notStarted)
     }
