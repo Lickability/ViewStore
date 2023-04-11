@@ -9,6 +9,7 @@ import Foundation
 import Combine
 import CasePaths
 
+/// A `Store` that's purpose is to allow clients of it to modify a parent's Store and one of it's sub-stores without having direct access to either store.
 public final class ScopedStore<State, Action>: Store {
     @Published public var state: State
     
@@ -18,21 +19,26 @@ public final class ScopedStore<State, Action>: Store {
 
     private let action: (Action) -> Void
     
-    public init(initial: State, viewStatePub: some Publisher<State, Never>, action: @escaping (Action) -> Void) {
+    
+    /// Initializes a new `ScopedStore`
+    /// - Parameters:
+    ///   - initial: The initial state for this `Store`, likely a copy of whatever the current sub-store's state is now (see the `scoped` function on the `Store` extension for an example)
+    ///   - statePub: The publisher that allows this `ScopedStore` to get the lastest copy of the sub-store's state.
+    ///   - action: A closure to let you pass actions back to a parent `Store`. (see the `scoped` function on the `Store` extension for an example of embedding these into a "sub-action" of a parent Store to forward to a sub-store)
+    public init(initial: State, statePub: some Publisher<State, Never>, action: @escaping (Action) -> Void) {
         state = initial
         self.action = action
-        viewStatePub.assign(to: &$state)
+        statePub.assign(to: &$state)
     }
 
     public func send(_ action: Action) {
         self.action(action)
     }
-
 }
 
 public extension Store {
     func scoped<Substate, Subaction>(stateKeyPath: KeyPath<State, Substate>, actionCasePath: CasePath<Action, Subaction>) -> any Store<Substate, Subaction> {
-        return ScopedStore(initial: state[keyPath: stateKeyPath], viewStatePub: publishedState.map(stateKeyPath), action: { self.send(actionCasePath.embed($0)) })
+        return ScopedStore(initial: state[keyPath: stateKeyPath], statePub: publishedState.map(stateKeyPath), action: { self.send(actionCasePath.embed($0)) })
     }
 }
 
