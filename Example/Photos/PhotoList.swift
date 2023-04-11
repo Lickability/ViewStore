@@ -15,7 +15,7 @@ struct PhotoList<Store: PhotoListViewStoreType>: View {
 
     /// Creates a new `PhotoList`.
     /// - Parameters:
-    ///   - store: The `Store` that drives 
+    ///   - store: The `Store` that drives this view.
     init(store: @autoclosure @escaping () -> Store) {
         self._store = StateObject(wrappedValue: store())
     }
