@@ -11,14 +11,14 @@ import Combine
 import SwiftUI
 import CasePaths
 
-typealias PhotoListViewStoreType = ViewStore<PhotoListViewStore.ViewState, PhotoListViewStore.Action>
+typealias PhotoListViewStoreType = Store<PhotoListViewStore.State, PhotoListViewStore.Action>
 
 /// Coordinates state for use in `PhotoListView`
-final class PhotoListViewStore: ViewStore {
+final class PhotoListViewStore: Store {
 
-    // MARK: - ViewStore
+    // MARK: - Store
 
-    struct ViewState {
+    struct State {
         enum Status {
             case error(Error)
             case loading
@@ -26,14 +26,14 @@ final class PhotoListViewStore: ViewStore {
         }
 
         fileprivate static let defaultNavigationTitle = LocalizedStringKey("Photos")
-        fileprivate static let initial = ViewState()
+        fileprivate static let initial = State()
 
         let status: Status
         let showsPhotoCount: Bool
         let navigationTitle: LocalizedStringKey
         let searchText: String
         
-        init(status: PhotoListViewStore.ViewState.Status = .loading, showsPhotoCount: Bool = false, navigationTitle: LocalizedStringKey = ViewState.defaultNavigationTitle, searchText: String = "") {
+        init(status: PhotoListViewStore.State.Status = .loading, showsPhotoCount: Bool = false, navigationTitle: LocalizedStringKey = State.defaultNavigationTitle, searchText: String = "") {
             self.status = status
             self.showsPhotoCount = showsPhotoCount
             self.navigationTitle = navigationTitle
@@ -46,7 +46,11 @@ final class PhotoListViewStore: ViewStore {
         case search(String)
     }
     
-    @Published private(set) var viewState: ViewState = .initial
+    @Published private(set) var state: State = .initial
+    
+    var publishedState: AnyPublisher<State, Never> {
+        return $state.eraseToAnyPublisher()
+    }
 
     // MARK: - PhotoListViewStore
     
@@ -60,9 +64,9 @@ final class PhotoListViewStore: ViewStore {
     ///   - scheduler: Determines how state updates are scheduled to be delivered in the view store. Defaults to `default`, which asynchronously schedules updates on the main queue.
     init(provider: Provider, scheduler: MainQueueScheduler = .init(type: .default)) {
         self.provider = provider
-        let showsPhotosCountPublisher = self.showsPhotosCountPublisher.prepend(ViewState.initial.showsPhotoCount)
+        let showsPhotosCountPublisher = self.showsPhotosCountPublisher.prepend(State.initial.showsPhotoCount)
         let photoPublisher = provider.providePhotos().prepend([])
-        let searchTextUIPublisher =  self.searchTextPublisher.prepend(ViewState.initial.searchText)
+        let searchTextUIPublisher =  self.searchTextPublisher.prepend(State.initial.searchText)
         let searchTextPublisher = searchTextUIPublisher.throttle(for: 1, scheduler: scheduler, latest: true)
 
         photoPublisher
@@ -71,14 +75,14 @@ final class PhotoListViewStore: ViewStore {
                 switch result {
                 case let .success(photos):
                     let filteredPhotos = photos.filter(searchText: searchText)
-                    let navigationTitle = showsPhotosCount ? LocalizedStringKey("Photos \(filteredPhotos.count)") : ViewState.defaultNavigationTitle
-                    return ViewState(status: .content(filteredPhotos), showsPhotoCount: showsPhotosCount, navigationTitle: navigationTitle, searchText: searchTextUI)
+                    let navigationTitle = showsPhotosCount ? LocalizedStringKey("Photos \(filteredPhotos.count)") : State.defaultNavigationTitle
+                    return State(status: .content(filteredPhotos), showsPhotoCount: showsPhotosCount, navigationTitle: navigationTitle, searchText: searchTextUI)
                 case let .failure(error):
-                    return ViewState(status: .error(error), showsPhotoCount: false, navigationTitle: ViewState.defaultNavigationTitle, searchText: searchTextUI)
+                    return State(status: .error(error), showsPhotoCount: false, navigationTitle: State.defaultNavigationTitle, searchText: searchTextUI)
                 }
             }
             .receive(on: scheduler)
-            .assign(to: &$viewState)
+            .assign(to: &$state)
     }
 
     // MARK: - ViewStore
@@ -97,17 +101,17 @@ extension PhotoListViewStoreType {
     var showsPhotoCount: Binding<Bool> {
 //
 //        return Binding<Bool> {
-//            self.viewState.showsPhotoCount
+//            self.state.showsPhotoCount
 //        } set: { newValue in
 //            self.send(.toggleShowsPhotoCount(newValue))
 //        }
 //
 //        Note: This 👇 is just a shorthand version of this 👆
-        makeBinding(viewStateKeyPath: \.showsPhotoCount, actionCasePath: /Action.toggleShowsPhotoCount)
+        makeBinding(stateKeyPath: \.showsPhotoCount, actionCasePath: /Action.toggleShowsPhotoCount)
     }
 
     var searchText: Binding<String> {
-        makeBinding(viewStateKeyPath: \.searchText, actionCasePath: /Action.search)
+        makeBinding(stateKeyPath: \.searchText, actionCasePath: /Action.search)
     }
 }
 

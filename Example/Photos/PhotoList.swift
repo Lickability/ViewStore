@@ -8,14 +8,14 @@
 import SwiftUI
 import Provider
 
-/// Displays a list of photos retrieved from an API. Uses a `ViewStore` for coordination with the data source.
+/// Displays a list of photos retrieved from an API. Uses a `Store` for coordination with the data source.
 struct PhotoList<Store: PhotoListViewStoreType>: View {
     
     @StateObject private var store: Store
 
     /// Creates a new `PhotoList`.
     /// - Parameters:
-    ///   - store: The `ViewStore` that drives 
+    ///   - store: The `Store` that drives 
     init(store: @autoclosure @escaping () -> Store) {
         self._store = StateObject(wrappedValue: store())
     }
@@ -25,7 +25,7 @@ struct PhotoList<Store: PhotoListViewStoreType>: View {
     var body: some View {
         NavigationView {
             ZStack {
-                switch store.viewState.status {
+                switch store.state.status {
                 case .loading:
                     ProgressView()
                         .progressViewStyle(.circular)
@@ -48,7 +48,7 @@ struct PhotoList<Store: PhotoListViewStoreType>: View {
                             }
                         } header: {
                             Toggle("Show Count", isOn: store.showsPhotoCount)
-                                .animation(.easeInOut, value: store.viewState.showsPhotoCount)
+                                .animation(.easeInOut, value: store.state.showsPhotoCount)
                         }
                     }
                 case let .error(error):
@@ -60,7 +60,7 @@ struct PhotoList<Store: PhotoListViewStoreType>: View {
 
             }
             .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle(store.viewState.navigationTitle)
+            .navigationTitle(store.state.navigationTitle)
             .searchable(text: store.searchText, placement: .navigationBarDrawer(displayMode: .always))
         }
     }
@@ -68,8 +68,8 @@ struct PhotoList<Store: PhotoListViewStoreType>: View {
 
 struct PhotoList_Previews: PreviewProvider {
     static var previews: some View {
-        let viewState = PhotoListViewStore.ViewState(status: .content(MockItemProvider(photosCount: 3).photos))
+        let state = PhotoListViewStore.State(status: .content(MockItemProvider(photosCount: 3).photos))
         
-        PhotoList(store: MockViewStore(viewState: viewState))
+        PhotoList(store: MockStore(state: state))
     }
 }
