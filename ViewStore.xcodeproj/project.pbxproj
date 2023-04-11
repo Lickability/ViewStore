@@ -142,7 +142,7 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
-		3A601C5629E5DA86008D0BB3 /* Photo list */ = {
+		3A601C5629E5DA86008D0BB3 /* With Stores */ = {
 			isa = PBXGroup;
 			children = (
 				3A601C5729E5DA86008D0BB3 /* PSADataStore.swift */,
@@ -152,7 +152,15 @@
 				3A601C5B29E5DA86008D0BB3 /* PSAView.swift */,
 				3A601C5C29E5DA86008D0BB3 /* PhotoListViewStore.swift */,
 			);
-			path = "Photo list";
+			path = "With Stores";
+			sourceTree = "<group>";
+		};
+		3A601C6429E5DCBC008D0BB3 /* Original */ = {
+			isa = PBXGroup;
+			children = (
+				0B92D48228577B7700FF1BDF /* PhotoListOriginal.swift */,
+			);
+			path = Original;
 			sourceTree = "<group>";
 		};
 		F2B5F5AB27C7EC0C00FD7831 = {
@@ -205,8 +213,8 @@
 			isa = PBXGroup;
 			children = (
 				F2B5F5D227C7FB0600FD7831 /* Photo.swift */,
-				0B92D48228577B7700FF1BDF /* PhotoListOriginal.swift */,
-				3A601C5629E5DA86008D0BB3 /* Photo list */,
+				3A601C6429E5DCBC008D0BB3 /* Original */,
+				3A601C5629E5DA86008D0BB3 /* With Stores */,
 				3A214A4329DB52E7001C9832 /* Network.swift */,
 			);
 			path = Photos;
