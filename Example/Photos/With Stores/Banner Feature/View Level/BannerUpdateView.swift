@@ -16,6 +16,8 @@ struct BannerUpdateView<Store: BannerUpdateViewStoreType>: View {
     
     @StateObject private var store: Store
 
+    /// Creates a new `BannerUpdateView`
+    /// - Parameter store: The `Store` that drives this view.
     init(store: @autoclosure @escaping () -> Store) {
         self._store = StateObject(wrappedValue: store())
     }
