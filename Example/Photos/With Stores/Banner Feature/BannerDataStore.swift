@@ -12,6 +12,8 @@ typealias BannerDataStoreType = Store<BannerDataStore.State, BannerDataStore.Act
 
 final class BannerDataStore: Store {
     
+    // MARK: - Store
+    
     struct State {
         static let initial = State(banner: .init(title: "Initial"), networkState: .notStarted)
         
@@ -36,6 +38,8 @@ final class BannerDataStore: Store {
     var publishedState: AnyPublisher<State, Never> {
         $state.eraseToAnyPublisher()
     }
+    
+    // MARK: - BannerDataStore
     
     private let bannerSubject = PassthroughSubject<Banner, Never>()
     private let network: Network = .init()
