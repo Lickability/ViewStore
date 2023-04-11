@@ -24,11 +24,11 @@ public final class ScopedStore<State, Action>: Store {
 
     private let action: (Action) -> Void
     
-    /// Initializes a new `ScopedStore`
+    /// Initializes a new `ScopedStore`.
     /// - Parameters:
-    ///   - initial: The initial state for this `Store`, likely a copy of whatever the current sub-store's state is now (see the `scoped` function on the `Store` extension for an example)
+    ///   - initial: The initial state for this `Store`, likely a copy of whatever the current sub-store's state is now (see the `scoped` function on the `Store` extension for an example).
     ///   - statePub: The publisher that allows this `ScopedStore` to get the lastest copy of the sub-store's state.
-    ///   - action: A closure to let you pass actions back to a parent `Store`. (see the `scoped` function on the `Store` extension for an example of embedding these into a "sub-action" of a parent Store to forward to a sub-store)
+    ///   - action: A closure to let you pass actions back to a parent `Store`. (see the `scoped` function on the `Store` extension for an example of embedding these into a "sub-action" of a parent Store to forward to a sub-store).
     public init(initial: State, statePub: some Publisher<State, Never>, action: @escaping (Action) -> Void) {
         state = initial
         self.action = action
