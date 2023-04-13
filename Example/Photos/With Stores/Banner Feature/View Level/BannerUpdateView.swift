@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 
-/// A really simple view that allows you to type a new Banner
+/// A really simple view that allows you to type and upload a new Banner.
 struct BannerUpdateView<Store: BannerUpdateViewStoreType>: View {
     
     @Environment(\.dismiss) private var dismiss
