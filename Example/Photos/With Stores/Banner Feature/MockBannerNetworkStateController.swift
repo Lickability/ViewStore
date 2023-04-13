@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-/// A really contrived fake interface similar to networking state controller for updating `Banner` models on a non-existant server.
+/// A really contrived fake interface similar to networking state controller for updating `Banner` models on a nonexistent server.
 final class MockBannerNetworkStateController {
     
     /// Represents the state of a network request for a banner.
