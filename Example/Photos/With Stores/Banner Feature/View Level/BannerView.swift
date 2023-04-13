@@ -8,10 +8,10 @@
 import Foundation
 import SwiftUI
 
-/// Simple view to show a banner
+/// Simple view to show a banner.
 struct BannerView: View {
     
-    /// The `Banner` to display
+    /// The `Banner` to display.
     let banner: Banner
     
     var body: some View {
