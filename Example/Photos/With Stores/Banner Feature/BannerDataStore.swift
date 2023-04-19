@@ -24,7 +24,7 @@ final class BannerDataStore: Store {
     }
     
     enum Action {
-        /// Changes the local copy of the banner model syncronously.
+        /// Changes the local copy of the banner model synchronously.
         case updateBannerLocally(Banner)
         
         /// Sends the banner to the server and then updates the model locally if it was successful.

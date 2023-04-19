@@ -10,6 +10,6 @@ import Foundation
 /// Container for text intended to be displayed at the top of a screen.
 struct Banner {
     
-    /// The text to be displayed
+    /// The text to be displayed.
     let title: String
 }
