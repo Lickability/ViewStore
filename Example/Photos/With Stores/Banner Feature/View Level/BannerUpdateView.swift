@@ -69,9 +69,3 @@ struct BannerUpdateView<Store: BannerUpdateViewStoreType>: View {
 
     }
 }
-
-extension NSError: LocalizedError {
-    public var errorDescription: String? {
-        return "Hello I am an error"
-    }
-}

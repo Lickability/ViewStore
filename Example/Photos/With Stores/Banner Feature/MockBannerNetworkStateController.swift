@@ -22,7 +22,7 @@ final class MockBannerNetworkStateController {
         
         /// The network request has finished and resulted in either success or failure.
         /// - Parameter Result: A result type containing a `Banner` on success or an `NSError` on failure.
-        case finished(Result<Banner, NSError>)
+        case finished(Result<Banner, NetworkError>)
         
         /// The `Banner` object obtained from a successful network request, if available.
         var banner: Banner? {
@@ -35,7 +35,7 @@ final class MockBannerNetworkStateController {
         }
         
         /// The error obtained from a failed network request, if available.
-        var error: Error? {
+        var error: NetworkError? {
             switch self {
             case .notStarted, .inProgress:
                 return nil
@@ -43,9 +43,27 @@ final class MockBannerNetworkStateController {
                 do {
                     _ = try result.get()
                     return nil
-                }
-                catch {
+                } catch let error as NetworkError {
                     return error
+                } catch {
+                    assertionFailure("unhandled error")
+                    return nil
+                }
+            }
+        }
+        
+        /// Possible errors that can occur when using this controller.
+        enum NetworkError: LocalizedError {
+
+            /// A mocked error that is expected.
+            case intentionalFailure
+
+            // MARK - LocalizedError
+
+            var errorDescription: String? {
+                switch self {
+                case .intentionalFailure:
+                    return "This is an expected error used for testing error handling."
                 }
             }
         }
@@ -65,7 +83,7 @@ final class MockBannerNetworkStateController {
             
             //self.publisher.send(.finished(.success(banner)))
             
-            self.publisher.send(.finished(.failure(.init(domain: "com.viewstore.error", code: 400))))
+            self.publisher.send(.finished(.failure(.intentionalFailure)))
 
         }
     
