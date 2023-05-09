@@ -161,14 +161,17 @@ final class PhotoListViewStore: Store {
 
 extension PhotoListViewStoreType {
     
+    /// Computed property that provides a scoped BannerDataStoreType instance
     var bannerDataStore: any BannerDataStoreType {
         return scoped(stateKeyPath: \.bannerState, actionCasePath: /Action.bannerAction)
     }
     
+    /// Computed property that creates a binding for the showUpdateView state
     var showUpdateView: Binding<Bool> {
         makeBinding(stateKeyPath: \.showUpdateView, actionCasePath: /PhotoListViewStore.Action.showUpdateView)
     }
     
+    /// Computed property that creates a binding for the showsPhotoCount state
     var showsPhotoCount: Binding<Bool> {
 //
 //        return Binding<Bool> {
@@ -181,6 +184,7 @@ extension PhotoListViewStoreType {
         makeBinding(stateKeyPath: \.showsPhotoCount, actionCasePath: /Action.toggleShowsPhotoCount)
     }
 
+    /// Computed property that creates a binding for the searchText state
     var searchText: Binding<String> {
         makeBinding(stateKeyPath: \.searchText, actionCasePath: /Action.search)
     }
