@@ -127,6 +127,10 @@ extension PhotoListViewStoreType {
         return scoped(stateKeyPath: \.bannerState, actionCasePath: /Action.bannerAction)
     }
     
+    var showUpdateView: Binding<Bool> {
+        makeBinding(stateKeyPath: \.showUpdateView, actionCasePath: /PhotoListViewStore.Action.showUpdateView)
+    }
+    
     var showsPhotoCount: Binding<Bool> {
 //
 //        return Binding<Bool> {

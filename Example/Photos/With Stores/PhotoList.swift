@@ -58,7 +58,7 @@ struct PhotoList<Store: PhotoListViewStoreType>: View {
                                 .animation(.easeInOut, value: store.state.showsPhotoCount)
                         }
                     }
-                    .sheet(isPresented: store.makeBinding(stateKeyPath: \.showUpdateView, actionCasePath: /PhotoListViewStore.Action.showUpdateView)) {
+                    .sheet(isPresented: store.showUpdateView) {
                         BannerUpdateView(store: BannerUpdateViewStore(bannerDataStore: store.bannerDataStore))
                     }
                 case let .error(error):
