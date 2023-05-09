@@ -17,15 +17,15 @@ final class BannerUpdateViewStore: Store {
     
     // MARK: - Store
     
-    // Represents the state of the BannerUpdateViewStore
+    /// Represents the state of the BannerUpdateViewStore
     struct State {
-        // Stores the state of the BannerDataStore
+        /// Stores the state of the BannerDataStore
         let bannerViewState: BannerDataStore.State
         
-        // A working copy of the banner being updated
+        /// A working copy of the banner being updated
         let workingCopy: Banner
         
-        // Returns true if the network state is not started or finished, false if it's in progress
+        /// Returns true if the network state is not started or finished, false if it's in progress
         var dismissable: Bool {
             switch bannerViewState.networkState {
             case .notStarted, .finished:
@@ -35,7 +35,7 @@ final class BannerUpdateViewStore: Store {
             }
         }
         
-        // Returns true if the network state is finished and the result is successful, false otherwise
+        /// Returns true if the network state is finished and the result is successful, false otherwise
         var success: Bool {
             switch bannerViewState.networkState {
             case .notStarted, .inProgress:
@@ -51,15 +51,15 @@ final class BannerUpdateViewStore: Store {
         }
     }
     
-    // Enum that defines possible actions that can be performed on the BannerUpdateViewStore
+    /// Enum that defines possible actions that can be performed on the BannerUpdateViewStore
     enum Action {
-        // Action to update the title of the banner with a given string
+        /// Action to update the title of the banner with a given string
         case updateTitle(String)
         
-        // Action to dismiss an error
+        /// Action to dismiss an error
         case dismissError
         
-        // Action to submit the updated banner to the network 
+        /// Action to submit the updated banner to the network
         case submit
     }
     
@@ -105,11 +105,17 @@ final class BannerUpdateViewStore: Store {
     
 }
 
+/// Extension for the BannerUpdateViewStoreType protocol
 extension BannerUpdateViewStoreType {
+    /// Computed property that creates a binding for the working title
+    /// - Returns: A binding of type String
     var workingTitle: Binding<String> {
+        // Creates a binding using the workingCopy.title state key path and the updateTitle action case path
         makeBinding(stateKeyPath: \.workingCopy.title, actionCasePath: /Action.updateTitle)
     }
     
+    /// Computed property that creates a binding for the error presentation state
+    /// - Returns: A binding of type Bool
     var isErrorPresented: Binding<Bool> {
         .init(get: {
             return self.state.error != nil

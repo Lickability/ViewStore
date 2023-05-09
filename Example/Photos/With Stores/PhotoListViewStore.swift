@@ -18,58 +18,58 @@ final class PhotoListViewStore: Store {
 
     // MARK: - Store
 
-    // State represents the current state of the photo list view store
+    /// State represents the current state of the photo list view store
     struct State {
         
-        // Status defines the current status of the photo list view
+        /// Status defines the current status of the photo list view
         enum Status {
-            // Error state with associated Error object
+            /// Error state with associated Error object
             case error(Error)
             
-            // Loading state while fetching photos
+            /// Loading state while fetching photos
             case loading
             
-            // Content state with an array of Photo objects
+            /// Content state with an array of Photo objects
             case content([Photo])
         }
         
-        // Default navigation title for the view
+        /// Default navigation title for the view
         fileprivate static let defaultNavigationTitle = LocalizedStringKey("Photos")
         
-        // Initial state of the photo list view store
+        /// Initial state of the photo list view store
         fileprivate static let initial = State()
         
-        // Current status of the photo list view
+        /// Current status of the photo list view
         let status: Status
         
-        // Determines if the photo count should be displayed
+        /// Determines if the photo count should be displayed
         let showsPhotoCount: Bool
         
-        // Navigation title for the view
+        /// Navigation title for the view
         let navigationTitle: LocalizedStringKey
         
-        // Search text entered by the user
+        /// Search text entered by the user
         let searchText: String
         
-        // State of the banner data store
+        /// State of the banner data store
         let bannerState: BannerDataStore.State
         
-        // Determines if the update view should be shown
+        /// Determines if the update view should be shown
         let showUpdateView: Bool
         
-        // Computed property to get the banner from the bannerState
+        /// Computed property to get the banner from the bannerState
         var banner: Banner {
             return bannerState.banner
         }
 
-        // Initializes a new State instance with provided or default values
-        // - Parameters:
-        //   - status: The current status of the photo list view
-        //   - showsPhotoCount: Determines if the photo count should be displayed
-        //   - navigationTitle: Navigation title for the view
-        //   - searchText: Search text entered by the user
-        //   - bannerState: State of the banner data store
-        //   - showUpdateView: Determines if the update view should be shown
+        /// Initializes a new State instance with provided or default values
+        /// - Parameters:
+        ///   - status: The current status of the photo list view
+        ///   - showsPhotoCount: Determines if the photo count should be displayed
+        ///   - navigationTitle: Navigation title for the view
+        ///   - searchText: Search text entered by the user
+        ///   - bannerState: State of the banner data store
+        ///   - showUpdateView: Determines if the update view should be shown
         init(status: PhotoListViewStore.State.Status = .loading,
              showsPhotoCount: Bool = false,
              navigationTitle: LocalizedStringKey = State.defaultNavigationTitle,
@@ -85,18 +85,18 @@ final class PhotoListViewStore: Store {
         }
     }
     
-    // Action enum represents the various actions that can be performed on the State
+    /// Action enum represents the various actions that can be performed on the State
     enum Action {
-        // Toggle the display of photo count
+        /// Toggle the display of photo count
         case toggleShowsPhotoCount(Bool)
         
-        // Perform search with given query string
+        /// Perform search with given query string
         case search(String)
         
-        // Toggle the display of the update view
+        /// Toggle the display of the update view
         case showUpdateView(Bool)
         
-        // Nested banner action cases
+        /// Nested banner action cases
         case bannerAction(BannerDataStore.Action)
     }
     
