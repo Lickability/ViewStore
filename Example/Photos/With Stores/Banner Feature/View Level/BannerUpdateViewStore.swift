@@ -105,11 +105,9 @@ final class BannerUpdateViewStore: Store {
     
 }
 
-/// Extension for the BannerUpdateViewStoreType protocol
 extension BannerUpdateViewStoreType {
     /// Computed property that creates a binding for the working title
     var workingTitle: Binding<String> {
-        // Creates a binding using the workingCopy.title state key path and the updateTitle action case path
         makeBinding(stateKeyPath: \.workingCopy.title, actionCasePath: /Action.updateTitle)
     }
     
