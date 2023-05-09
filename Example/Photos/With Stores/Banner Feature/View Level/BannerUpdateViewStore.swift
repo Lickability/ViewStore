@@ -17,9 +17,9 @@ final class BannerUpdateViewStore: Store {
     
     // MARK: - Store
     
-    /// Represents the state of the BannerUpdateViewStore
+    /// Represents the state of the `BannerUpdateViewStore`
     struct State {
-        /// Stores the state of the BannerDataStore
+        /// Stores the state of the `BannerDataStore`
         let bannerViewState: BannerDataStore.State
         
         /// A working copy of the banner being updated
@@ -51,7 +51,7 @@ final class BannerUpdateViewStore: Store {
         }
     }
     
-    /// Enum that defines possible actions that can be performed on the BannerUpdateViewStore
+    /// Enum that defines possible actions that can be performed on the `BannerUpdateViewStore`
     enum Action {
         /// Action to update the title of the banner with a given string
         case updateTitle(String)
