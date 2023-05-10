@@ -57,7 +57,7 @@ final class PhotoListViewStore: Store {
         /// Determines if the update view should be shown
         let showUpdateView: Bool
         
-        /// Computed property to get the banner from the bannerState
+        /// Computed property to get the `banner` from `bannerState`
         var banner: Banner {
             return bannerState.banner
         }
