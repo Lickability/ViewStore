@@ -45,7 +45,7 @@ final class BannerUpdateViewStore: Store {
             }
         }
         
-        // Returns an NSError object if there is an error in the network state when it's finished, otherwise returns nil
+        // Returns a `NetworkError` if there is an error in the network state when it's finished, otherwise returns nil
         var error: MockBannerNetworkStateController.NetworkState.NetworkError? {
             return bannerViewState.networkState.error
         }
