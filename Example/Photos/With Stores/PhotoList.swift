@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Provider
-import CasePaths
 
 /// Displays a list of photos retrieved from an API. Uses a `Store` for coordination with the data source.
 struct PhotoList<Store: PhotoListViewStoreType>: View {

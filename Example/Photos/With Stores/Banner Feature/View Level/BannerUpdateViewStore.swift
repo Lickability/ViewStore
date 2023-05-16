@@ -51,7 +51,6 @@ final class BannerUpdateViewStore: Store {
         }
     }
     
-    /// Enum that defines possible actions that can be performed on the `BannerUpdateViewStore`
     enum Action {
         /// Action to update the title of the banner with a given string
         case updateTitle(String)
