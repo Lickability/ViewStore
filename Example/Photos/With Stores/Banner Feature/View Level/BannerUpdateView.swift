@@ -59,7 +59,9 @@ struct BannerUpdateView<Store: BannerUpdateViewStoreType>: View {
             .padding(.bottom, 10)
         }
         .onChange(of: store.state.success) { success in
-            if success { dismiss() }
+            if success {
+                dismiss()
+            }
         }
         .alert(isPresented: store.isErrorPresented, error: store.state.error) { _ in
             
