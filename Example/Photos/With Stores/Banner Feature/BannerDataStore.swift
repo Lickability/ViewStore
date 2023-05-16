@@ -16,6 +16,8 @@ final class BannerDataStore: Store {
     // MARK: - Store
     
     struct State {
+        
+        /// Initial state of the banner data store.
         static let initial = State(banner: .init(title: "Banner"), networkState: .notStarted)
         
         /// The source of truth of the banner model object.

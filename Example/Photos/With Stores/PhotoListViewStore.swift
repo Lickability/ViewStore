@@ -56,7 +56,7 @@ final class PhotoListViewStore: Store {
         /// Determines whether to show a view that allows the user to enter new text for the banner
         let showUpdateView: Bool
         
-        /// Computed property to get the `banner` from `bannerState`
+        /// Computed property to get the source of truth `banner` from `bannerState`
         var banner: Banner {
             return bannerState.banner
         }
