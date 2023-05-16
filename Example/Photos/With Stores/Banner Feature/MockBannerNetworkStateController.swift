@@ -21,7 +21,7 @@ final class MockBannerNetworkStateController {
         case inProgress
         
         /// The network request has finished and resulted in either success or failure.
-        /// - Parameter Result: A result type containing a `Banner` on success or an `NetworkError` on failure.
+        /// - Parameter Result: A result type containing a `Banner` on success or a `NetworkError` on failure.
         case finished(Result<Banner, NetworkError>)
         
         /// The `Banner` object obtained from a successful network request, if available.
