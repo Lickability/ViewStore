@@ -18,7 +18,6 @@ final class PhotoListViewStore: Store {
 
     // MARK: - Store
 
-    /// State represents the current state of the photo list view store
     struct State {
         
         /// Status defines the current status of the photo list view
