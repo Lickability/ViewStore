@@ -50,10 +50,10 @@ final class PhotoListViewStore: Store {
         /// Search text entered by the user
         let searchText: String
         
-        /// State of the banner data store
+        /// State of the nested banner data store
         let bannerState: BannerDataStore.State
         
-        /// Determines if the update view should be shown
+        /// Determines whether to show a view that allows the user to enter new text for the banner
         let showUpdateView: Bool
         
         /// Computed property to get the `banner` from `bannerState`

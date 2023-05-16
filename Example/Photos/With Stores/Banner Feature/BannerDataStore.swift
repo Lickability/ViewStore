@@ -18,8 +18,10 @@ final class BannerDataStore: Store {
     struct State {
         static let initial = State(banner: .init(title: "Banner"), networkState: .notStarted)
         
+        /// The source of truth of the banner model object.
         let banner: Banner
         
+        /// Networking state of the request to upload a new banner model to the server.
         let networkState: MockBannerNetworkStateController.NetworkState
     }
     

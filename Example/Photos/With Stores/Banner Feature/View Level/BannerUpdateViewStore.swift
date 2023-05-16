@@ -19,10 +19,10 @@ final class BannerUpdateViewStore: Store {
     
     /// Represents the state of the `BannerUpdateViewStore`
     struct State {
-        /// Stores the state of the `BannerDataStore`
+        /// Stores the state of the nested `BannerDataStore`
         let bannerViewState: BannerDataStore.State
         
-        /// A working copy of the banner being updated
+        /// A working copy of the banner being updated, to be uploaded if the `submit` action is sent.
         let workingCopy: Banner
         
         /// Returns true if the network state is not started or finished, false if it's in progress
@@ -58,7 +58,7 @@ final class BannerUpdateViewStore: Store {
         /// Action to dismiss an error
         case dismissError
         
-        /// Action to submit the updated banner to the network
+        /// Action to submit the updated working copy banner to the network
         case submit
     }
     
