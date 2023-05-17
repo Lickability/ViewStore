@@ -32,6 +32,12 @@ struct PhotoList<Store: PhotoListViewStoreType>: View {
                         .scaleEffect(x: 2, y: 2)
                 case let .content(photos):
                     List {
+                        
+                        BannerView(banner: store.state.banner)
+                            .onTapGesture {
+                                store.send(.showUpdateView(true))
+                            }
+                        
                         Section {
                             ForEach(photos) { photo in
                                 HStack {
@@ -50,6 +56,9 @@ struct PhotoList<Store: PhotoListViewStoreType>: View {
                             Toggle("Show Count", isOn: store.showsPhotoCount)
                                 .animation(.easeInOut, value: store.state.showsPhotoCount)
                         }
+                    }
+                    .sheet(isPresented: store.showUpdateView) {
+                        BannerUpdateView(store: BannerUpdateViewStore(bannerDataStore: store.bannerDataStore))
                     }
                 case let .error(error):
                     VStack {
