@@ -58,11 +58,11 @@ public final class MainQueueScheduler: Scheduler {
 
     // MARK: - MainQueueScheduler
 
-    public func advance(by stride: Int = 1000000) {
+    public func advance(by stride: TimeInterval = 1000000) {
         /// Borrowed from https://github.com/pointfreeco/combine-schedulers/blob/main/Sources/CombineSchedulers/TestScheduler.swift
         assert(self.type == .test)
         
-        let finalDate = self.now.advanced(by: DispatchQueue.SchedulerTimeType.Stride(integerLiteral: stride))
+        let finalDate = self.now.advanced(by: DispatchQueue.SchedulerTimeType.Stride(floatLiteral: stride))
         
         while self.now <= finalDate {
             self.actions.sort { ($0.date, $0.sequence) < ($1.date, $1.sequence) }
