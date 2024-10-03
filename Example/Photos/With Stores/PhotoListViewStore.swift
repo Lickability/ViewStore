@@ -33,7 +33,7 @@ final class PhotoListViewStore: Store {
         }
         
         /// Default navigation title for the view
-        fileprivate static let defaultNavigationTitle = LocalizedStringKey("Photos")
+        nonisolated(unsafe) fileprivate static let defaultNavigationTitle = LocalizedStringKey("Photos")
         
         /// Initial state of the photo list view store
         fileprivate static let initial = State()
@@ -45,7 +45,7 @@ final class PhotoListViewStore: Store {
         let showsPhotoCount: Bool
         
         /// Navigation title for the view
-        let navigationTitle: LocalizedStringKey
+        nonisolated(unsafe) let navigationTitle: LocalizedStringKey
         
         /// Search text entered by the user
         let searchText: String
