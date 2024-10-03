@@ -16,7 +16,7 @@ public protocol Store<State, Action>: ObservableObject {
     associatedtype State: Sendable
 
     /// Usually represented as an `enum`, `Action` represents any functionality that a store can perform on-demand.
-    associatedtype Action
+    associatedtype Action: Sendable
 
     /// Single source of truth that is used to respresent the current state of the domain.
     var state: State { get }

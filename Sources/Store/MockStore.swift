@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 /// A generic object conforming to `Store` that simply returns the passed-in state. Useful in SwiftUI previews.
-public final class MockStore<State: Sendable, Action>: Store {
+public final class MockStore<State: Sendable, Action: Sendable>: Store {
     
     // MARK: - Store
 
