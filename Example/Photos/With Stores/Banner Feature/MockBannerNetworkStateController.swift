@@ -71,6 +71,7 @@ final class MockBannerNetworkStateController {
     
     /// Uploads a `Banner` to a fake server.
     /// - Parameter banner: The `Banner` to upload.
+    @MainActor
     func upload(banner: Banner) {
         self.publisher.send(.inProgress)
 
