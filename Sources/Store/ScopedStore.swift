@@ -10,7 +10,7 @@ import Combine
 import CasePaths
 
 /// A `Store` that's purpose is to allow clients of it to modify a parent's Store and one of it's sub-stores without having direct access to either store.
-public final class ScopedStore<State, Action>: Store {
+public final class ScopedStore<State: Sendable, Action>: Store {
     
     // MARK: - Store
     
@@ -83,7 +83,7 @@ public extension Store {
     ///   - stateKeyPath: The keypath to the property on the Parent's `State` that is managed by the substore.
     ///   - actionCasePath: The case path to an action on the Parent's `Store` that has the substore's action as the associated value that forwards to the substore.
     /// - Returns: A `Store` that is scoped to the specified state and action.
-    func scoped<Substate, Subaction>(stateKeyPath: KeyPath<State, Substate>, actionCasePath: CasePath<Action, Subaction>) -> any Store<Substate, Subaction> {
+    func scoped<Substate: Sendable, Subaction>(stateKeyPath: KeyPath<State, Substate>, actionCasePath: CasePath<Action, Subaction>) -> any Store<Substate, Subaction> {
         return ScopedStore(initial: state[keyPath: stateKeyPath], statePublisher: publishedState.map(stateKeyPath), action: { self.send(actionCasePath.embed($0)) })
     }
 }

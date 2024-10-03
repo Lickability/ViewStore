@@ -18,7 +18,7 @@ final class PhotoListViewStore: Store {
 
     // MARK: - Store
 
-    struct State {
+    struct State: Sendable {
         
         /// Status defines the current status of the photo list view
         enum Status {
