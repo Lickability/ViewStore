@@ -11,7 +11,8 @@ import SwiftUI
 
 /// Scheduler that allows you to either have a `default` implementation of the `DispatchQueue.main` scheduler,  a `synchronous` implementation that will immediately call back, a `test` scheduler for fine grained control of time, and an `animated` scheduler to drive animations.
 /// You will want to use this to avoid the behavior of `DispatchQueue.main`'s scheduler to schedule work asynchronously by default.
-public final class MainQueueScheduler: Scheduler {
+@MainActor
+public final class MainQueueScheduler: @preconcurrency Scheduler {
 
     /// Describes the characteristics of the scheduler.
     public enum SchedulerType: Equatable {
