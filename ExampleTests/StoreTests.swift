@@ -10,6 +10,7 @@ import XCTest
 @testable import Provider
 import Combine
 
+@MainActor
 final class StoreTests: XCTestCase {
 
     func testToggleShowsPhotoCount() throws {

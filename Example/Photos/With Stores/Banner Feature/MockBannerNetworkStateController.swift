@@ -43,11 +43,8 @@ final class MockBannerNetworkStateController {
                 do {
                     _ = try result.get()
                     return nil
-                } catch let error as NetworkError {
+                } catch let error {
                     return error
-                } catch {
-                    assertionFailure("unhandled error")
-                    return nil
                 }
             }
         }
@@ -74,6 +71,7 @@ final class MockBannerNetworkStateController {
     
     /// Uploads a `Banner` to a fake server.
     /// - Parameter banner: The `Banner` to upload.
+    @MainActor
     func upload(banner: Banner) {
         self.publisher.send(.inProgress)
 
