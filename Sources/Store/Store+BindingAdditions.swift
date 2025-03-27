@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-import CasePaths
-import Combine
+@preconcurrency import CasePaths
+@preconcurrency import Combine
 
 /// An extension on `Store` that provides conveniences for creating `Binding`s.
 public extension Store {
@@ -16,6 +16,7 @@ public extension Store {
     /// - Parameters:
     ///   - stateKeyPath: The `KeyPath` to the `State` property that this binding wraps.
     ///   - actionCasePath: The `CasePath` to the `Action` case associated with the `State` property.
+    @MainActor
     func makeBinding<Value>(stateKeyPath: KeyPath<State, Value>, actionCasePath: CasePath<Action, Value>) -> Binding<Value> {
         return .init {
             self.state[keyPath: stateKeyPath]
@@ -28,6 +29,7 @@ public extension Store {
     /// - Parameters:
     ///   - stateKeyPath: The `KeyPath` to the `State` property that this binding wraps.
     ///   - actionCasePath: The `CasePath` to the `Action` case associated with the `State` property.
+    @MainActor
     func makeBinding<Value>(stateKeyPath: KeyPath<State, Value>, actionCasePath: CasePath<Action, Void>) -> Binding<Value> {
         return .init {
             self.state[keyPath: stateKeyPath]
@@ -40,6 +42,7 @@ public extension Store {
     /// - Parameters:
     ///   - stateKeyPath: The `KeyPath` to the optional `State` property whose existence determines the wrapped value.
     ///   - actionCasePath: The `CasePath` to the `Action` case associated with the `State` property.
+    @MainActor
     func makeBinding<Value>(stateKeyPath: KeyPath<State, Value?>, actionCasePath: CasePath<Action, Void>) -> Binding<Bool> {
         return .init {
             self.state[keyPath: stateKeyPath] != nil
@@ -52,6 +55,7 @@ public extension Store {
     /// - Parameters:
     ///   - stateKeyPath: The `KeyPath` to the optional `State` property whose existence determines the wrapped value.
     ///   - actionCasePath: The `CasePath` to the `Action` case associated with the `State` property.
+    @MainActor
     func makeBinding<Value>(stateKeyPath: KeyPath<State, Value?>, actionCasePath: CasePath<Action, Value?>) -> Binding<Bool> {
         return .init {
             self.state[keyPath: stateKeyPath] != nil
@@ -68,6 +72,7 @@ public extension Store {
     /// - Parameters:
     ///   - stateKeyPath: The `KeyPath` to the `State` property that this binding wraps.
     ///   - publisher: The publisher to send the value to.
+    @MainActor
     func makeBinding<Value>(stateKeyPath: KeyPath<State, Value>, publisher: PassthroughSubject<Value, Never>) -> Binding<Value> {
         return .init {
             self.state[keyPath: stateKeyPath]
@@ -80,6 +85,7 @@ public extension Store {
     /// - Parameters:
     ///   - StateKeyPath: The `KeyPath` to the `State` property that this binding wraps.
     ///   - publisher: The publisher to send the value to.
+    @MainActor
     func makeBinding<Value>(stateKeyPath: KeyPath<State, Value>, publisher: CurrentValueSubject<Value, Never>) -> Binding<Value> {
         return .init {
             self.state[keyPath: stateKeyPath]
