@@ -6,10 +6,10 @@
 //
 
 import Foundation
-import Combine
+@preconcurrency import Combine
 
 /// A really contrived fake interface similar to networking state controller for updating `Banner` models on a nonexistent server.
-final class MockBannerNetworkStateController {
+final class MockBannerNetworkStateController: Sendable {
     
     /// Represents the state of a network request for a banner.
     enum NetworkState {
@@ -67,22 +67,19 @@ final class MockBannerNetworkStateController {
     }
 
     /// A publisher that sends updates of the `NetworkState`.
-    public var publisher: PassthroughSubject<NetworkState, Never> = .init()
+    public let publisher: PassthroughSubject<NetworkState, Never> = .init()
     
     /// Uploads a `Banner` to a fake server.
     /// - Parameter banner: The `Banner` to upload.
-    @MainActor
     func upload(banner: Banner) {
         self.publisher.send(.inProgress)
-
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             
             // Pick whether you would like to get a successful (`.finished(.success...`) state or any error for this "network request".
             
-            //self.publisher.send(.finished(.success(banner)))
+            self.publisher.send(.finished(.success(banner)))
             
-            self.publisher.send(.finished(.failure(.intentionalFailure)))
-
         }
     
     }
