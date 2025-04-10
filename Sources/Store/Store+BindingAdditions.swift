@@ -11,6 +11,25 @@ import Combine
 
 /// An extension on `Store` that provides conveniences for creating `Binding`s.
 public extension Store {
+    
+    @MainActor
+    func makeCachedBinding<Value>(key: String, defaultValue: Value, stateKeyPath: KeyPath<State, Value>, actionCasePath: CasePath<Action, Value>) -> Binding<Value> {
+        
+        if let binding = BindingCache.shared.cache[key] as? Binding<Value> {
+            print("HERE 1")
+            return binding
+        }
+        
+        let binding = Binding<Value> { [weak self] in
+            self?.state[keyPath: stateKeyPath] ?? defaultValue
+        } set: { [weak self] value in
+            self?.send(actionCasePath.embed(value))
+        }
+        
+        BindingCache.shared.cache[key] = binding
+        
+        return binding
+    }
 
     /// Provides a mechanism for creating `Binding`s associated with `Action` cases in a `Store`, leveraging `KeyPath`s to reduce duplication and errors. Supports `enum` cases with associated values.
     /// - Parameters:

@@ -107,7 +107,7 @@ final class BannerUpdateViewStore: Store {
 extension BannerUpdateViewStoreType {
     /// Computed property that creates a binding for the working title
     var workingTitle: Binding<String> {
-        makeBinding(stateKeyPath: \.workingCopy.title, actionCasePath: /Action.updateTitle)
+        makeCachedBinding(key: "workingTitle", defaultValue: "", stateKeyPath: \.workingCopy.title, actionCasePath: /Action.updateTitle)
     }
     
     /// Computed property that creates a binding for the error presentation state
