@@ -165,11 +165,13 @@ extension PhotoListViewStoreType {
     }
     
     /// Computed property that creates a binding for the `showUpdateView` state
+    @MainActor
     var showUpdateView: Binding<Bool> {
         makeBinding(stateKeyPath: \.showUpdateView, actionCasePath: /PhotoListViewStore.Action.showUpdateView)
     }
     
     /// Computed property that creates a binding for the `showsPhotoCount` state
+    @MainActor
     var showsPhotoCount: Binding<Bool> {
 //
 //        return Binding<Bool> {
@@ -183,6 +185,7 @@ extension PhotoListViewStoreType {
     }
 
     /// Computed property that creates a binding for the `searchText` state
+    @MainActor
     var searchText: Binding<String> {
         makeBinding(stateKeyPath: \.searchText, actionCasePath: /Action.search)
     }

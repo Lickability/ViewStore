@@ -18,7 +18,7 @@ final class BannerUpdateViewStore: Store {
     // MARK: - Store
     
     /// Represents the state of the `BannerUpdateViewStore`
-    struct State {
+    struct State: Sendable {
         /// Stores the state of the nested `BannerDataStore`
         let bannerViewState: BannerDataStore.State
         
@@ -51,7 +51,7 @@ final class BannerUpdateViewStore: Store {
         }
     }
     
-    enum Action {
+    enum Action: Sendable {
         /// Action to update the title of the banner with a given string
         case updateTitle(String)
         
@@ -106,11 +106,13 @@ final class BannerUpdateViewStore: Store {
 
 extension BannerUpdateViewStoreType {
     /// Computed property that creates a binding for the working title
+    @MainActor
     var workingTitle: Binding<String> {
         makeBinding(stateKeyPath: \.workingCopy.title, actionCasePath: /Action.updateTitle)
     }
     
     /// Computed property that creates a binding for the error presentation state
+    @MainActor
     var isErrorPresented: Binding<Bool> {
         .init(get: {
             return self.state.error != nil

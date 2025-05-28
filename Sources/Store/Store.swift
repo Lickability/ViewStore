@@ -9,7 +9,6 @@ import SwiftUI
 import Combine
 
 /// A store is an `ObservableObject` that allows us to separate business and/or view level logic and the rendering of views in a way that is repeatable, prescriptive, flexible, and testable by default.
-@MainActor
 public protocol Store<State, Action>: ObservableObject {
 
     /// A container type for state associated with the corresponding domain.
