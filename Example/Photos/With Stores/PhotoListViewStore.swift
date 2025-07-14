@@ -96,6 +96,9 @@ final class PhotoListViewStore: Store {
         
         /// Nested banner action cases
         case bannerAction(BannerDataStore.Action)
+        
+        case openURL(OpenURLAction)
+        case showAlert
     }
     
     @Published private(set) var state: State = .initial
@@ -153,6 +156,17 @@ final class PhotoListViewStore: Store {
             bannerDataStore.send(action)
         case let .showUpdateView(showUpdateView):
             showUpdateViewPublisher.send(showUpdateView)
+        case let .openURL(openURL):
+            Task { @MainActor in
+                openURL(URL(string: "www.google.com")!) { accepted in
+                    if !accepted {
+                        self.send(.showAlert)
+                    }
+                }
+            }
+        case .showAlert:
+            // Shows an alert
+            break
         }
     }
 }
