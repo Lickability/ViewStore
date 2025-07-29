@@ -12,6 +12,8 @@ import Provider
 struct PhotoList<Store: PhotoListViewStoreType>: View {
     
     @StateObject private var store: Store
+    
+    @Environment(\.isSearching) private var isSearching
 
     /// Creates a new `PhotoList`.
     /// - Parameters:
@@ -23,7 +25,6 @@ struct PhotoList<Store: PhotoListViewStoreType>: View {
     // MARK: - View
 
     var body: some View {
-        NavigationView {
             ZStack {
                 switch store.state.status {
                 case .loading:
@@ -32,22 +33,12 @@ struct PhotoList<Store: PhotoListViewStoreType>: View {
                         .scaleEffect(x: 2, y: 2)
                 case let .content(photos):
                     List {
-                        
-                        BannerView(banner: store.state.banner)
-                            .onTapGesture {
-                                store.send(.showUpdateView(true))
-                            }
-                        
                         Section {
                             ForEach(photos) { photo in
                                 HStack {
-                                    AsyncImage(url: photo.thumbnailUrl) { image in
-                                        image.resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                    } placeholder: {
-                                        ProgressView()
-                                    }
-                                    .frame(width: 150, height: 150)
+                                    Rectangle()
+                                        .foregroundStyle(Color.gray)
+                                        .frame(width: 150, height: 150)
                                     
                                     Text(photo.title)
                                 }
@@ -70,8 +61,22 @@ struct PhotoList<Store: PhotoListViewStoreType>: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(store.state.navigationTitle)
-            .searchable(text: store.searchText, placement: .navigationBarDrawer(displayMode: .always))
-        }
+            .toolbar(content: {
+                ToolbarItem(placement: .bottomBar) {
+                    Button("Calendar", systemImage: "calendar.circle") {
+                        
+                    }
+                }
+                
+                ToolbarSpacer(.flexible, placement: .bottomBar)
+                
+                DefaultToolbarItem(kind: .search, placement: .bottomBar)
+            })
+            .safeAreaBar(edge: .bottom) {
+                if isSearching {
+                    BannerView(banner: .init(title: "Check out the new dog photos!"))
+                }
+            }
     }
 }
 

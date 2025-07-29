@@ -193,7 +193,7 @@ extension PhotoListViewStoreType {
 
 private extension Provider {
     func providePhotos() -> AnyPublisher<Result<[Photo], ProviderError>, Never> {
-        provideItems(request: APIRequest.photos, decoder: JSONDecoder(), providerBehaviors: [], requestBehaviors: [], allowExpiredItems: true)
+        provideItems(request: APIRequest.photos, decoder: JSONDecoder(), providerBehaviors: [], requestBehaviors: [], allowExpiredItems: false)
             .map { (photos: [Photo]) in
                 .success(photos)
             }

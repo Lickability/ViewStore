@@ -22,24 +22,29 @@ struct Example: App {
         
         return ItemProvider(networkRequestPerformer: controller, cache: persister)
     }()
+    
+    @State private var searchText: String = ""
 
     // MARK: - App
     
     var body: some Scene {
         WindowGroup {
-            TabView {
-                PhotoListOriginal(provider: photoProvider)
-                    .tabItem {
-                        Image(systemName: "photo")
-                        Text("Photos (Original)")
-                    }
-                
+//            TabView {
+//                PhotoListOriginal(provider: photoProvider)
+//                    .tabItem {
+//                        Image(systemName: "photo")
+//                        Text("Photos (Original)")
+//                    }
+            NavigationStack {
                 PhotoList(store: PhotoListViewStore(provider: photoProvider))
                     .tabItem {
                         Image(systemName: "photo")
                         Text("Photos")
                     }
             }
+            .searchable(text: $searchText)
         }
+            //}
+        
     }
 }

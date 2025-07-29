@@ -32,7 +32,7 @@ enum APIRequest: ProviderRequest {
     }
     
     var queryParameters: [URLQueryItem] {
-        return [URLQueryItem(name: "_limit", value: "5")]
+        return [URLQueryItem(name: "_limit", value: "100")]
     }
 
     var baseURL: URL {

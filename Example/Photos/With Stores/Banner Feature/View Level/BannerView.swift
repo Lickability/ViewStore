@@ -17,8 +17,17 @@ struct BannerView: View {
     var body: some View {
         HStack {
             Spacer()
-            Text(banner.title)
+            Label {
+                Text(banner.title)
+            } icon: {
+                Image(systemName: "exclamationmark.warninglight")
+            }
+            .font(.headline)
             Spacer()
         }
+        .padding(.vertical, 16)
+        .glassEffect(.regular.tint(Color.accentColor.opacity(0.25)))
+        .padding(.horizontal, 24)
+        .padding(.vertical, 8)
     }
 }
