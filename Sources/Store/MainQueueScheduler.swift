@@ -103,8 +103,11 @@ public final class MainQueueScheduler: Scheduler {
         case .default:
             return DispatchQueue.main.schedule(after: date, interval: interval, tolerance: tolerance, options: options, action)
         case .test:
-            actions.append((action, date, nextSequence()))
-            return AnyCancellable { }
+            let sequence = nextSequence()
+            actions.append((action, date, sequence))
+            return AnyCancellable { [weak self] in
+                self?.actions.removeAll { $0.sequence == sequence }
+            }
         case .synchronous:
             callOnMainThread(action: action)
             return AnyCancellable { }
