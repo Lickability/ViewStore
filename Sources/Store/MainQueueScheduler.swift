@@ -106,8 +106,9 @@ public final class MainQueueScheduler: Scheduler {
             let sequence = nextSequence()
             actions.append((action, date, sequence))
             return AnyCancellable { [weak self] in
-                self?.actions.removeAll { $0.sequence == sequence }
-            }
+                if let index = self?.actions.firstIndex(where: { $0.sequence == sequence }) {
+                    self?.actions.remove(at: index)
+                }
         case .synchronous:
             callOnMainThread(action: action)
             return AnyCancellable { }
