@@ -653,7 +653,7 @@
 			repositoryURL = "https://github.com/pointfreeco/swift-case-paths";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.8.1;
+				minimumVersion = 1.10.0;
 			};
 		};
 		F2B5F5C527C7EC5000FD7831 /* XCRemoteSwiftPackageReference "Provider" */ = {
