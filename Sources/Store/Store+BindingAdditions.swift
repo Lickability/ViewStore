@@ -15,9 +15,9 @@ public extension Store {
     /// Provides a mechanism for creating `Binding`s associated with `Action` cases in a `Store`, leveraging `KeyPath`s to reduce duplication and errors. Supports `enum` cases with associated values.
     /// - Parameters:
     ///   - stateKeyPath: The `KeyPath` to the `State` property that this binding wraps.
-    ///   - actionCasePath: The `CasePath` to the `Action` case associated with the `State` property.
+    ///   - actionCasePath: The `AnyCasePath` to the `Action` case associated with the `State` property.
     @MainActor
-    func makeBinding<Value>(stateKeyPath: KeyPath<State, Value>, actionCasePath: CasePath<Action, Value>) -> Binding<Value> {
+    func makeBinding<Value>(stateKeyPath: KeyPath<State, Value>, actionCasePath: AnyCasePath<Action, Value>) -> Binding<Value> {
         return .init {
             self.state[keyPath: stateKeyPath]
         } set: { value in
@@ -28,9 +28,9 @@ public extension Store {
     /// Provides a mechanism for creating `Binding`s associated with `Action` cases in a `Store`, leveraging `KeyPath`s to reduce duplication and errors. Supports `enum` cases without associated values.
     /// - Parameters:
     ///   - stateKeyPath: The `KeyPath` to the `State` property that this binding wraps.
-    ///   - actionCasePath: The `CasePath` to the `Action` case associated with the `State` property.
+    ///   - actionCasePath: The `AnyCasePath` to the `Action` case associated with the `State` property.
     @MainActor
-    func makeBinding<Value>(stateKeyPath: KeyPath<State, Value>, actionCasePath: CasePath<Action, Void>) -> Binding<Value> {
+    func makeBinding<Value>(stateKeyPath: KeyPath<State, Value>, actionCasePath: AnyCasePath<Action, Void>) -> Binding<Value> {
         return .init {
             self.state[keyPath: stateKeyPath]
         } set: { value in
@@ -41,9 +41,9 @@ public extension Store {
     /// Provides a mechanism for creating `Binding<Bool>`s based on the existence of a property on the `State`, leveraging `KeyPath`s to reduce duplication and errors.
     /// - Parameters:
     ///   - stateKeyPath: The `KeyPath` to the optional `State` property whose existence determines the wrapped value.
-    ///   - actionCasePath: The `CasePath` to the `Action` case associated with the `State` property.
+    ///   - actionCasePath: The `AnyCasePath` to the `Action` case associated with the `State` property.
     @MainActor
-    func makeBinding<Value>(stateKeyPath: KeyPath<State, Value?>, actionCasePath: CasePath<Action, Void>) -> Binding<Bool> {
+    func makeBinding<Value>(stateKeyPath: KeyPath<State, Value?>, actionCasePath: AnyCasePath<Action, Void>) -> Binding<Bool> {
         return .init {
             self.state[keyPath: stateKeyPath] != nil
         } set: { value in
@@ -54,9 +54,9 @@ public extension Store {
     /// Provides a mechanism for creating `Binding<Bool>`s based on the existence of a property on the `State`, leveraging `KeyPath`s to reduce duplication and errors.
     /// - Parameters:
     ///   - stateKeyPath: The `KeyPath` to the optional `State` property whose existence determines the wrapped value.
-    ///   - actionCasePath: The `CasePath` to the `Action` case associated with the `State` property.
+    ///   - actionCasePath: The `AnyCasePath` to the `Action` case associated with the `State` property.
     @MainActor
-    func makeBinding<Value>(stateKeyPath: KeyPath<State, Value?>, actionCasePath: CasePath<Action, Value?>) -> Binding<Bool> {
+    func makeBinding<Value>(stateKeyPath: KeyPath<State, Value?>, actionCasePath: AnyCasePath<Action, Value?>) -> Binding<Bool> {
         return .init {
             self.state[keyPath: stateKeyPath] != nil
         } set: { value in

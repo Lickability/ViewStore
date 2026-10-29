@@ -83,7 +83,7 @@ public extension Store {
     ///   - stateKeyPath: The keypath to the property on the Parent's `State` that is managed by the substore.
     ///   - actionCasePath: The case path to an action on the Parent's `Store` that has the substore's action as the associated value that forwards to the substore.
     /// - Returns: A `Store` that is scoped to the specified state and action.
-    func scoped<Substate: Sendable, Subaction: Sendable>(stateKeyPath: KeyPath<State, Substate>, actionCasePath: CasePath<Action, Subaction>) -> any Store<Substate, Subaction> {
+    func scoped<Substate: Sendable, Subaction: Sendable>(stateKeyPath: KeyPath<State, Substate>, actionCasePath: AnyCasePath<Action, Subaction>) -> any Store<Substate, Subaction> {
         return ScopedStore(initial: state[keyPath: stateKeyPath], statePublisher: publishedState.map(stateKeyPath), action: { self.send(actionCasePath.embed($0)) })
     }
 }
